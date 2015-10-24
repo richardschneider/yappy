@@ -17,16 +17,13 @@ app.use(bodyParser.json());
 var port     = process.env.PORT || 8080; // set our port
 
 var mongoose   = require('mongoose');
-var uriUtil = require('mongodb-uri');
-
-
 var mongodbUri = 'mongodb://demo:demo@ds051838.mongolab.com:51838/ecom';
 mongodbUri = 'mongodb://127.0.0.1/test';
 mongoose.connect(mongodbUri);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-var Bear     = require('./app/models/bear');
+var Bear     = require('./app/model/bear');
 
 // ROUTES FOR OUR API
 // =============================================================================

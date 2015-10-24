@@ -1,0 +1,48 @@
+{
+  "name": "ecom",
+  "description": "An e-commerce API.",
+  "author": {
+    "name": "Richard Schneider",
+    "email": "makaretu@gmail.com"
+  },
+  "version": "0.0.1",
+  "license": "MIT",
+  "homepage": "https://richardschneider.github/ecom",
+  "bugs": "https://github.com/richardschneider/ecom/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/richardschneider/ecom"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.0.1",
+    "express": "^4.0.0",
+    "mongodb-uri": "^0.9.7",
+    "mongoose": "^3.6.20",
+    "morgan": "~1.0.0"
+  },
+  "devDependencies": {
+    "browserify": "9.0.1",
+    "chai": "^2.2.0",
+    "gulp": "^3.8.8",
+    "gulp-bump": "^0.1.11",
+    "gulp-filter": "^2.0.2",
+    "gulp-git": "^1.1.0",
+    "gulp-istanbul": "^0.5.0",
+    "gulp-jscs": "^1.1.2",
+    "gulp-jshint": "^1.8.4",
+    "gulp-load-plugins": "^0.6.0",
+    "gulp-mocha": "^1.1.0",
+    "gulp-plumber": "^0.6.5",
+    "gulp-rename": "^1.2.2",
+    "gulp-tag-version": "^1.2.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^0.4.0",
+    "should": "^4.0.4",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
