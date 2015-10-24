@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "body-parser": "~1.0.1",
+    "cache-control": "^1.0.3",
     "express": "^4.0.0",
     "mongodb-uri": "^0.9.7",
     "mongoose": "^3.6.20",

@@ -2,10 +2,14 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var cache = require('cache-control');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cache({
+    '/**': false // Default is no caching
+}));
 
 var db = require('./mongo');
 
