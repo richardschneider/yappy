@@ -13,9 +13,10 @@
     "type": "git",
     "url": "git://github.com/richardschneider/ecom"
   },
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js",
+    "test": "node_modules/.bin/mocha"
   },
   "dependencies": {
     "body-parser": "~1.0.1",
@@ -42,7 +43,9 @@
     "gulp-uglify": "^1.1.0",
     "gulp-util": "^3.0.1",
     "jshint-stylish": "^0.4.0",
+    "mocha": "*",
     "should": "^4.0.4",
+    "supertest": "^1.1.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

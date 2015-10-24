@@ -1,3 +1,5 @@
+'use strict';
+
 // Exports the mongoose connection to the Mongo database.
 
 var mongoose = require('mongoose');
