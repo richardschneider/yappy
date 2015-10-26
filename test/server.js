@@ -8,6 +8,14 @@ var server = require('../server');
 
 server.timeout = 10000;
 
+var teddy = {
+    name: [
+        { tag: 'en', text: 'teddy bear'},
+        { tag: 'zh-TW', text: '玩具熊' },
+        { tag: 'zh-CH', text: '玩具熊' }
+    ]
+};
+
 describe('API server', function () {
  
     // before(function (done) {
@@ -38,36 +46,32 @@ describe('API server', function () {
     describe('POST', function () {
         
         it('should return 201 with a Location header', function (done) {
-            var bear = { name: 'test teddy' };
             request(server)
                 .post('/api/bear')
-                .send(bear)
+                .send(teddy)
                 .expect(201)
                 .expect('Location', /bear/)
                 .end(done);            
         });
        
         it('should not return the newly created model', function (done) {
-            var bear = { name: 'test teddy 2' };
             request(server)
                 .post('/api/bear')
-                .send(bear)
+                .send(teddy)
                 .expect('Content-Length', 0)
                 .end(done);            
         });
 
         it('should set modifiedOn', function (done) {
-            var bear = { name: 'test teddy 3' };
             request(server)
                 .post('/api/bear')
-                .send(bear)
+                .send(teddy)
                 .then(function (res) {
                   var id = res.header['location'];
                   var url = '/api/' + id;
                   return request(server).get(url);
                 })
                 .then(function (res) {
-                    console.log(res.body);
                     res.body.should.have.property('modifiedOn');
                     done();
                 })
