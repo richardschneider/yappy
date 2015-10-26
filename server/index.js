@@ -40,7 +40,8 @@ app.get('/api/:collectionName', function(req, res, next) {
 });
 
 app.post('/api/:collectionName', function(req, res, next) {
-  req.collection.insert(req.body, {}, function(e, results){
+    req.body.modifiedOn = new Date().toISOString();
+    req.collection.insert(req.body, {}, function(e, results){
     if (e) return next(e);
     
     var id = results.insertedIds[0];
@@ -59,6 +60,7 @@ app.get('/api/:collectionName/:id', function(req, res, next) {
 })
 
 app.put('/api/:collectionName/:id', function(req, res, next) {
+    req.body.modifiedOn = new Date().toISOString();
   req.collection.updateById(req.params.id, {$set: req.body}, {safe: true, multi: false}, function(e, result){
     if (e) return next(e)
     res.send((result === 1) ? {msg:'success'} : {msg: 'error'})

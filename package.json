@@ -48,6 +48,7 @@
     "mocha": "*",
     "should": "^4.0.4",
     "supertest": "^1.1.0",
+    "supertest-as-promised": "^2.0.2",
     "vinyl-source-stream": "^1.1.0"
   }
 }

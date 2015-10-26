@@ -1,7 +1,8 @@
 'use strict';
 
 // import the moongoose helper utilities
-var request = require('supertest');
+//var request = require('supertest');
+var request = require("supertest-as-promised");
 var should = require('should');
 var server = require('../server');
 
@@ -55,6 +56,22 @@ describe('API server', function () {
                 .end(done);            
         });
 
+        it('should set modifiedOn', function (done) {
+            var bear = { name: 'test teddy 3' };
+            request(server)
+                .post('/api/bear')
+                .send(bear)
+                .then(function (res) {
+                  var id = res.header['location'];
+                  var url = '/api/' + id;
+                  return request(server).get(url);
+                })
+                .then(function (res) {
+                    console.log(res.body);
+                    res.body.should.have.property('modifiedOn');
+                    done();
+                })
+        });
     });
 	
 });
