@@ -30,6 +30,29 @@ describe('API server', function () {
             .expect(200, { message: 'Welcome to the e-commerce API!' }, done);
     });
     
+    describe('GET', function () {
+        var teddyUrl;
+        
+        before(function (done) {
+            request(server)
+                .post('/api/bear')
+                .send(teddy)
+                .expect(function (res) {
+                  var id = res.header['location'];
+                  teddyUrl = '/api/' + id;
+                })
+                .end(done);
+        });
+        
+        it('returns Last-Modified header', function (done) {
+            request(server)
+                .get(teddyUrl)
+                .expect('Last-Modified', /GMT/)
+                .end(done);
+        });
+
+    });
+    
     describe('GET list', function () {
         
         it('should return a list', function (done) {
@@ -76,7 +99,15 @@ describe('API server', function () {
                 .then(function (res) {
                     res.body.should.have.property('modifiedOn');
                     done();
-                })
+                });
+        });
+
+        it('returns Last-Modified header', function (done) {
+            request(server)
+                .post('/api/bear')
+                .send(teddy)
+                .expect('Last-Modified', /GMT/)
+                .end(done);
         });
     });
 	

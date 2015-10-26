@@ -43,32 +43,41 @@ app.get('/api/:collectionName', function(req, res, next) {
 });
 
 app.post('/api/:collectionName', function(req, res, next) {
-    req.body.modifiedOn = new Date().toISOString();
-    req.collection.insert(req.body, {}, function(e, results){
-    if (e) return next(e);
+    var now = new Date();
+    req.body.modifiedOn = now.toISOString();
+    req.collection.insert(req.body, {}, function(e, results) {
+        if (e) return next(e);
     
-    var id = results.insertedIds[0];
-    res
-        .status(201)
-        .location(req.params.collectionName + '/' + id)
-        .end();
-  })
-})
+        var id = results.insertedIds[0];
+        res
+            .status(201)
+            .location(req.params.collectionName + '/' + id)
+            .set('Last-Modified', now.toUTCString())
+            .end();
+      });
+});
 
 app.get('/api/:collectionName/:id', function(req, res, next) {
-  req.collection.findById(req.params.id, function(e, result){
-    if (e) return next(e)
-    res.send(result)
-  })
-})
+    req.collection.findById(req.params.id, function(e, entity) {
+        if (e) return next(e);
+        
+        res
+            .set('Last-Modified', new Date(entity.modifiedOn).toUTCString())
+            .send(entity);
+    });
+});
 
 app.put('/api/:collectionName/:id', function(req, res, next) {
-    req.body.modifiedOn = new Date().toISOString();
-  req.collection.updateById(req.params.id, {$set: req.body}, {safe: true, multi: false}, function(e, result){
-    if (e) return next(e)
-    res.send((result === 1) ? {msg:'success'} : {msg: 'error'})
-  })
-})
+    var now = new Date();
+    req.body.modifiedOn = now.toISOString();
+    req.collection.updateById(req.params.id, {$set: req.body}, {safe: true, multi: false}, function(e, result){
+        if (e) return next(e);
+
+        res
+            .set('Last-Modified', now.toUTCString())
+            .send((result === 1) ? {msg:'success'} : {msg: 'error'});
+    });
+});
 
 app.delete('/api/:collectionName/:id', function(req, res, next) {
   req.collection.removeById(req.params.id, function(e, result){
