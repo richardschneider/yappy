@@ -5,15 +5,18 @@ var bodyParser = require('body-parser');
 var mongoskin = require('mongoskin');
 var cache = require('cache-control');
 var morgan = require('morgan');
+var compression = require('compression')
 var model = require('./model');
 
 var app = express();
 //app.use(morgan('dev')); // log requests to the console
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cache({
     '/**': false // Default is no caching
 }));
+
 
 var mongodbUri = 'mongodb://demo:demo@ds051838.mongolab.com:51838/ecom';
 //mongodbUri = 'mongodb://@127.0.0.1:27017/test';

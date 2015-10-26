@@ -58,7 +58,9 @@ describe('API server', function () {
             request(server)
                 .post('/api/bear')
                 .send(teddy)
-                .expect('Content-Length', 0)
+                .expect(function (res) {
+                    res.text.should.equal("");
+                })
                 .end(done);            
         });
 
