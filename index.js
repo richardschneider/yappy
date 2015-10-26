@@ -1,10 +1,9 @@
 'use strict';
 
 var server = require('./server');
-var morgan = require('morgan');
+var ip = process.env.IP || 'http://localhost';
 var port = process.env.PORT || 3000;
 
-server.use(morgan('dev')); // log requests to the console
 server.listen(port, function () {
-    console.log('e-Commerce server running on port %d', port);
+    console.log('e-Commerce server @ %s:%d/api', ip, port);
 });

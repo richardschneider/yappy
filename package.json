@@ -22,7 +22,9 @@
     "body-parser": "~1.0.1",
     "cache-control": "^1.0.3",
     "express": "^4.0.0",
+    "mongodb": "^2.0.46",
     "mongoose": "^4.2.2",
+    "mongoskin": "^2.0.3",
     "morgan": "~1.0.0"
   },
   "devDependencies": {
