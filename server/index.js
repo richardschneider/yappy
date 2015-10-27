@@ -24,15 +24,17 @@ app.get('/api', function(req, res) {
 
 
 app.param('collectionName', function(req, res, next, collectionName){
-    var collection = model[collectionName];
-    if (!collection)
+    var schema = model[collectionName];
+    if (!schema)
         return res.status(400).json({ message: 'Unknown model name.'});
     
     var readonlyMethods = [ 'GET', 'HEAD' ];
-    if (collection.readOnly && readonlyMethods.indexOf(req.method) < 0)
+    if (schema.readOnly && readonlyMethods.indexOf(req.method) < 0)
         return res.status(405).json({ message: 'Model is read only'});
 
-    req.collection = collection.db.collection(collectionName);
+    req.schema = schema;
+    req.collection = schema.db.collection(collectionName);
+    
     return next();
 });
 
@@ -45,6 +47,10 @@ app.get('/api/:collectionName', function(req, res, next) {
 
 app.post('/api/:collectionName', function(req, res, next) {
     var now = new Date();
+    
+    if (!req.schema.validate(req, res))
+        return;
+    
     req.body.modifiedOn = now.toISOString();
     req.collection.insert(req.body, {}, function(e, results) {
         if (e) return next(e);
@@ -70,6 +76,10 @@ app.get('/api/:collectionName/:id', function(req, res, next) {
 
 app.put('/api/:collectionName/:id', function(req, res, next) {
     var now = new Date();
+
+    if (!req.schema.validate(req, res))
+        return;
+
     req.body.modifiedOn = now.toISOString();
     req.collection.updateById(req.params.id, {$set: req.body}, {safe: true, multi: false}, function(e, result){
         if (e) return next(e);
