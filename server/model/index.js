@@ -7,6 +7,14 @@ var sensitive = mongo.db('mongodb://demo:demo@ds051838.mongolab.com:51838/ecom',
 
 var anyValidate = function(req, res, next)
 {
+    // cannot be empty
+    if (Object.keys(req.body).length === 0) {
+        res
+            .status(422)
+            .end();
+        return;
+    }
+    
     return next ? next() : true;
 };
 

@@ -109,6 +109,15 @@ describe('API server', function () {
                 .expect('Last-Modified', /GMT/)
                 .end(done);
         });
+
+        it('returns 422 when entity is empty', function (done) {
+            request(server)
+                .post('/api/bear')
+                .send({})
+                .expect(422)
+                .end(done);
+        });
+        
     });
 	
 });
