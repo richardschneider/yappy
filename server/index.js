@@ -18,20 +18,21 @@ app.use(cache({
 }));
 
 
-var mongodbUri = 'mongodb://demo:demo@ds051838.mongolab.com:51838/ecom';
-//mongodbUri = 'mongodb://@127.0.0.1:27017/test';
-var db = mongoskin.db(mongodbUri, {native_parser:true});
-
 app.get('/api', function(req, res) {
     res.json({ message: 'Welcome to the e-commerce API!' });
 });
 
 
 app.param('collectionName', function(req, res, next, collectionName){
-    if (model.names.indexOf(collectionName) < 0)
+    var collection = model[collectionName];
+    if (!collection)
         return res.status(400).json({ message: 'Unknown model name.'});
     
-    req.collection = db.collection(collectionName);
+    var readonlyMethods = [ 'GET', 'HEAD' ];
+    if (collection.readOnly && readonlyMethods.indexOf(req.method) < 0)
+        return res.status(405).json({ message: 'Model is read only'});
+
+    req.collection = collection.db.collection(collectionName);
     return next();
 });
 
