@@ -24,7 +24,7 @@ describe('Cache', function () {
             .send(teddy)
             .expect(201)
             .expect(function (res) {
-              teddyUrl = '/api/' + res.header['location'];
+              teddyUrl = res.header['location'];
               lastModified = new Date(res.header['last-modified']);
             })
             .end(done);

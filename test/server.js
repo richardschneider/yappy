@@ -38,8 +38,7 @@ describe('API server', function () {
                 .post('/api/bear')
                 .send(teddy)
                 .expect(function (res) {
-                  var id = res.header['location'];
-                  teddyUrl = '/api/' + id;
+                    teddyUrl = res.header['location'];
                 })
                 .end(done);
         });
@@ -68,12 +67,12 @@ describe('API server', function () {
 
     describe('POST', function () {
         
-        it('should return 201 with a Location header', function (done) {
+        it('should return 201 with a Location header relative to the server', function (done) {
             request(server)
                 .post('/api/bear')
                 .send(teddy)
                 .expect(201)
-                .expect('Location', /bear/)
+                .expect('Location', /^\/api\/bear/)
                 .end(done);            
         });
        
@@ -92,8 +91,7 @@ describe('API server', function () {
                 .post('/api/bear')
                 .send(teddy)
                 .then(function (res) {
-                  var id = res.header['location'];
-                  var url = '/api/' + id;
+                  var url = res.header['location'];
                   return request(server).get(url);
                 })
                 .then(function (res) {

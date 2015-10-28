@@ -58,7 +58,7 @@ app.post('/api/:collectionName', function(req, res, next) {
         var id = results.insertedIds[0];
         res
             .status(201)
-            .location(req.params.collectionName + '/' + id)
+            .location('/api/' + req.params.collectionName + '/' + id)
             .set('Last-Modified', now.toUTCString())
             .end();
       });
