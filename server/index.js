@@ -24,16 +24,16 @@ app.get('/api', function(req, res) {
 
 
 app.param('collectionName', function(req, res, next, collectionName){
-    var schema = model[collectionName];
-    if (!schema)
+    var dataModel = model[collectionName];
+    if (!dataModel)
         return res.status(400).json({ message: 'Unknown model name.'});
     
     var readonlyMethods = [ 'GET', 'HEAD' ];
-    if (schema.readOnly && readonlyMethods.indexOf(req.method) < 0)
+    if (dataModel.readOnly && readonlyMethods.indexOf(req.method) < 0)
         return res.status(405).json({ message: 'Model is read only'});
 
-    req.schema = schema;
-    req.collection = schema.db.collection(collectionName);
+    req.dataModel = dataModel;
+    req.collection = dataModel.db.collection(collectionName);
     
     return next();
 });
@@ -48,7 +48,7 @@ app.get('/api/:collectionName', function(req, res, next) {
 app.post('/api/:collectionName', function(req, res, next) {
     var now = new Date();
     
-    if (!req.schema.validate(req, res))
+    if (!req.dataModel.validate(req, res))
         return;
     
     req.body.modifiedOn = now.toISOString();
@@ -64,6 +64,14 @@ app.post('/api/:collectionName', function(req, res, next) {
       });
 });
 
+app.get('/api/:collectionName/schema', function(req, res, next) {
+    var schema = req.dataModel.schema;
+    if (!schema)
+        return res.status(404);
+        
+    res.send(schema.toJSON());
+});
+
 app.get('/api/:collectionName/:id', function(req, res, next) {
     req.collection.findById(req.params.id, function(e, entity) {
         if (e) return next(e);
@@ -77,7 +85,7 @@ app.get('/api/:collectionName/:id', function(req, res, next) {
 app.put('/api/:collectionName/:id', function(req, res, next) {
     var now = new Date();
 
-    if (!req.schema.validate(req, res))
+    if (!req.dataModel.validate(req, res))
         return;
 
     req.body.modifiedOn = now.toISOString();
