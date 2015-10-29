@@ -13,12 +13,12 @@ router.post('/media', upload.single('media'), function (req, res)  {
     let file = req.gridfsEntry;
     res
         .status(201)
-        .location('/api/view/' + file._id)
+        .location('/api/media/' + file._id + '/content')
         .set('Last-Modified', file.uploadDate.toUTCString())
         .end();
 });
 
-router.get('/view/:id', function(req, res, next) {
+router.get('/media/:id/content', function(req, res, next) {
     var db = model.media.db;
     var gs = db.gridStore(ObjectId(req.params.id), 'r');
     gs.open(function (e, gs) {

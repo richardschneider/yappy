@@ -14,7 +14,7 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cache({
-    '/api/view/*': 'max-stale=31536000', // media views are indempotent
+    '/api/media/*/content': 'max-stale=31536000', // media views are indempotent
     '/**': false // Default is no caching
 }));
 

@@ -10,9 +10,9 @@ describe('Media Link data type', function () {
        href: medialink
     });    
 
-    it('has the form "/api/view/<id>"', function (done) {
+    it('has the form "/api/media/<id>/content"', function (done) {
         image({ href: "/api/media/1" }).should.be.false;
-        image({ href: "/api/view/1" }).should.be.true;
+        image({ href: "/api/media/1/content" }).should.be.true;
         done();
     });
    

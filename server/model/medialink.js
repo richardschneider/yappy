@@ -1,5 +1,5 @@
 'use strict';
 
-// medialink form is /api/view/<id>
+// medialink form is /api/media/<id>/content
 
-module.exports = /^\/api\/view\/\w+$/;
+module.exports = /^\/api\/media\/\w+\/content$/;
