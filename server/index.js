@@ -22,6 +22,7 @@ app.get('/api', function(req, res) {
     res.json({ message: 'Welcome to the e-commerce API!' });
 });
 
+app.use('/api', require('./media'));
 
 app.param('collectionName', function(req, res, next, collectionName){
     var dataModel = model[collectionName];
@@ -41,7 +42,7 @@ app.param('collectionName', function(req, res, next, collectionName){
 app.get('/api/:collectionName', function(req, res, next) {
   req.collection.find({} ,{limit: 10, sort: {'_id': -1}}).toArray(function(e, results){
     if (e) return next(e);
-    res.send(results);
+    res.send(results).end();
   });
 });
 
@@ -67,9 +68,9 @@ app.post('/api/:collectionName', function(req, res, next) {
 app.get('/api/:collectionName/schema', function(req, res, next) {
     var schema = req.dataModel.schema;
     if (!schema)
-        return res.status(404);
+        return res.status(404).end();
         
-    res.send(schema.toJSON());
+    res.send(schema.toJSON()).end();
 });
 
 app.get('/api/:collectionName/:id', function(req, res, next) {
@@ -78,7 +79,8 @@ app.get('/api/:collectionName/:id', function(req, res, next) {
         
         res
             .set('Last-Modified', new Date(entity.modifiedOn).toUTCString())
-            .send(entity);
+            .send(entity)
+            .end();
     });
 });
 

@@ -23,11 +23,14 @@
     "cache-control": "^1.0.3",
     "compression": "^1.6.0",
     "express": "^4.0.0",
+    "gridfs-stream": "^1.1.1",
     "js-schema": "^1.0.1",
     "mongodb": "^2.0.46",
     "mongoose": "^4.2.2",
     "mongoskin": "^2.0.3",
-    "morgan": "~1.0.0"
+    "morgan": "~1.0.0",
+    "multer": "^1.1.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browserify": "9.0.1",
