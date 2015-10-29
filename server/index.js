@@ -35,7 +35,10 @@ app.param('collectionName', function(req, res, next, collectionName){
         return res.status(405).json({ message: 'Model is read only'});
 
     req.dataModel = dataModel;
-    req.collection = dataModel.db.collection(collectionName);
+    if (collectionName == 'media')
+        req.collection = dataModel.db.collection('fs.files');
+    else
+        req.collection = dataModel.db.collection(collectionName);
     
     return next();
 });

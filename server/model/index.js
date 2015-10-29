@@ -24,7 +24,7 @@ var anyValidate = function(req, res, next)
 
 var model = {
     bear: { db: standard, readOnly: false, validate: anyValidate, schema: require("./bear") },
-    media: { db: standard, readOnly: false, validate: anyValidate },
+    media: { db: standard, readOnly: true, validate: anyValidate },
     product: { db: standard, readOnly: false, validate: anyValidate },
     vendor: { db: standard, readOnly: false, validate: anyValidate },
     

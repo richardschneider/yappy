@@ -48,7 +48,7 @@ describe('Media', function () {
         });
     });
    
-    describe('Viewing', function () {
+    describe('Content', function () {
         var response;
 
         before(function (done) {
@@ -61,7 +61,7 @@ describe('Media', function () {
                 .end(done);
         });
         
-        it('should have the correct content', function (done) {
+        it('should have the correct value', function (done) {
             response.text.should.equal(content);
             done();
         });
@@ -83,7 +83,37 @@ describe('Media', function () {
         });
     });
     
-    describe('Downloading', function () {
+    describe('Entity', function () {
+        var response;
+
+        before(function (done) {
+            request(server)
+                .get(url.slice(0, -8)) // remove "/content"
+                .expect(200)
+                .expect(function (res) {
+                    response = res;
+                })
+                .end(done);
+        });
+        
+        it('should be JSON', function (done) {
+            response.header['content-type'].should.match(/^application\/json/);
+            response.body.should.not.equal({});
+            done();
+        });
+
+        it('should contain media information', function (done) {
+            response.body.filename.should.equal('hello.html');
+            done();
+        });
+        
+        it('should not be changed', function (done) {
+            request(server)
+                .put(url.slice(0, -8)) // remove "/content"
+                .send(response.body)
+                .expect(405)
+                .end(done);
+        });
     });
 
 });
