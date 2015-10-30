@@ -24,6 +24,18 @@ describe('Media', function () {
             .end(done);
     });
     
+    after(function (done) {
+        request(server)
+            .delete(url)
+            .expect(204)
+            .then(function () {
+                request(server)
+                    .get(url)
+                    .expect(404);
+            })
+            .then(done);
+    });
+
     describe('Uploading', function () {
         it('should return 201 on success', function (done) {
             uploadResponse.status.should.equal(201);

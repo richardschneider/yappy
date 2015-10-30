@@ -108,10 +108,14 @@ app.put('/api/:collectionName/:id', function(req, res, next) {
 });
 
 app.delete('/api/:collectionName/:id', function(req, res, next) {
-  req.collection.removeById(req.params.id, function(e, result){
-    if (e) return next(e)
-    res.send((result === 1)?{msg: 'success'} : {msg: 'error'})
-  })
-})
+    req.collection.removeById(req.params.id, function (e, result) {
+    if (e) return next(e);
+    
+    res
+        .status(204)
+        .end();
+  });
+});
+
 
 module.exports = app;

@@ -32,6 +32,19 @@ describe('API server', function () {
             .end(done);            
     });
     
+    after(function (done) {
+        request(server)
+            .delete(teddyUrl)
+            .expect(204)
+            .then(function () {
+                request(server)
+                    .get(teddyUrl)
+                    .expect(404);
+            })
+            .then(done);
+    });
+
+    
     it('should return a hello message', function (done) {
         request(server)
             .get('/api')

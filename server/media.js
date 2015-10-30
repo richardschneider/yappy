@@ -29,11 +29,22 @@ router.get('/media/:id/content', function(req, res, next) {
         res
             .status(200)
             .set('content-type', gs.contentType)
-            .set('content-md5', new Buffer(gs.md5, 'hex').toString('base64'))
+            .set('content-md5', new Buffer(gs.md5, 'hex').toString('base64'));
 
         gs.stream().pipe(res);
     });
 });
 
+router.delete('/media/:id/content', function(req, res, next) {
+    var db = model.media.db;
+    var gs = db.gridStore(ObjectId(req.params.id), 'r');
+    gs.unlink(function (e, gs) {
+        if (e) return res.status(404).send(e).end();
+        
+        res
+            .status(204)
+            .end();
+    });
+});
 
 module.exports = router;
