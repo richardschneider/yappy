@@ -11,10 +11,12 @@ var upload = multer({ storage: storage });
 
 router.post('/media', upload.single('media'), function (req, res)  {
     let file = req.gridfsEntry;
+    let url = '/api/media/' + file._id + '/content';
     res
         .status(201)
-        .location('/api/media/' + file._id + '/content')
+        .location(url)
         .set('Last-Modified', file.uploadDate.toUTCString())
+        .send({ status: 'ok', self: url})
         .end();
 });
 

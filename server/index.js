@@ -17,7 +17,7 @@ app.use(cache({
     '/api/media/*/content': 'max-stale=31536000', // media views are indempotent
     '/**': false // Default is no caching
 }));
-
+app.set('json spaces', 2);
 
 app.get('/api', function(req, res) {
     res.json({ message: 'Welcome to the e-commerce API!' });
@@ -61,10 +61,12 @@ app.post('/api/:collectionName', function(req, res, next) {
         if (e) return next(e);
     
         var id = results.insertedIds[0];
+        var url = '/api/' + req.params.collectionName + '/' + id;
         res
             .status(201)
-            .location('/api/' + req.params.collectionName + '/' + id)
+            .location(url)
             .set('Last-Modified', now.toUTCString())
+            .send({ status: 'ok', self: url})
             .end();
       });
 });
@@ -100,7 +102,8 @@ app.put('/api/:collectionName/:id', function(req, res, next) {
 
         res
             .set('Last-Modified', now.toUTCString())
-            .send((result === 1) ? {msg:'success'} : {msg: 'error'});
+            .send((result === 1) ? {status:'ok'} : {status: 'error'})
+            .end();
     });
 });
 

@@ -17,12 +17,20 @@ var teddy = {
 };
 
 describe('API server', function () {
- 
-    // before(function (done) {
-    //     request(server)
-    //         .get('/api/bear')
-    //         .end(done);
-    // });
+
+    var postres;
+    var teddyUrl;
+    before(function (done) {
+        request(server)
+            .post('/api/bear')
+            .send(teddy)
+            .expect(201)
+            .expect(function (res) {
+                postres = res;
+                teddyUrl = res.header['location'];
+            })
+            .end(done);            
+    });
     
     it('should return a hello message', function (done) {
         request(server)
@@ -31,18 +39,7 @@ describe('API server', function () {
     });
     
     describe('GET', function () {
-        var teddyUrl;
-        
-        before(function (done) {
-            request(server)
-                .post('/api/bear')
-                .send(teddy)
-                .expect(function (res) {
-                    teddyUrl = res.header['location'];
-                })
-                .end(done);
-        });
-        
+
         it('returns Last-Modified header', function (done) {
             request(server)
                 .get(teddyUrl)
@@ -68,44 +65,29 @@ describe('API server', function () {
     describe('POST', function () {
         
         it('should return 201 with a Location header relative to the server', function (done) {
-            request(server)
-                .post('/api/bear')
-                .send(teddy)
-                .expect(201)
-                .expect('Location', /^\/api\/bear/)
-                .end(done);            
+            postres.header['location'].should.match(/^\/api\/bear/);
+            done();
         });
        
-        it('should not return the newly created model', function (done) {
-            request(server)
-                .post('/api/bear')
-                .send(teddy)
-                .expect(function (res) {
-                    res.text.should.equal("");
-                })
-                .end(done);            
+        it('should return a body with status and refers to the new resource', function (done) {
+            postres.body.status.should.equal('ok');
+            postres.body.self.should.equal(teddyUrl);
+            done();
         });
-
+        
         it('should set modifiedOn', function (done) {
             request(server)
-                .post('/api/bear')
-                .send(teddy)
-                .then(function (res) {
-                  var url = res.header['location'];
-                  return request(server).get(url);
-                })
-                .then(function (res) {
+                .get(teddyUrl)
+                .expect(200)
+                .expect(function (res) {
                     res.body.should.have.property('modifiedOn');
-                    done();
-                });
+                })
+                .end(done);
         });
 
         it('returns Last-Modified header', function (done) {
-            request(server)
-                .post('/api/bear')
-                .send(teddy)
-                .expect('Last-Modified', /GMT/)
-                .end(done);
+            postres.header['last-modified'].should.match(/GMT/);
+            done();
         });
 
         it('returns 422 when entity is empty', function (done) {
