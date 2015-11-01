@@ -24,4 +24,9 @@ describe('Audit Log', function () {
         request(server).get('/api/audit').expect(200).end(done);
     });
 
+    it('should return 404 for an unknown audit record', function (done) {
+        request(server).get('/api/audit/unknown').expect(404).end(done);
+    });
+
+    
 });
