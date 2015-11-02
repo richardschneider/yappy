@@ -28,7 +28,7 @@ var model = {
     product: { db: standard, readOnly: false, validate: anyValidate },
     vendor: { db: standard, readOnly: false, validate: anyValidate },
     
-    audit: { db: sensitive, readOnly: true, validate: anyValidate }
+    audit: { db: sensitive, readOnly: true, validate: anyValidate, schema: require('./audit') }
 };
 
 module.exports = model;
