@@ -5,10 +5,12 @@ var bodyParser = require('body-parser');
 var mongoskin = require('mongoskin');
 var cache = require('cache-control');
 var morgan = require('morgan');
+var sally = require('./sally');
 var compression = require('compression')
 var model = require('./model');
 
 var app = express();
+app.use(sally.logger);
 //app.use(morgan('dev')); // log requests to the console
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -83,6 +85,9 @@ app.get('/api/:collectionName/:id', function(req, res, next) {
     req.collection.findById(req.params.id, function(e, entity) {
         if (e) return next(e);
         
+        if (!entity)
+            return res.status(404).end();
+            
         res
             .set('Last-Modified', new Date(entity.modifiedOn).toUTCString())
             .send(entity)
