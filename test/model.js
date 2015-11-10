@@ -3,7 +3,7 @@
 // import the moongoose helper utilities
 var request = require('supertest');
 var should = require('should');
-var server = require('../server');
+var server = require('../lib/server');
 
 describe('Data model', function () {
  

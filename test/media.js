@@ -1,8 +1,8 @@
 'use strict';
 
 var request = require("supertest-as-promised");
-var server = require('../server');
-var medialink = require('../server/model/medialink');
+var server = require('../lib/server');
+var medialink = require('../lib/model/medialink');
 var crypto = require('crypto');
 
 server.timeout = 10000;

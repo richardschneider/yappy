@@ -2,7 +2,7 @@
 
 var request = require("supertest-as-promised");
 var should = require('should');
-var server = require('../server');
+var server = require('../lib/server');
 
 server.timeout = 10000;
 

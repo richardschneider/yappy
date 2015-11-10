@@ -2,7 +2,7 @@
 
 var should = require('should');
 var schema = require('js-schema');
-var money = require('../server/model/money');
+var money = require('../lib/model/money');
 
 
 describe('Money data type', function () {

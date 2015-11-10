@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+/*
+ * e-Commerce server
+ * https://github.com/richardschneider/ecom
+ *
+ * Copyright (c) 2015 Richard Schneider
+ * Licensed under the MIT license.
+ */
+'use strict';
+
+var server = require('../lib/server');
+var sally = require('sally-js');
+var ip = process.env.IP || 'http://localhost';
+var port = process.env.PORT || 3000;
+var version = require('../package.json').version;
+
+server.listen(port, function () {
+    console.log('e-Commerce server v%s @ %s:%d/api', version, ip, port);
+    sally.log('e-Commerce server started');
+});

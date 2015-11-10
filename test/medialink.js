@@ -2,7 +2,7 @@
 
 var should = require('should');
 var schema = require('js-schema');
-var medialink = require('../server/model/medialink');
+var medialink = require('../lib/model/medialink');
 
 
 describe('Media Link data type', function () {

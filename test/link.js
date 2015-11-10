@@ -2,7 +2,7 @@
 
 var should = require('should');
 var schema = require('js-schema');
-var link = require('../server/model/link');
+var link = require('../lib/model/link');
 
 
 describe('Link data type', function () {
