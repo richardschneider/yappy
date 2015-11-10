@@ -1,0 +1,14 @@
+language: node_js
+env: 
+  - CI=true
+  - SallySecret=xyzzy
+node_js:
+  - stable
+before_script:
+  - npm install -g gulp
+  - npm install -g sally-js
+script: 
+  - gulp
+  - sally verify logs/*.sal
+  - pkg=$(npm pack)
+  - npm install -g $pkg
