@@ -5,6 +5,7 @@ node_js:
 before_script:
   - npm install -g gulp
   - npm install -g sally-js
+  - mkdir logs
 script: 
   - gulp
   - sally verify logs/*.sal
