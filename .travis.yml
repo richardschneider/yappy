@@ -1,7 +1,5 @@
 language: node_js
-env: 
-  - CI=true
-  - SallySecret=xyzzy
+env: CI=true
 node_js:
   - stable
 before_script:
