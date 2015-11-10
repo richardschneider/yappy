@@ -9,6 +9,7 @@
  */
 'use strict';
 
+var config = require("config");
 var server = require('../lib/server');
 var sally = require('sally-js');
 var ip = process.env.IP || 'http://localhost';
@@ -16,6 +17,7 @@ var port = process.env.PORT || 3000;
 var version = require('../package.json').version;
 
 server.listen(port, function () {
-    console.log('e-Commerce server v%s @ %s:%d/api', version, ip, port);
+    var env = config.util.getEnv('NODE_ENV');
+    console.log('e-Commerce server v%s [%s] @ %s:%d/api', version, env, ip, port);
     sally.log('e-Commerce server started');
 });

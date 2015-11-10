@@ -1,0 +1,20 @@
+{
+    "standardDB": {
+        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "options": {
+            "native_parser": true
+        }
+    },
+    "mediaDB": {
+        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "options": {
+            "native_parser": true
+        }
+    },
+    "sensitiveDB": {
+        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "options": {
+            "native_parser": true
+        }
+    }
+}
