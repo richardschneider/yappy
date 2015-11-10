@@ -103,11 +103,14 @@ describe('API server', function () {
             done();
         });
 
-        it('returns 422 when entity is empty', function (done) {
+        it('should return 422 and message when entity is empty', function (done) {
             request(server)
                 .post('/api/bear')
                 .send({})
                 .expect(422)
+                .expect(function (res) {
+                    res.body.should.have.property('message');
+                })
                 .end(done);
         });
         

@@ -19,7 +19,7 @@ describe('Data model', function () {
             .expect(200, done);
     });
     
-    it('returns 422 when entity is invalid', function (done) {
+    it('should return 422, message and details when entity is invalid', function (done) {
         var bad = {
             name: [
                 { tag: 'en', text: 'teddy bear'},
@@ -31,6 +31,10 @@ describe('Data model', function () {
             .post('/api/bear')
             .send(bad)
             .expect(422)
+            .expect(function (res) {
+                res.body.should.have.property('message');
+                res.body.should.have.property('details');
+            })
             .end(done);            
     });
     

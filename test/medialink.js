@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var schema = require('js-schema');
+var schema = require('js-schema-6901');
 var medialink = require('../lib/model/medialink');
 
 
