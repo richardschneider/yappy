@@ -2,16 +2,16 @@
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoskin = require('mongoskin');
 var cache = require('cache-control');
-var morgan = require('morgan');
-var sally = require('./sally');
-var compression = require('compression')
+//var morgan = require('morgan');
+var sally = require('sally-js');
+var compression = require('compression');
 var model = require('./model');
 
 var app = express();
-app.use(sally.logger);
-//app.use(morgan('dev')); // log requests to the console
+app.use(sally.express({
+    prefix: './logs/ecom-'
+}));
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
