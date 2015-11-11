@@ -38,4 +38,14 @@ describe('Data model', function () {
             .end(done);            
     });
     
+    it('should not expose the tenant id', function (done) {
+        request(server)
+            .get('/api/bear')
+            .expect(200)
+            .expect(function (res) {
+                res.text.should.not.match(/tenant/);
+            })
+            .end(done);
+    });
+    
 });

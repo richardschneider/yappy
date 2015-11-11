@@ -119,6 +119,11 @@ describe('Media', function () {
             done();
         });
         
+        it('should not expose the tenant id', function (done) {
+            response.text.should.not.match(/tenant/);
+            done();
+        });
+
         it('should not be changed', function (done) {
             request(server)
                 .put(url.slice(0, -8)) // remove "/content"
