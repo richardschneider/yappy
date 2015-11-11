@@ -2,6 +2,8 @@ language: node_js
 env: CI=true
 node_js:
   - stable
+services:
+  - mongodb
 before_script:
   - npm install -g gulp
   - npm install -g sally-js

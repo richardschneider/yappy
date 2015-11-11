@@ -2,6 +2,9 @@
 logs
 *.log
 
+# local DB
+data
+
 # Runtime data
 pids
 *.pid
