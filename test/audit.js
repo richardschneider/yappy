@@ -8,20 +8,25 @@ server.timeout = 10000;
 
 describe('Audit Log', function () {
 
-    it('cannot POST', function (done) {
+    it('should not allow POST', function (done) {
         request(server).post('/api/audit').send({}).expect(405).end(done);
     });
    
-    it('cannot PUT', function (done) {
+    it('should not allow PUT', function (done) {
         request(server).put('/api/audit/0').send({}).expect(405).end(done);
     });
 
-    it('cannot DELETE', function (done) {
+    it('should not allow DELETE', function (done) {
         request(server).delete('/api/audit/0').send({}).expect(405).end(done);
     });
 
-    it('is readable', function (done) {
+    it('should allow GET', function (done) {
         request(server).get('/api/audit').expect(200).end(done);
     });
 
+    it('should allow GET schema', function (done) {
+        request(server).get('/api/audit/schema').expect(200).end(done);
+    });
+
+    
 });
