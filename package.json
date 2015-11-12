@@ -19,6 +19,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "bluebird": "^3.0.5",
     "body-parser": "~1.0.1",
     "cache-control": "^1.0.3",
     "compression": "^1.6.0",
