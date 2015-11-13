@@ -58,6 +58,19 @@ describe('Media', function () {
                 .expect(200)
                 .end(done);
         });
+
+        it('should contain metadata with self and type', done => {
+            uploadResponse.body.should.have.property('_metadata');
+            uploadResponse.body._metadata.should.have.property('self');
+            uploadResponse.body._metadata.should.have.property('type');
+            done();
+        });
+        
+        it('should return same value for Location header and _metadata.self', done => {
+            uploadResponse.header['location'].should.equal(uploadResponse.body._metadata.self);
+            done();
+        });
+        
     });
    
     describe('Content', function () {
@@ -121,6 +134,13 @@ describe('Media', function () {
         
         it('should not expose the tenant id', function (done) {
             response.text.should.not.match(/tenant/);
+            done();
+        });
+
+        it('should contain metadata with self and type', done => {
+            response.body.should.have.property('_metadata');
+            response.body._metadata.should.have.property('self');
+            response.body._metadata.should.have.property('type');
             done();
         });
 

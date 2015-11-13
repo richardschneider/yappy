@@ -51,18 +51,44 @@ describe('Resource CRUD', function () {
                 .end(done);
         });
 
+        it('should contain metadata with self and type', done => {
+            request(server)
+                .get(teddyUrl)
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.property('_metadata');
+                    res.body._metadata.should.have.property('self');
+                    res.body._metadata.should.have.property('type');
+                })
+                .end(done);
+        });
+
     });
     
     describe('GET list', function () {
         
-        it('should return a list', function (done) {
+        it('should return a list', done => {
             request(server)
                 .get('/api/bear')
-                .end(function (err, res) {
-                    if (err) return done(err);
-                    done();
-                });            
+                .expect(res => {
+                    res.body.should.be.instanceof(Array);
+                })
+                .end(done);
         });
+        
+        it('should return metadata for each element', done => {
+            request(server)
+                .get('/api/bear')
+                .expect(res => {
+                    res.body.forEach(e => {
+                        e.should.have.property('_metadata');
+                        e._metadata.should.have.property('self');
+                        e._metadata.should.have.property('type');
+                    });
+                })
+                .end(done);
+        });
+        
        
     });
 
