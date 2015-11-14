@@ -3,7 +3,6 @@
 var Promise = require('bluebird');
 
 let apply = function (model) {
-    console.log('did 1st noop');
 };
 
 module.exports = (model) => Promise.try(() => apply(model));

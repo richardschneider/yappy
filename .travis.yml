@@ -8,9 +8,9 @@ before_script:
   - npm install -g gulp
   - npm install -g sally-js
   - mkdir logs
+  - ./bin/upgrade-model
 script:
-  - mongo ecom --eval "db.dropDatabase()"
   - gulp
   - sally verify logs/*.sal
   - pkg=$(npm pack)
-  - npm install -g $pkg
+  - npm install -g --quiet $pkg

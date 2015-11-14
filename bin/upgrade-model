@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var process = require('process');
+var upgrade = require('../lib/server/upgrade');
+
+upgrade.immediate.then(() => process.exit(1));
+
