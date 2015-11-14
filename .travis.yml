@@ -5,11 +5,12 @@ node_js:
 services:
   - mongodb
 before_script:
+  - mongod --version
+  - mongo <drop-db
+  - ./bin/upgrade-model
   - npm install -g gulp
   - npm install -g sally-js
   - mkdir logs
-  - mongo <drop-db
-  - ./bin/upgrade-model
 script:
   - gulp
   - sally verify logs/*.sal

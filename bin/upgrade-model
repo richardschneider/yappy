@@ -3,7 +3,13 @@
 'use strict';
 
 var process = require('process');
-var upgrade = require('../lib/server/upgrade');
+var config = require('config');
 
+console.log('standard DB at', config.get('standardDB.url'));
+
+var model = require('../lib/model');
+model.then(m => console.log(m.tenant.db));
+
+var upgrade = require('../lib/server/upgrade');
 upgrade.immediate.then(() => process.exit(1));
 
