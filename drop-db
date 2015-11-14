@@ -1,4 +1,5 @@
 db.adminCommand('listDatabases')
 use ecom
-db.system.indexes.find()
+db.dropDatabase()
+use test
 db.dropDatabase()
