@@ -132,5 +132,28 @@ describe('Resource CRUD', function () {
         });
         
     });
-	
+
+    describe('DELETE', () => {
+        
+        it('should be physical', done => {
+            var url;
+            request(server)
+                .post('/api/bear')
+                .send(teddy)
+                .expect(201)
+                .expect(res => { url = res.header['location']; })
+                .then(() => request(server).get(url).expect(200))
+                .then(() => request(server).delete(url).expect(204))
+                .then(() => request(server).get(url).expect(404))
+                .finally(() => done());
+        });
+
+        it('should return 404 when entity does not exist', done => {
+            request(server)
+                .delete('/api/bear/missing-id')
+                .expect(404)
+                .end(done);
+        });
+    });	
+    
 });
