@@ -2,6 +2,7 @@
 
 var request = require("supertest-as-promised");
 var should = require('should');
+var extend = require('util')._extend;
 var server = require('../lib/server');
 
 
@@ -133,6 +134,65 @@ describe('Resource CRUD', function () {
         
     });
 
+    describe('PUT', () => {
+       var teddy0;
+       
+        before(done => {
+            request(server)
+                .get(teddyUrl)
+                .expect(200)
+                .expect(res => { teddy0 = res.body; })
+                .end(done);
+        });
+       
+        it('should replace data', done => {
+            teddy0.name[0].text = 'new name';
+
+            request(server)
+                .put(teddyUrl)
+                .send(teddy0)
+                .expect(200)
+                .then(() => {
+                    request(server)
+                        .get(teddyUrl)
+                        .expect(200)
+                        .expect(res => { 
+                            res.body.name[0].text.should.equal('new name');
+                        })
+                        .end(done);
+                });
+        }); 
+        
+        it('should error when resource does not exist', done => {
+            request(server)
+                .put('/api/bear/missing-id')
+                .send(teddy0)
+                .expect(404)
+                .end(done);
+        }); 
+        
+        it('should validate the data', done => {
+            var teddy1 = extend({}, teddy0);            
+            teddy1.name[0].tag = 'xx';
+
+            request(server)
+                .put(teddyUrl)
+                .send(teddy1)
+                .expect(422)
+                .end(done);
+        }); 
+        
+        it('should return Last-Modified header', done => {
+            request(server)
+                .put(teddyUrl)
+                .send(teddy)
+                .expect(200)
+                .expect('Last-Modified', /GMT/)
+                .end(done);
+        }); 
+
+    });
+    
     describe('DELETE', () => {
         
         it('should be physical', done => {
