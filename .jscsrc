@@ -8,6 +8,7 @@
   "disallowImplicitTypeConversion": ["string"],
   "disallowKeywords": ["with"],
   "disallowKeywordsOnNewLine": ["else"],
+  "esnext": true,
   "requireLineFeedAtFileEnd": true,
   "validateJSDoc": {
     "checkParamNames": true,
