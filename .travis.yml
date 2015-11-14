@@ -8,7 +8,8 @@ before_script:
   - npm install -g gulp
   - npm install -g sally-js
   - mkdir logs
-script: 
+script:
+  - mongo ecom --eval "db.dropDatabase()"
   - gulp
   - sally verify logs/*.sal
   - pkg=$(npm pack)
