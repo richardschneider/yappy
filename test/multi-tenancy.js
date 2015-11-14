@@ -40,5 +40,17 @@ describe('Multi-tenancy', function () {
             .end(done);
     });
 
+    it('should have unique tentant domain names', done => {
+        request(server)
+            .post('/api/tenant')
+            .send({
+                name: [{tag: 'en', text: 'me too'}],
+                domain: 'test-1'
+            })
+            .expect(res => { 
+                res.status.should.not.equal(201); 
+            })
+            .end(done);
+        });
     
 });

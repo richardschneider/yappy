@@ -1,0 +1,8 @@
+'use strict';
+
+module.exports = (model) => 
+    model.tenant.collection().createIndexAsync(
+        { domain: 1 },
+        { unique: true }
+    );
+        
