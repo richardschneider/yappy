@@ -3,3 +3,5 @@ use ecom
 db.dropDatabase()
 use test
 db.dropDatabase()
+use local
+db.dropDatabase()

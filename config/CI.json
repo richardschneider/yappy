@@ -1,18 +1,18 @@
 {
     "standardDB": {
-        "url": "mongodb://127.0.0.1/test",
+        "url": "mongodb://127.0.0.1/",
         "options": {
             "native_parser": true
         }
     },
     "mediaDB": {
-        "url": "mongodb://127.0.0.1/test",
+        "url": "mongodb://127.0.0.1/",
         "options": {
             "native_parser": true
         }
     },
     "sensitiveDB": {
-        "url": "mongodb://127.0.0.1/test",
+        "url": "mongodb://127.0.0.1/",
         "options": {
             "native_parser": true
         }
