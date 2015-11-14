@@ -8,11 +8,8 @@ before_script:
   - npm install -g gulp
   - npm install -g sally-js
   - mkdir logs
-  - mongo --eval "db.adminCommand('listDatabases')"
-  - mongo ecom --eval "db.system.indexes.find()"
-  - mongo ecom --eval "db.dropDatabase()"
+  - mongo <drop-db
   - ./bin/upgrade-model
-  - mongo ecom --eval "db.system.indexes.find()"
 script:
   - gulp
   - sally verify logs/*.sal
