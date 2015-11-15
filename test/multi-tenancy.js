@@ -47,9 +47,7 @@ describe('Multi-tenancy', function () {
                 name: [{tag: 'en', text: 'me too'}],
                 domain: 'test-1'
             })
-            .expect(res => { 
-                res.status.should.not.equal(201); 
-            })
+            .expect(422)
             .end(done);
         });
     
