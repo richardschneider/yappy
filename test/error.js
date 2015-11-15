@@ -9,9 +9,9 @@ describe('Error', () => {
     var err;
     before(done => {
         request(server)
-        .get('/api/unknown')
+        .get('/api/bear/unknown')
         .set('Accept-Language', 'fr')
-        .expect(400)
+        .expect(404)
         .expect(r => err = r)
         .end(done);
     }); 
@@ -28,7 +28,7 @@ describe('Error', () => {
 
     it('should be translated', done => {
         err.headers.should.have.property('content-language', 'fr');
-        err.body.message.should.equal('Inconnu nom de modèle');
+        err.body.message.should.equal('Non trouvé');
         done();
     });
 

@@ -21,7 +21,7 @@ describe('l10n', () => {
         
         it('should support french translations', done => {
             l10n.translate(null, 'its time for a beer', 'fr')
-            .then(t => t.translation.should.equal('il temps pour une bière'))
+            .then(t => t.translation.should.equal('son temps pour une bière'))
             .finally(() => done());
         });
 
