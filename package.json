@@ -27,6 +27,7 @@
     "express": "^4.0.0",
     "gridfs-stream": "^1.1.1",
     "js-schema-6901": "^0.2.0",
+    "locale": "0.0.20",
     "mongodb": "^2.0.46",
     "mongoose": "^4.2.2",
     "mongoskin": "^2.0.3",
