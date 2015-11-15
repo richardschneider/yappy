@@ -14,6 +14,15 @@ var teddy = {
     ]
 };
 
+var southernTeddy = {
+    name: [
+        { tag: 'en', text: 'teddy bear'},
+        { tag: 'zh-TW', text: '玩具熊' },
+        { tag: 'zh-CH', text: '玩具熊' }
+    ],
+    likes: ['beer']
+};
+
 describe('Resource CRUD', function () {
 
     var postres;
@@ -42,6 +51,34 @@ describe('Resource CRUD', function () {
             .then(done);
     });
 
+    describe('Gradual upgrade', () => {
+        
+        it('should add new properties when not present', done => {
+            request(server)
+                .get(teddyUrl)
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.property('likes');
+                    res.body.likes[0].should.equal('honey');
+                })
+                .end(done);
+        });
+        
+        it('should not change existing properties', done => { request(server)
+            .put(teddyUrl)
+            .send(southernTeddy)
+            .expect(200)
+            .then(() => { request(server)
+                .get(teddyUrl)
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.property('likes');
+                    res.body.likes[0].should.equal('beer');
+                })
+                .end(done);
+            });
+        });
+    });
     
     describe('GET', function () {
 
