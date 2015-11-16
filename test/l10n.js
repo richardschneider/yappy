@@ -48,5 +48,18 @@ describe('l10n', () => {
             .then(t => t.translation.should.equal('一杯啤酒的時候了'))
             .finally(() => done());
         });
+        
+        it('should be 10x faster with a cache', done => {
+            var start, first, second;
+            l10n.translations.reset()
+            .then(() => start = new Date())
+            .then(() => l10n.translate(null, 'its time for a beer', 'fr'))
+            .then(t => { var now = new Date(); first = now - start; start = now; })
+            .then(() => l10n.translate(null, 'its time for a beer', 'fr'))
+            .then(() => second = new Date() - start)
+            .then(() => (first / 10).shoud.be.above(second))
+            .finally(() => done());
+        });
+
    }) 
 });
