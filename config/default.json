@@ -1,4 +1,5 @@
 {
+    "language": "fr",
     "standardDB": {
         "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
         "options": {
