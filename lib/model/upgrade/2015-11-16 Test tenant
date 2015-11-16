@@ -1,0 +1,17 @@
+'use strict';
+
+let ObjectID = require('mongoskin').ObjectID;
+
+module.exports = (model) => {
+    let id = new ObjectID()
+    let test = {
+        _id: id,
+        tenantId: id.toHexString(),
+        name: { tag: 'en', text: 'test tenant' },
+        domain: 'test',
+        modifiedOn: new Date().toISOString()
+    };
+    return model.tenant.collection()
+        .insertAsync(model.tenant.upgrade(test), {w: 1});
+};
+        

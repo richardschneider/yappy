@@ -21,6 +21,7 @@ describe('Multi-tenancy', function () {
     after(function (done) {
         request(server)
             .delete(test1Url)
+            .set('host', 'test-1.ecom.io')
             .expect(204)
             .end(done);
     });
@@ -32,7 +33,7 @@ describe('Multi-tenancy', function () {
             .expect(400, { message: 'Check the host name, especially unknown' }, done);
     });
     
-    it('should allow access when tenant is known', function (done) {
+    it('should allow access when tenant is known by host name', function (done) {
         request(server)
             .get('/api/bear')
             .set('host', 'test-1.ecom.io')
@@ -50,5 +51,26 @@ describe('Multi-tenancy', function () {
             .expect(422)
             .end(done);
         });
+
+    it('should only show the current tentant in a search', done => {
+        request(server)
+            .get('/api/tenant')
+            .set('host', 'test-1.ecom.io')
+            .expect(200)
+            .expect(res => {
+                res.body.should.be.instanceof(Array).and.have.lengthOf(1);
+                res.body[0].domain.should.equal('test-1');
+            })
+            .end(done);
+    });
+    
+    it('should allow access to the tenant', function (done) {
+        request(server)
+            .get(test1Url)
+            .set('host', 'test-1.ecom.io')
+            .expect(200)
+            .end(done);
+    });
+
     
 });
