@@ -25,7 +25,6 @@ describe('Error', () => {
             .expect(201)
             .expect(res => { 
                 domainUrl = res.header['location']; 
-                console.log(domainUrl)
             })
             .end(done);
         });
