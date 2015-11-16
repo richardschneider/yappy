@@ -28,7 +28,7 @@ describe('Error', () => {
 
     it('should be translated', done => {
         err.headers.should.have.property('content-language', 'fr');
-        err.body.message.should.equal('Non trouvé');
+        err.body.message.should.endWith('trouvé');
         done();
     });
 
