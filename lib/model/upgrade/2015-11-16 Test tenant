@@ -7,8 +7,9 @@ module.exports = (model) => {
     let test = {
         _id: id,
         tenantId: id.toHexString(),
-        name: { tag: 'en', text: 'test tenant' },
+        name: [{ tag: 'en', text: 'test tenant' }],
         domain: 'test',
+        languages: ['en', 'zh', 'fr'],
         modifiedOn: new Date().toISOString()
     };
     return model.tenant.collection()
