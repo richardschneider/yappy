@@ -5,7 +5,6 @@ var should = require('should');
 var extend = require('util')._extend;
 var server = require('../lib/server');
 
-
 var teddy = {
     name: [
         { tag: 'en', text: 'teddy bear'},
