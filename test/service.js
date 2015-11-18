@@ -174,4 +174,9 @@ describe('Service locator', function () {
             })
             .catch(done);
     });
+
+    it('should find all services in the lib/service folder', done => {
+        locator.loadAllServices().length.should.be.above(0);
+        done();
+    })
 });
