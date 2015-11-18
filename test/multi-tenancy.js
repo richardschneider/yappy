@@ -72,5 +72,16 @@ describe('Multi-tenancy', function () {
             .end(done);
     });
 
+    it('should allow the access to all services', function (done) {
+        request(server)
+            .get(test1Url)
+            .set('host', 'test-1.ecom.io')
+            .expect(200)
+            .expect(res => {
+                console.log(res.body);
+                res.body.should.have.property('services');
+            })
+            .end(done);
+    });
     
 });
