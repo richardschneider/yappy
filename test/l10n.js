@@ -6,6 +6,10 @@ var l10n = require('../lib/server/l10n');
 describe('l10n', () => {
    
     describe('translation', () => {
+        before(done => {
+            require('../lib/service/locator').loadAllServices();
+            done();
+        });
         
         it('should return a translation', done => {
             l10n.translate(null, 'its time for a beer', 'fr')
