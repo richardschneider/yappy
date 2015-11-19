@@ -25,4 +25,15 @@ describe ('Tenant', () => {
         r1.services.length.should.equal(n);
     });
     
+    it('should validate the services', () => {
+        let r = model.upgrade({ 
+            name: [{ tag: 'en', text: 'x'}],
+            domain: 'x'});
+        r.services.push({});
+        let errs = model.schema.jpErrors(r);
+        errs.should.not.equal(false);
+        errs.should.be.instanceof(Object);
+    });
+
+    
 });
