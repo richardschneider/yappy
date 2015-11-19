@@ -2,6 +2,7 @@
 
 var request = require("supertest-as-promised");
 var server = require('../lib/server');
+var multi_tenancy = require('../lib/server/multi-tenancy');
 
 describe('Multi-tenancy', function () {
 
@@ -72,16 +73,26 @@ describe('Multi-tenancy', function () {
             .end(done);
     });
 
-    it('should allow the access to all services', function (done) {
+    it('should allow access to all services', function (done) {
         request(server)
             .get(test1Url)
             .set('host', 'test-1.ecom.io')
             .expect(200)
             .expect(res => {
-                console.log(res.body);
                 res.body.should.have.property('services');
             })
             .end(done);
+    });
+    
+    it('should make services specific to a tenant', done => {
+        let req = { headers: {} },
+            res = {};
+        req.headers.host = '127.0.0.1';
+        multi_tenancy(req, res, () => {
+            req.should.have.property('services');
+            req.services.should.have.property('translation');
+            done();
+        });
     });
     
 });
