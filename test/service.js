@@ -130,16 +130,24 @@ describe('Service locator', function () {
 
     it('should error with unknown service use', done => {
         locator.allServices = [];
-        let fn = () => locator.run('translation', 'hello world');
-        (fn).should.throw('No service found for translation');
-        done();
+        locator
+            .run('translation', 'hello world')
+            .then(() => { throw new Error('should not happen') })
+            .catch(e => {
+                e.message.should.equal('No service found for translation');
+                done();
+            });
     });
 
     it('should only run enabled services', done => {
         locator.allServices = [disabled];
-        let fn = () => locator.run('translation', 'hello world');
-        (fn).should.throw('No service found for translation');
-        done();
+        locator
+            .run('translation', 'hello world')
+            .then(() => { throw new Error('should not happen') })
+            .catch(e => {
+                e.message.should.equal('No service found for translation');
+                done();
+            });
     });
 
     it('should only run services with the correct usage', done => {
@@ -178,5 +186,17 @@ describe('Service locator', function () {
     it('should find all services in the lib/service folder', done => {
         locator.loadAllServices().length.should.be.above(0);
         done();
-    })
+    });
+    
+    it('should allow an array of services instead of a use name', done => {
+        locator.allServices = [];;
+        locator
+            .run([opts], 'hello world')
+            .then(result => {
+                result.should.equal('nowhere');
+                done();
+            })
+            .catch(done);
+    });
+    
 });
