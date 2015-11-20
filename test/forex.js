@@ -39,7 +39,7 @@ describe ('Forex', () => {
             .expect(200)
             .expect(res => {
                 let rates = res.body.rates;
-                Object.keys(rates).length.should.equal(tenant.currencies.length);
+                Object.keys(rates).length.should.equal(tenant.forex.currencies.length);
             })
             .end(done);
     });

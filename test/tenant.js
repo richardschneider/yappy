@@ -13,9 +13,16 @@ describe ('Tenant', () => {
     it('should contain default values', () => {
         let r = model.upgrade({});
         r.should.have.property('languages');
-        r.should.have.property('currencies');
+        r.should.have.property('forex');
         r.should.have.property('services');
-        r.should.have.property('baseCurrency');
+    });
+
+    it('should be valid when new', () => {
+        let r = model.upgrade({ 
+            name: [{ tag: 'en', text: 'x'}],
+            domain: 'x'});
+        let errs = model.schema.jpErrors(r);
+        errs.should.equal(false);
     });
 
     it('should contain new services', () => {
