@@ -12,7 +12,7 @@ describe ('Tenant', () => {
     
     it('should contain default values', () => {
         let r = model.upgrade({});
-        r.should.have.property('languages');
+        r.should.have.property('language');
         r.should.have.property('forex');
         r.should.have.property('services');
     });

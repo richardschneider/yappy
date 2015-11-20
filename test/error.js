@@ -11,7 +11,7 @@ describe('Error', () => {
     before(done => {
         request(server)
             .get('/api/bear/unknown')
-            .set('Accept-Language', 'fr')
+            .set('Accept-Language', 'fr-FR')
             .expect(404)
             .expect(r => { err = r; })
         .then(() => {
@@ -19,7 +19,7 @@ describe('Error', () => {
             .post('/api/tenant')
             .send({
                 name: [{tag: 'en', text: 'moi'}],
-                languages: ['fr'],
+                language: { fallback: 'fr', supported: ['fr-FR', 'fr'] },
                 domain: 'fr-only'
             })
             .expect(201)
@@ -53,8 +53,8 @@ describe('Error', () => {
         err.body.message.should.endWith('trouvé');
         done();
     });
-    
-    it('should only use the language(s) of the tentant', done => {
+
+    it('should only use the language(s) of the tenant', done => {
         request(server)
             .get('/api/bear/unknown')
             .set('host', 'fr-only.ecom.io')
