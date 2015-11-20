@@ -26,7 +26,7 @@ describe ('Forex', () => {
                 let rates = res.body;
                 rates.should.have.property('base');
                 rates.should.have.property('date')
-                    .and.match(iso.date);
+                    .and.match(iso.dateTime);
                 rates.should.have.property('rates')
                     .and.have.property('NZD');
             })
@@ -52,7 +52,7 @@ describe ('Forex', () => {
                 let rates = res.body;
                 rates.should.have.property('base', 'CNY');
                 rates.should.have.property('date')
-                    .and.match(iso.date);
+                    .and.match(iso.dateTime);
                 rates.should.have.property('rates')
                     .and.have.property('NZD');
             })
