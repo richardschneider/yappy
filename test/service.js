@@ -70,6 +70,15 @@ describe('Service locator', function () {
         moduleName: "nyi",
         api: (arg, options) => Promise.reject(new Error('not yet implemented'))
     };
+    let bad = {
+        name: [{tag: 'en', text: 'bad translator throws'}],
+        use: 'translation',
+        enabled: true,
+        home: 'http://wikipedia',
+        options: {},
+        moduleName: "bad",
+        api: (arg, options) => { throw new Error('should reject not throw') }
+    };
 
     let disabled = {
         name: [{tag: 'en', text: 'my translator'}],
@@ -126,6 +135,7 @@ describe('Service locator', function () {
                 e.message.should.equal("Cannot read property 'url' of undefined");
                 done();
             })
+            .catch(e => done())
     });
 
     it('should error with unknown service use', done => {
@@ -189,7 +199,7 @@ describe('Service locator', function () {
     });
     
     it('should allow an array of services instead of a use name', done => {
-        locator.allServices = [];;
+        locator.allServices = [];
         locator
             .run([opts], 'hello world')
             .then(result => {
@@ -199,4 +209,35 @@ describe('Service locator', function () {
             .catch(done);
     });
     
+    it('should cope with a service throwing and not rejecting', done => {
+        locator
+            .run([bad], 'hello world')
+            .then(result => {
+                done('should not happen');
+            })
+            .catch(e => {
+                e.should.have.property('message', 'All services failed for translation');
+                e.should.have.property('details')
+                    .and.have.property('bad', 'should reject not throw');
+                done();
+            })
+            .catch(done);
+    });
+    
+    it('should return service failures when all services fail', done => {
+        locator
+            .run([nyi], 'hello world')
+            .then(result => {
+                console.log('SHOULD NOT HAPPEN')
+                done();
+            })
+            .catch(e => {
+                e.should.have.property('message', 'All services failed for translation');
+                e.should.have.property('details')
+                    .and.have.property('nyi', 'not yet implemented');
+                done();
+            })
+            .catch(done);
+    });
+
 });
