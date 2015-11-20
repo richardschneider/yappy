@@ -7,6 +7,17 @@ var iso = require('../lib/model/iso');
 
 describe ('Forex', () => {
 
+    var tenant;
+    before(done => {
+        request(server)
+            .get('/api/tenant')
+            .expect(200)
+            .expect(res => {
+                tenant = res.body[0];
+            })
+            .end(done);
+    });
+    
     it('should default the base currency', done => {
         request(server)
             .get('/forex')
@@ -18,6 +29,17 @@ describe ('Forex', () => {
                     .and.match(iso.date);
                 rates.should.have.property('rates')
                     .and.have.property('NZD');
+            })
+            .end(done);
+    });
+
+    it('should only return currencies of interest', done => {
+        request(server)
+            .get('/forex')
+            .expect(200)
+            .expect(res => {
+                let rates = res.body.rates;
+                Object.keys(rates).length.should.equal(tenant.currencies.length);
             })
             .end(done);
     });
