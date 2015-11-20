@@ -15,6 +15,7 @@ describe ('Tenant', () => {
         r.should.have.property('languages');
         r.should.have.property('currencies');
         r.should.have.property('services');
+        r.should.have.property('baseCurrency');
     });
 
     it('should contain new services', () => {
