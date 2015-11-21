@@ -21,7 +21,7 @@ describe ('Currency Layer forex rates', () => {
     });
     
     it('should return USD-NZD exchange rate', done => {
-        fx('USD', fx.details.options)
+        fx('USD', undefined, fx.details.options)
             .then(rates => {
                 rates.should.have.property('base', 'USD');
                 rates.should.have.property('date')
