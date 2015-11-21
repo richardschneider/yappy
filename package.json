@@ -19,6 +19,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "JSONPath": "https://github.com/richardschneider/JSONPath/tarball/pointers-rfc6901",
     "bluebird": "^3.0.5",
     "body-parser": "~1.0.1",
     "cache-control": "^1.0.3",
@@ -28,6 +29,7 @@
     "express": "^4.13.3",
     "gridfs-stream": "^1.1.1",
     "js-schema-6901": "^0.2.0",
+    "json-pointer-rfc6901": "https://github.com/richardschneider/json-pointer-rfc6901/tarball/dist",
     "locale": "0.0.20",
     "mongodb": "^2.0.46",
     "mongoskin": "^2.0.3",
