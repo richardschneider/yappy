@@ -209,7 +209,7 @@ describe('Resource CRUD', function () {
         
         it('should validate the data', done => {
             var teddy1 = extend({}, teddy0);            
-            teddy1.name[0].tag = 'xx';
+            teddy1.name[0].tag = 'xxxxxxxxxx';
 
             request(server)
                 .put(teddyUrl)

@@ -12,8 +12,7 @@ describe ('Yandex translator', () => {
             .expect(200)
             .expect(res => {
                 let tenant = res.body[0];
-                let yandex = tenant.services.find(e => e.moduleName == 'yandex');
-                should.exist(yandex);
+                should.exist(tenant.service.yandex);
             })
             .end(done);
     });

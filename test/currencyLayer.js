@@ -4,7 +4,7 @@ var should = require('should');
 var request = require("supertest-as-promised");
 var server = require('../lib/server');
 var iso = require('../lib/model/iso')
-var fx = require('../lib/service/currencylayer');
+var fx = require('../lib/service/currencyLayer');
 
 describe ('Currency Layer forex rates', () => {
 
@@ -14,8 +14,7 @@ describe ('Currency Layer forex rates', () => {
             .expect(200)
             .expect(res => {
                 let tenant = res.body[0];
-                let currencyLayer = tenant.services.find(e => e.moduleName == 'currencylayer');
-                should.exist(currencyLayer);
+                should.exist(tenant.service.currencyLayer);
             })
             .end(done);
     });

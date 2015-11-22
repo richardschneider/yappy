@@ -18,7 +18,7 @@ describe('Error', () => {
         request(server)
             .post('/api/tenant')
             .send({
-                name: [{tag: 'en', text: 'moi'}],
+                name: [{tag: 'fr', text: 'moi'}],
                 language: { fallback: 'fr', supported: ['fr-FR', 'fr'] },
                 domain: 'fr-only'
             })
@@ -27,7 +27,8 @@ describe('Error', () => {
                 domainUrl = res.header['location']; 
             })
             .end(done);
-        });
+        })
+        .catch(done);
     }); 
     
     after(done => {

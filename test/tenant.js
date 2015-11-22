@@ -27,17 +27,16 @@ describe ('Tenant', () => {
 
     it('should contain new services', () => {
         let r = model.upgrade({});
-        let n = r.services.length;
-        r.services = r.services.slice(1);
+        r.service.yandex = undefined;
         let r1 = model.upgrade(r);
-        r1.services.length.should.equal(n);
+        r1.service.should.have.property('yandex');
     });
     
     it('should validate the services', () => {
         let r = model.upgrade({ 
             name: [{ tag: 'en', text: 'x'}],
             domain: 'x'});
-        r.services.push({});
+        r.service.xyzzy = {};
         let errs = model.schema.jpErrors(r);
         errs.should.not.equal(false);
         errs.should.be.instanceof(Object);

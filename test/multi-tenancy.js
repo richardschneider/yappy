@@ -79,7 +79,7 @@ describe('Multi-tenancy', function () {
             .set('host', 'test-1.ecom.io')
             .expect(200)
             .expect(res => {
-                res.body.should.have.property('services');
+                res.body.should.have.property('service');
             })
             .end(done);
     });

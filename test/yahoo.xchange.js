@@ -3,8 +3,8 @@
 var should = require('should');
 var request = require("supertest-as-promised");
 var server = require('../lib/server');
-var iso = require('../lib/model/iso')
-var fx = require('../lib/service/yahoo.xchange');
+var iso = require('../lib/model/iso');
+var fx = require('../lib/service/yahooXchange');
 
 describe ('Yahoo XChange forex rates', () => {
 
@@ -14,8 +14,7 @@ describe ('Yahoo XChange forex rates', () => {
             .expect(200)
             .expect(res => {
                 let tenant = res.body[0];
-                let x = tenant.services.find(e => e.moduleName == 'yahoo.xchange');
-                should.exist(x);
+                should.exist(tenant.service.yahooXchange);
             })
             .end(done);
     });

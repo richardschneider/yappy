@@ -3,8 +3,8 @@
 var should = require('should');
 var request = require("supertest-as-promised");
 var server = require('../lib/server');
-var iso = require('../lib/model/iso')
-var fx = require('../lib/service/fixer.io');
+var iso = require('../lib/model/iso');
+var fx = require('../lib/service/fixerIO');
 
 describe ('Fixer.io forex rates', () => {
 
@@ -14,8 +14,7 @@ describe ('Fixer.io forex rates', () => {
             .expect(200)
             .expect(res => {
                 let tenant = res.body[0];
-                let fixer = tenant.services.find(e => e.moduleName == 'fixer.io');
-                should.exist(fixer);
+                should.exist(tenant.service.fixerIO);
             })
             .end(done);
     });
