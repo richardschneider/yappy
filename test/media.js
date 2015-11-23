@@ -151,6 +151,19 @@ describe('Media', function () {
                 .expect(405)
                 .end(done);
         });
+        
+        it('should be searchable', function (done) {
+            request(server)
+                .get('/api/media')
+                .then(res => {
+                    res.body.should.be.instanceof(Array)
+                        .and.have.property('length').above(0);
+                    done();
+                })
+                .catch(done);
+        });
+        
+
     });
 
 });
