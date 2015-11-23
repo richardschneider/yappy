@@ -1,5 +1,10 @@
 {
     "language": "en",
+    "jsonContentType": [
+        "application/json",
+        "application/json-patch+json",
+        "application/x.mongo-patch+json"
+    ],
     "standardDB": {
         "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
         "options": {

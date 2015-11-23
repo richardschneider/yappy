@@ -1,7 +1,7 @@
 'use strict';
 
+require('should');
 var request = require("supertest-as-promised");
-var should = require('should');
 var extend = require('util')._extend;
 var server = require('../lib/server');
 
@@ -66,7 +66,7 @@ describe('Resource CRUD', function () {
         it('should not change existing properties', done => { request(server)
             .put(teddyUrl)
             .send(southernTeddy)
-            .expect(200)
+            .expect(204)
             .then(() => { request(server)
                 .get(teddyUrl)
                 .expect(200)
@@ -187,7 +187,7 @@ describe('Resource CRUD', function () {
             request(server)
                 .put(teddyUrl)
                 .send(teddy0)
-                .expect(200)
+                .expect(204)
                 .then(() => {
                     request(server)
                         .get(teddyUrl)
@@ -222,7 +222,7 @@ describe('Resource CRUD', function () {
             request(server)
                 .put(teddyUrl)
                 .send(teddy)
-                .expect(200)
+                .expect(204)
                 .expect('Last-Modified', /GMT/)
                 .end(done);
         }); 
@@ -251,5 +251,80 @@ describe('Resource CRUD', function () {
                 .end(done);
         });
     });	
-    
+   
+    describe('PATCH json', () => {
+
+        it('should replace data', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/text', value: 'yogi (1)' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(204)
+                .then(() => {
+                    request(server)
+                        .get(teddyUrl)
+                        .expect(200)
+                        .then(res => {
+                            res.body.name[0].text.should.equal('yogi (1)');
+                            done();
+                        })
+                        .catch(done);
+                })
+                .catch(done);
+        }); 
+        
+        it('should error when resource does not exist', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/text', value: 'yogi (1)' }
+            ];
+            request(server)
+                .patch('/api/bear/missing-id')
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(404)
+                .end(done);
+        }); 
+        
+        it('should validate the data', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/tag', value: 'xxxxxxxxxx' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(422)
+                .end(done);
+        }); 
+        
+        it('should validate the patch', done => {
+            let patch = [
+                { op: 'replace', jpath: '/name/0/tag', value: 'en' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(422)
+                .end(done);
+        }); 
+
+        it('should return Last-Modified header', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/text', value: 'yogi (2)' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(204)
+                .expect('Last-Modified', /GMT/)
+                .end(done);
+        }); 
+
+    });
+ 
 });
