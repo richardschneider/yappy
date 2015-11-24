@@ -136,7 +136,7 @@ describe('Resource CRUD', function () {
             done();
         });
        
-        it('should notreturn a body with status and refers to the new resource', function (done) {
+        it('should return a body with status and refers to the new resource', function (done) {
             postres.body.status.should.equal('ok');
             postres.body.self.should.equal(teddyUrl);
             done();
@@ -168,6 +168,19 @@ describe('Resource CRUD', function () {
                 .end(done);
         });
         
+        it('should return the resource when requested', done => {
+            request(server)
+                .post('/api/bear')
+                .set('prefer', 'return=representation')
+                .send(teddy)
+                .expect(201)
+                .expect(res => {
+                    res.body.should.have.property('name');
+                    res.body.name[0].text.should.equal('teddy bear');
+                })
+                .end(done);
+        }); 
+
     });
 
     describe('PUT', () => {
