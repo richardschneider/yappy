@@ -136,7 +136,7 @@ describe('Resource CRUD', function () {
             done();
         });
        
-        it('should return a body with status and refers to the new resource', function (done) {
+        it('should notreturn a body with status and refers to the new resource', function (done) {
             postres.body.status.should.equal('ok');
             postres.body.self.should.equal(teddyUrl);
             done();
@@ -224,6 +224,18 @@ describe('Resource CRUD', function () {
                 .send(teddy)
                 .expect(204)
                 .expect('Last-Modified', /GMT/)
+                .end(done);
+        }); 
+
+        it('should return the resource when requested', done => {
+            request(server)
+                .put(teddyUrl)
+                .set('prefer', 'return=representation')
+                .send(teddy)
+                .expect(200)
+                .expect(res => {
+                    res.body.name[0].text.should.equal('teddy bear');
+                })
                 .end(done);
         }); 
 
@@ -322,6 +334,22 @@ describe('Resource CRUD', function () {
                 .send(JSON.stringify(patch))
                 .expect(204)
                 .expect('Last-Modified', /GMT/)
+                .end(done);
+        }); 
+
+        it('should return the resource when requested', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/text', value: 'yogi (3)' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('prefer', 'return=representation')
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(200)
+                .expect(res => {
+                    res.body.name[0].text.should.equal('yogi (3)');
+                })
                 .end(done);
         }); 
 

@@ -47,6 +47,7 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "express-prefer": "^0.1.1",
     "gulp": "^3.8.8",
     "gulp-bump": "^0.1.11",
     "gulp-coveralls": "^0.1.4",
