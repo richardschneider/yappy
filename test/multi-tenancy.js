@@ -31,7 +31,7 @@ describe('Multi-tenancy', function () {
         request(server)
             .get('/api/bear')
             .set('host', 'unknown.ecom.io')
-            .expect(400, { message: 'Check the host name, especially unknown' }, done);
+            .expect(400, { message: 'Check the host name, especially unknown', details: '' }, done);
     });
     
     it('should allow access when tenant is known by host name', function (done) {

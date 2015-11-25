@@ -10,7 +10,7 @@ describe('Data model', function () {
     it('should validate the model name', function (done) {
         request(server)
             .get('/api/unknown')
-            .expect(400, { message: 'Unknown model name' }, done);
+            .expect(400, { message: "Resource type 'unknown' is unknown", details: '' }, done);
     });
 
     it('allows getting of the schema', function (done) {
