@@ -67,5 +67,16 @@ describe('Error', () => {
             .end(done);
     });
 
+    it('should override accept-language with the lang query parameter', done => {
+        request(server)
+            .get('/api/bear/unknown?lang=fr')
+            .set('Accept-Language', 'en')
+            .expect(404)
+            .expect(err => {
+                err.headers.should.have.property('content-language', 'fr');
+                err.body.message.should.endWith('trouvé');
+            })
+            .end(done);
+    });
 
 });
