@@ -14,7 +14,8 @@ describe ('Tenant', () => {
         let r = model.upgrade({});
         r.should.have.property('language');
         r.should.have.property('forex');
-        r.should.have.property('services');
+        r.should.have.property('service');
+        r.should.have.property('self_test');
     });
 
     it('should be valid when new', () => {
