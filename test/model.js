@@ -13,11 +13,20 @@ describe('Data model', function () {
             .expect(400, { message: "Resource type 'unknown' is unknown", details: '' }, done);
     });
 
-    it('allows getting of the schema', function (done) {
+    it('should have a schema', function (done) {
         request(server)
             .get('/api/bear/schema')
             .expect(200, done);
     });
+
+    it('should a schema of type application/schema+json', function (done) {
+        request(server)
+            .get('/api/bear/schema')
+            .expect(200)
+            .expect(res => res.get('content-type').should.startWith('application/schema+json'))
+            .end(done);
+    });
+
     
     it('should return 422, message and details when entity is invalid', function (done) {
         var bad = {
