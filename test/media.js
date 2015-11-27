@@ -12,7 +12,7 @@ describe('Media', function () {
     var uploadResponse;
     var url;
     let content = '<b>Hello world</b>';
-    
+
     before(function (done) {
         request(server)
             .post('/api/media')
@@ -23,7 +23,7 @@ describe('Media', function () {
             })
             .end(done);
     });
-    
+
     after(function (done) {
         request(server)
             .delete(url)
@@ -41,17 +41,17 @@ describe('Media', function () {
             uploadResponse.status.should.equal(201);
             done();
         });
-        
+
         it('should return Last-Modified header', function (done) {
             uploadResponse.header['last-modified'].should.match(/GMT/);
             done();
         });
-    
+
         it('should return a valid media link in Location header', function (done) {
             uploadResponse.header['location'].should.match(medialink);
             done();
         });
-        
+
         it('should allow viewing of the uploaded media', function (done) {
             request(server)
                 .get(url)
@@ -59,20 +59,20 @@ describe('Media', function () {
                 .end(done);
         });
 
-        it('should contain metadata with self and type', done => {
+        it('should contain metadata with self and status', done => {
             uploadResponse.body.should.have.property('_metadata');
-            uploadResponse.body._metadata.should.have.property('self');
-            uploadResponse.body._metadata.should.have.property('type');
+            uploadResponse.body._metadata.should.have.property('self', url);
+            uploadResponse.body._metadata.should.have.property('status', 'ok');
             done();
         });
-        
+
         it('should return same value for Location header and _metadata.self', done => {
             uploadResponse.header['location'].should.equal(uploadResponse.body._metadata.self);
             done();
         });
-        
+
     });
-   
+
     describe('Content', function () {
         var response;
 
@@ -85,17 +85,17 @@ describe('Media', function () {
                 })
                 .end(done);
         });
-        
+
         it('should have the correct value', function (done) {
             response.text.should.equal(content);
             done();
         });
-        
+
         it('should have the correct Content-Type header', function (done) {
             response.header['content-type'].should.match(/^text\/html/);
             done();
         });
-        
+
         it('should have the correct Content-MD5 base64 hash', function(done) {
             let digest = crypto.createHash('md5').update(content).digest('base64');
             response.header['content-md5'].should.equal(digest);
@@ -107,7 +107,7 @@ describe('Media', function () {
             done();
         });
     });
-    
+
     describe('Entity', function () {
         var response;
 
@@ -120,7 +120,7 @@ describe('Media', function () {
                 })
                 .end(done);
         });
-        
+
         it('should be JSON', function (done) {
             response.header['content-type'].should.match(/^application\/json/);
             response.body.should.not.equal({});
@@ -131,7 +131,7 @@ describe('Media', function () {
             response.body.filename.should.equal('hello.html');
             done();
         });
-        
+
         it('should not expose the tenant id', function (done) {
             response.text.should.not.match(/tenant/);
             done();
@@ -151,7 +151,7 @@ describe('Media', function () {
                 .expect(405)
                 .end(done);
         });
-        
+
         it('should be searchable', function (done) {
             request(server)
                 .get('/api/media')
@@ -162,7 +162,7 @@ describe('Media', function () {
                 })
                 .catch(done);
         });
-        
+
 
     });
 
