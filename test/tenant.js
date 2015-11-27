@@ -15,7 +15,7 @@ describe ('Tenant', () => {
         r.should.have.property('language');
         r.should.have.property('forex');
         r.should.have.property('service');
-        r.should.have.property('self_test');
+        r.should.have.property('httpResponse');
     });
 
     it('should be valid when new', () => {
