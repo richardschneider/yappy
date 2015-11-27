@@ -71,6 +71,28 @@ describe('Media', function () {
             done();
         });
 
+        it('should return the entity information when Prefer: return=representation', done => {
+            let url1;
+            request(server)
+                .post('/api/media')
+                .set('prefer', 'return=representation')
+                .attach('media', new Buffer(content), 'hello.html')
+                .expect(function (res) {
+                    url1 = res.header['location'];
+                })
+                .then(res => {
+                    let media = res.body;
+                    media.should.have.property('filename', 'hello.html');
+                    media.should.have.property('contentType', 'text/html');
+                    media.should.have.property('length', 18);
+                    media.should.have.property('md5', 'e4d125e0a58a666887a4173ea28c30c7');
+                })
+                .finally(() => {
+                    request(server)
+                        .delete(url1)
+                        .end(done)
+                });
+        });
     });
 
     describe('Content', function () {
