@@ -27,9 +27,10 @@
     "compression": "^1.6.0",
     "config": "^1.16.0",
     "express": "^4.13.3",
+    "express-prefer": "^0.1.1",
     "fast-json-patch": "^0.5.4",
     "gridfs-stream": "^1.1.1",
-    "js-schema-6901": "^0.2.0",
+    "js-schema-6901": "^0.3.0",
     "json-pointer-rfc6901": "^1.1.1",
     "locale": "0.0.20",
     "mongodb": "^2.0.46",
@@ -47,7 +48,6 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "express-prefer": "^0.1.1",
     "gulp": "^3.8.8",
     "gulp-bump": "^0.1.11",
     "gulp-coveralls": "^0.1.4",
