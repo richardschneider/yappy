@@ -1,0 +1,114 @@
+'use strict';
+
+require('should');
+var request = require("supertest-as-promised");
+var extend = require('util')._extend;
+var server = require('../lib/server');
+
+var teddy = {
+    name: [
+        { tag: 'en', text: 'teddy bear'},
+        { tag: 'zh-TW', text: '玩具熊' },
+        { tag: 'zh-CH', text: '玩具熊' }
+    ],
+    likes: ['beer']
+};
+
+describe('Search', function () {
+    let urls = [];
+    function createTeddy() {
+        return request(server)
+            .post('/api/bear')
+            .set('host', 'search-3.ecom.io')
+            .send(teddy)
+            .expect(201)
+            .expect(function (res) {
+                urls.push(res.header['location']);
+            });
+    }
+    function deleteTeddy(url) {
+        return request(server)
+            .delete(url)
+            .set('host', 'search-3.ecom.io')
+            .expect(204);
+    }
+
+    let tenant = {
+        name: [{tag: 'en', text: 'me'}],
+        domain: 'search-3',
+        httpResponse: {
+            validateResponse: true,
+            validateResource: true,
+            maxResources: 3,
+            maxIncludedResourcesPerResource: 3
+        }
+    };
+    function createTenant() {
+        return request(server)
+            .post('/api/tenant')
+            .send(tenant)
+            .expect(201)
+            .expect(res => {
+                urls.push(res.header['location']);
+            });
+    }
+
+    before(function (done) {
+        createTenant()
+        .then(() => {
+            let setup = [];
+            for (let i = 0; i < 5; ++i) {
+                setup.push(createTeddy());
+            }
+            Promise.all(setup)
+            .then(() => done())
+            .catch(e => done(e));
+        });
+    });
+
+    after(function (done) {
+        let teardown = urls.map(u => deleteTeddy(u));
+        Promise.all(teardown)
+            .then(() => done())
+            .catch(e => done(e));
+    });
+
+    describe('Paging', () => {
+
+        it('should limit the number of results with query param `?n`', done => {
+            request(server)
+                .get('/api/bear?n=2')
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.lengthOf(2);
+                })
+                .end(done);
+        });
+
+        it('should have a tenant specific upper limit for the number of results', done => {
+            request(server)
+                .get('/api/bear')
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.lengthOf(tenant.httpResponse.maxResources);
+                })
+                .end(done);
+        });
+
+        it('should enforce the tenant specific upper limit for the number of results', done => {
+            request(server)
+                .get('/api/bear?n=' + (tenant.httpResponse.maxResources + 10))
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .expect(res => {
+                    res.body.should.have.lengthOf(tenant.httpResponse.maxResources);
+                })
+                .end(done);
+        });
+
+    });
+
+
+});
