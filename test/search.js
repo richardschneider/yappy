@@ -145,6 +145,34 @@ describe('Search', function () {
                 .catch(e => done(e));
         });
 
+        it('should set `first`, `next` and `prev` links', done => {
+            request(server)
+                .get('/api/bear?o=0&n=2')
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .then(res => {
+                    res.body.data.should.have.lengthOf(2);
+                    res.body.links.should.have.property('first');
+                    res.body.links.should.have.property('next');
+                    res.body.links.should.not.have.property('prev');
+                    return res.body;
+                })
+                .then(result => {
+                    request(server)
+                        .get(result.links.next)
+                        .set('host', 'search-3.ecom.io')
+                        .expect(200)
+                        .then(res => {
+                            res.body.data.should.have.lengthOf(2);
+                            res.body.links.should.have.property('first');
+                            res.body.links.should.have.property('next');
+                            res.body.links.should.have.property('prev');
+                        });
+                })
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
     });
 
 
