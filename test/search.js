@@ -175,5 +175,30 @@ describe('Search', function () {
 
     });
 
+    describe('Sorting', () => {
+
+        it('should order by ascending or descending', done => {
+            request(server)
+                .get('/api/bear?n=2&sort=modifiedOn')
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .then(res => {
+                    res.body.data.should.have.lengthOf(2);
+                    let first = res.body.data[0]._metadata.self;
+                    request(server)
+                        .get('/api/bear?n=2&sort=-modifiedOn')
+                        .set('host', 'search-3.ecom.io')
+                        .expect(200)
+                        .then(res => {
+                            res.body.data.should.have.lengthOf(2);
+                            let other = res.body.data[0]._metadata.self;
+                            first.should.not.equal(other);
+                        });
+                })
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
+    });
 
 });
