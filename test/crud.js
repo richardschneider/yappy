@@ -108,7 +108,7 @@ describe('Resource CRUD', function () {
             request(server)
                 .get('/api/bear')
                 .expect(res => {
-                    res.body.should.be.instanceof(Array);
+                    res.body.data.should.be.instanceof(Array);
                 })
                 .end(done);
         });
@@ -117,7 +117,7 @@ describe('Resource CRUD', function () {
             request(server)
                 .get('/api/bear')
                 .expect(res => {
-                    res.body.forEach(e => {
+                    res.body.data.forEach(e => {
                         e.should.have.property('_metadata');
                         e._metadata.should.have.property('self');
                         e._metadata.should.have.property('type');

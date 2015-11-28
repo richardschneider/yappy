@@ -178,7 +178,7 @@ describe('Media', function () {
             request(server)
                 .get('/api/media')
                 .then(res => {
-                    res.body.should.be.instanceof(Array)
+                    res.body.data.should.be.instanceof(Array)
                         .and.have.property('length').above(0);
                     done();
                 })

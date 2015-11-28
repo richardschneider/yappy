@@ -13,7 +13,7 @@ describe ('Forex', () => {
             .get('/api/tenant')
             .expect(200)
             .expect(res => {
-                tenant = res.body[0];
+                tenant = res.body.data[0];
             })
             .end(done);
     });

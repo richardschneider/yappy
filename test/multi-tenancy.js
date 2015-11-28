@@ -59,8 +59,8 @@ describe('Multi-tenancy', function () {
             .set('host', 'test-1.ecom.io')
             .expect(200)
             .expect(res => {
-                res.body.should.be.instanceof(Array).and.have.lengthOf(1);
-                res.body[0].domain.should.equal('test-1');
+                res.body.data.should.be.instanceof(Array).and.have.lengthOf(1);
+                res.body.data[0].domain.should.equal('test-1');
             })
             .end(done);
     });

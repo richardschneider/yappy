@@ -73,6 +73,20 @@ describe('Search', function () {
             .catch(e => done(e));
     });
 
+    it('should return links and data', done => {
+        request(server)
+            .get('/api/bear?n=1')
+            .set('host', 'search-3.ecom.io')
+            .expect(200)
+            .expect(res => {
+                res.body.should.have.property('links');
+                res.body.links.should.have.property('self');
+                res.body.should.have.property('data')
+                    .and.have.lengthOf(1);
+            })
+            .end(done);
+    });
+
     describe('Paging', () => {
 
         it('should limit the number of results with query param `?n`', done => {
@@ -81,7 +95,7 @@ describe('Search', function () {
                 .set('host', 'search-3.ecom.io')
                 .expect(200)
                 .expect(res => {
-                    res.body.should.have.lengthOf(2);
+                    res.body.data.should.have.lengthOf(2);
                 })
                 .end(done);
         });
@@ -92,7 +106,7 @@ describe('Search', function () {
                 .set('host', 'search-3.ecom.io')
                 .expect(200)
                 .expect(res => {
-                    res.body.should.have.lengthOf(tenant.httpResponse.maxResources);
+                    res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources);
                 })
                 .end(done);
         });
@@ -103,7 +117,7 @@ describe('Search', function () {
                 .set('host', 'search-3.ecom.io')
                 .expect(200)
                 .expect(res => {
-                    res.body.should.have.lengthOf(tenant.httpResponse.maxResources);
+                    res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources);
                 })
                 .end(done);
         });
@@ -114,8 +128,8 @@ describe('Search', function () {
                 .set('host', 'search-3.ecom.io')
                 .expect(200)
                 .then(res => {
-                    res.body.should.have.lengthOf(2);
-                    return res.body;
+                    res.body.data.should.have.lengthOf(2);
+                    return res.body.data;
                 })
                 .then(teddies => {
                     request(server)
@@ -123,8 +137,8 @@ describe('Search', function () {
                         .set('host', 'search-3.ecom.io')
                         .expect(200)
                         .then(res => {
-                            res.body.should.have.lengthOf(1);
-                            res.body[0]._metadata.self.should.equal(teddies[1]._metadata.self);
+                            res.body.data.should.have.lengthOf(1);
+                            res.body.data[0]._metadata.self.should.equal(teddies[1]._metadata.self);
                         });
                 })
                 .then(() => done())

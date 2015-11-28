@@ -13,12 +13,12 @@ describe ('Yahoo XChange forex rates', () => {
             .get('/api/tenant')
             .expect(200)
             .expect(res => {
-                let tenant = res.body[0];
+                let tenant = res.body.data[0];
                 should.exist(tenant.service.yahooXchange);
             })
             .end(done);
     });
-    
+
     it('should error when no currencies of interest', done => {
         fx('NZD', [], fx.details.options)
             .then(() => done('SHOULD NOT HAPPNEN'))
@@ -42,5 +42,4 @@ describe ('Yahoo XChange forex rates', () => {
             .catch(done);
     });
 
-    
 });

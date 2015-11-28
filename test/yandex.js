@@ -11,11 +11,11 @@ describe ('Yandex translator', () => {
             .get('/api/tenant')
             .expect(200)
             .expect(res => {
-                let tenant = res.body[0];
+                let tenant = res.body.data[0];
                 should.exist(tenant.service.yandex);
             })
             .end(done);
     });
-    
+
 
 });
