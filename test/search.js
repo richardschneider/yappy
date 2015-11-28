@@ -1,11 +1,10 @@
 'use strict';
 
 require('should');
-var request = require("supertest-as-promised");
-var extend = require('util')._extend;
-var server = require('../lib/server');
+let request = require("supertest-as-promised"),
+    server = require('../lib/server');
 
-var teddy = {
+let teddy = {
     name: [
         { tag: 'en', text: 'teddy bear'},
         { tag: 'zh-TW', text: '玩具熊' },
@@ -37,10 +36,7 @@ describe('Search', function () {
         name: [{tag: 'en', text: 'me'}],
         domain: 'search-3',
         httpResponse: {
-            validateResponse: true,
-            validateResource: true,
             maxResources: 3,
-            maxIncludedResourcesPerResource: 3
         }
     };
     function createTenant() {
