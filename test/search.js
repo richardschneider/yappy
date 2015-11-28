@@ -108,6 +108,29 @@ describe('Search', function () {
                 .end(done);
         });
 
+        it('should allow offset into results with query param `?o`', done => {
+            request(server)
+                .get('/api/bear?o=0&n=2')
+                .set('host', 'search-3.ecom.io')
+                .expect(200)
+                .then(res => {
+                    res.body.should.have.lengthOf(2);
+                    return res.body;
+                })
+                .then(teddies => {
+                    request(server)
+                        .get('/api/bear?o=1&n=1')
+                        .set('host', 'search-3.ecom.io')
+                        .expect(200)
+                        .then(res => {
+                            res.body.should.have.lengthOf(1);
+                            res.body[0]._metadata.self.should.equal(teddies[1]._metadata.self);
+                        });
+                })
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
     });
 
 
