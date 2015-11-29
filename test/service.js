@@ -3,6 +3,7 @@
 require('should');
 var schema = require('../lib/model/service');
 var locator = require('../lib/service/locator');
+var peers = require('../lib/pubsub');
 
 describe('Service data type', function () {
     let service = {
@@ -12,7 +13,7 @@ describe('Service data type', function () {
         home: 'http://wikipedia',
         options: {},
         moduleName: "noop"
-    }
+    };
 
     it('should have a name and use', function (done) {
         schema(service).should.be.true;
@@ -21,6 +22,16 @@ describe('Service data type', function () {
 });
 
 describe('Service locator', function () {
+    before (done => {
+        peers.subscribe('/ecom/error/*');
+        done();
+    });
+
+    after (done => {
+        peers.subscribe('/ecom/error/*');
+        done();
+    });
+
     let noop = {
         name: [{tag: 'en', text: 'my translator'}],
         use: 'translation',
@@ -40,7 +51,7 @@ describe('Service locator', function () {
         },
         moduleName: "opts",
         api: (arg, options) => {
-            return Promise.resolve(options.url)
+            return Promise.resolve(options.url);
         }
     };
     let multiArg = {
@@ -197,7 +208,7 @@ describe('Service locator', function () {
         locator.loadAllServices().length.should.be.above(0);
         done();
     });
-    
+
     it('should allow an array of services instead of a use name', done => {
         locator.allServices = [];
         locator
@@ -208,7 +219,7 @@ describe('Service locator', function () {
             })
             .catch(done);
     });
-    
+
     it('should cope with a service throwing and not rejecting', done => {
         locator
             .run([bad], 'hello world')
@@ -223,7 +234,7 @@ describe('Service locator', function () {
             })
             .catch(done);
     });
-    
+
     it('should return service failures when all services fail', done => {
         locator
             .run([nyi], 'hello world')
@@ -239,5 +250,23 @@ describe('Service locator', function () {
             })
             .catch(done);
     });
+
+    it('should publish service failure as /ecom/error/service-name', done => {
+        let topics = [ '/ecom/error/nyi' ];
+        peers.on('message', function onMessage(topic, id) {
+            topic.should.equal(topics.shift());
+            if (topics.length == 0) {
+                peers.removeListener('message', onMessage);
+                return done();
+            }
+        });
+        locator
+            .run([nyi], 'hello world')
+            .then(result => {
+                done('should not happen');
+            })
+            .catch(e => null);
+    });
+
 
 });
