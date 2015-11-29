@@ -3,6 +3,7 @@
 var request = require("supertest-as-promised");
 var should = require('should');
 var server = require('../lib/server');
+var peers = require('../lib/pubsub');
 
 describe('Error', () => {
 
@@ -23,14 +24,14 @@ describe('Error', () => {
                 domain: 'fr-only'
             })
             .expect(201)
-            .expect(res => { 
-                domainUrl = res.header['location']; 
+            .expect(res => {
+                domainUrl = res.header['location'];
             })
             .end(done);
         })
         .catch(done);
-    }); 
-    
+    });
+
     after(done => {
         request(server)
             .delete(domainUrl)
@@ -43,7 +44,7 @@ describe('Error', () => {
         err.body.should.have.property('message');
         done();
     });
-   
+
     it('should have Content-Language', done => {
         err.headers.should.have.property('content-language');
         done();
@@ -77,6 +78,31 @@ describe('Error', () => {
                 err.body.message.should.endWith('trouvé');
             })
             .end(done);
+    });
+
+});
+
+describe('500 Server Error', () => {
+    before (done => {
+        peers.subscribe('/ecom/error/*');
+        done();
+    });
+
+    after (done => {
+        peers.unsubscribe('/ecom/error/*');
+        done();
+    });
+
+    it('should be published as /ecom/error/server', done => {
+        peers.once('message', function onMessage(topic, msg) {
+            topic.should.equal('/ecom/error/server');
+            msg.should.have.property('message', 'bad');
+            done();
+        });
+        request(server)
+            .get('/api-test/error/bad')
+            .expect(500)
+            .end();
     });
 
 });

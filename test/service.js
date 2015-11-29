@@ -28,7 +28,7 @@ describe('Service locator', function () {
     });
 
     after (done => {
-        peers.subscribe('/ecom/error/*');
+        peers.unsubscribe('/ecom/error/*');
         done();
     });
 
