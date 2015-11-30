@@ -31,4 +31,21 @@ describe('Authorisation', function () {
         authz.isPermitted(user, 'api:user:delete:123').should.be.false;
     });
 
+    it('should determine the resource level permission based on the request', () => {
+        let req = { method: 'GET', path: '/product' };
+        authz.resourceAccess(req).should.equal('api:product:find');
+
+        req = { method: 'GET', path: '/product/123' };
+        authz.resourceAccess(req).should.equal('api:product:view:123');
+
+        req = { method: 'POST', path: '/product' };
+        authz.resourceAccess(req).should.equal('api:product:create');
+
+        req = { method: 'PATCH', path: '/product/123' };
+        authz.resourceAccess(req).should.equal('api:product:change:123');
+
+        req = { method: 'DELETE', path: '/product/123' };
+        authz.resourceAccess(req).should.equal('api:product:delete:123');
+    });
+
 });
