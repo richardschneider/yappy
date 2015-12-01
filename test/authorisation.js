@@ -1,6 +1,9 @@
 'use strict';
 
-let authz = require("../lib/server/authorisation");
+require('should');
+let authz = require("../lib/server/authorisation"),
+    request = require("supertest-as-promised"),
+    server = require('../lib/server');
 
 describe('Authorisation', function () {
 
@@ -46,6 +49,16 @@ describe('Authorisation', function () {
 
         req = { method: 'DELETE', path: '/product/123' };
         authz.resourceAccess(req).should.equal('api:product:delete:123');
+    });
+
+    it('should 401 when user is not permitted and is not authenticated', done => {
+        request(server)
+            .get('/api-test/never')
+            .expect(401)
+            .expect(res => {
+                res.body.message.should.equal("You need the permission 'never-ever-view-this-info' to perform this activity");
+            })
+            .end(done);
     });
 
 });
