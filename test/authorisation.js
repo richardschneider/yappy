@@ -61,4 +61,14 @@ describe('Authorisation', function () {
             .end(done);
     });
 
+    it('should include WWW-Authenticate on 401', done => {
+        request(server)
+            .get('/api-test/never')
+            .expect(401)
+            .expect(res => {
+                res.header.should.have.property('www-authenticate');
+            })
+            .end(done);
+    });
+
 });
