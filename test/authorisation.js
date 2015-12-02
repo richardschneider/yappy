@@ -34,7 +34,7 @@ describe('Authorisation', function () {
         authz.isPermitted(user, 'api:user:delete:123').should.be.false;
     });
 
-    it('should determine if referenced resource link is viewable', () => {
+    it('should determine if a referenced resource link is viewable', () => {
         let user = { permissions: ['api:product:*'] };
         authz.isPermittedToView(user, '/api/product/123').should.be.true;
         authz.isPermittedToView(user, '/api/customer/123').should.be.false;

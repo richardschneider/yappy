@@ -1,14 +1,23 @@
 'use strict';
 
 require('should');
-var redact = require('../lib/server/redact');
+let redact = require('../lib/server/redact'),
+    authorisation = require('../lib/server/authorisation');
 
 describe ('Redact', () => {
 
     let req = {
-            method: 'PUT'
+            method: 'PUT',
+            user: {
+                email: 'valhalla@wellington.co.nz',
+                permissions: []
+            }
         },
         res = {};
+
+    before(() => {
+        authorisation(req, res);
+    });
 
     it('should not show the plain text API key when viewing the tenant', () => {
         let plain = {
@@ -126,6 +135,22 @@ describe ('Redact', () => {
         };
         let redacted = redact.document(plain_noapikey, req, res);
         redact.allowUpdate(redacted, req, res).should.equal(true);
+    });
+
+    it('should remove restricted resources', () => {
+        let searchResults = {
+            links: { },
+            data: [
+                { name: 'a', apikey: 'a', _metadata: { type: 'x', self: '/api/x/1' }},
+                { name: 'b', _metadata: { type: 'x', self: '/api/x/2' } },
+                { name: 'c', apikey: 'c', _metadata: { type: 'x', self: '/api/x/3' }}
+            ]
+        };
+        req.user.permissions.push('api:x:view:1');
+        req.user.permissions.push('api:x:view:3');
+        let redacted = redact.removeRestrictedResources(searchResults, req, res);
+        let data = redacted.data.filter(e => e); // remove undefined elements
+        data.should.have.lengthOf(2);
     });
 
 });
