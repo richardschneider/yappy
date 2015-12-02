@@ -153,4 +153,14 @@ describe ('Redact', () => {
         data.should.have.lengthOf(2);
     });
 
+    it('should not show sensitive information', () => {
+        let plain = {
+            standard: 'foo',
+            '~dob': 'my dob'
+        };
+        let redacted = redact.document(plain, req, res);
+        redacted.should.have.property('standard', 'foo');
+        redacted.should.have.property('~dob', redact.mask);
+    });
+
 });
