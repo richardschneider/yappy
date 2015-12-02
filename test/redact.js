@@ -153,14 +153,16 @@ describe ('Redact', () => {
         data.should.have.lengthOf(2);
     });
 
-    it('should not show sensitive information', () => {
+    it('should not show sensitive and secret information', () => {
         let plain = {
             standard: 'foo',
-            '~dob': 'my dob'
+            '~dob': 'my dob',
+            '!credit_card': '12-1333-558858-09'
         };
         let redacted = redact.document(plain, req, res);
         redacted.should.have.property('standard', 'foo');
         redacted.should.have.property('~dob', redact.mask);
+        redacted.should.have.property('!credit_card', redact.mask);
     });
 
 });
