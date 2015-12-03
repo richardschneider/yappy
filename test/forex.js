@@ -17,7 +17,7 @@ describe ('Forex', () => {
             })
             .end(done);
     });
-    
+
     it('should default the base currency', done => {
         request(server)
             .get('/forex')
@@ -74,5 +74,16 @@ describe ('Forex', () => {
             .expect(400)
             .end(done);
     });
-    
+
+    it('should indicate the source of the exchange rates', done => {
+        request(server)
+            .get('/forex')
+            .expect(200)
+            .expect(res => {
+                res.body.should.have.property('source');
+            })
+            .end(done);
+    });
+
+
 });
