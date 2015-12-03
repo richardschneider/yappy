@@ -137,22 +137,6 @@ describe ('Redact', () => {
         redact.allowUpdate(redacted, req, res).should.equal(true);
     });
 
-    it('should remove restricted resources', () => {
-        let searchResults = {
-            links: { },
-            data: [
-                { name: 'a', apikey: 'a', _metadata: { type: 'x', self: '/api/x/1' }},
-                { name: 'b', _metadata: { type: 'x', self: '/api/x/2' } },
-                { name: 'c', apikey: 'c', _metadata: { type: 'x', self: '/api/x/3' }}
-            ]
-        };
-        req.user.permissions.push('api:x:view:1');
-        req.user.permissions.push('api:x:view:3');
-        let redacted = redact.removeRestrictedResources(searchResults, req, res);
-        let data = redacted.data.filter(e => e); // remove undefined elements
-        data.should.have.lengthOf(2);
-    });
-
     it('should not show sensitive and secret information', () => {
         let plain = {
             standard: 'foo',
