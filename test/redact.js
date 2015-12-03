@@ -22,22 +22,22 @@ describe ('Redact', () => {
     it('should not show the plain text API key when viewing the tenant', () => {
         let plain = {
             services: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let redacted = redact.document(plain, req, res);
-        redacted.services[0].apikey.should.not.equal('a');
-        redacted.services[2].apikey.should.not.equal('c');
+        redacted.services[0]['!apikey'].should.not.equal('a');
+        redacted.services[2]['!apikey'].should.not.equal('c');
     });
 
     it('should add metadata about the change', () => {
         let plain = {
             services: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let redacted = redact.document(plain, req, res);
@@ -48,14 +48,14 @@ describe ('Redact', () => {
         let searchResults = {
             links: { },
             data: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let redacted = redact.document(searchResults, req, res);
-        redacted.data[0].apikey.should.equal(redact.mask);
-        redacted.data[2].apikey.should.equal(redact.mask);
+        redacted.data[0]['!apikey'].should.equal(redact.mask);
+        redacted.data[2]['!apikey'].should.equal(redact.mask);
         redacted.data[0].should.have.property(redact.metadataName);
         redacted.data[1].should.not.have.property(redact.metadataName);
         redacted.data[2].should.have.property(redact.metadataName);
@@ -65,9 +65,9 @@ describe ('Redact', () => {
     it('should work with array of documents', () => {
         let plain = {
             services: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let plain_noapikey = {
@@ -79,10 +79,10 @@ describe ('Redact', () => {
         };
         let plain_array = [plain, plain, plain_noapikey];
         let redacted = redact.document(plain_array, req, res);
-        redacted[0].services[0].apikey.should.equal(redact.mask);
-        redacted[0].services[2].apikey.should.equal(redact.mask);
-        redacted[1].services[0].apikey.should.equal(redact.mask);
-        redacted[1].services[2].apikey.should.equal(redact.mask);
+        redacted[0].services[0]['!apikey'].should.equal(redact.mask);
+        redacted[0].services[2]['!apikey'].should.equal(redact.mask);
+        redacted[1].services[0]['!apikey'].should.equal(redact.mask);
+        redacted[1].services[2]['!apikey'].should.equal(redact.mask);
         redacted[0].should.have.property(redact.metadataName);
         redacted[1].should.have.property(redact.metadataName);
         redacted[2].should.not.have.property(redact.metadataName);
@@ -104,9 +104,9 @@ describe ('Redact', () => {
     it('should not allow update of redacted document', () => {
         let plain = {
             services: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let redacted = redact.document(plain, req, res);
@@ -116,9 +116,9 @@ describe ('Redact', () => {
     it('should allow patching of redacted document', () => {
         let plain = {
             services: [
-                { name: 'a', apikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', apikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
         let redacted = redact.document(plain, req, res);
