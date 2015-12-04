@@ -18,7 +18,7 @@ describe('Multi-tenancy', function () {
             .expect(res => { test1Url = res.header['location']; })
             .end(done);
     });
-    
+
     after(function (done) {
         request(server)
             .delete(test1Url)
@@ -33,7 +33,7 @@ describe('Multi-tenancy', function () {
             .set('host', 'unknown.ecom.io')
             .expect(400, { message: 'Check the host name, especially unknown', details: '' }, done);
     });
-    
+
     it('should allow access when tenant is known by host name', function (done) {
         request(server)
             .get('/api/bear')
@@ -64,7 +64,7 @@ describe('Multi-tenancy', function () {
             })
             .end(done);
     });
-    
+
     it('should allow access to the tenant', function (done) {
         request(server)
             .get(test1Url)
@@ -83,10 +83,10 @@ describe('Multi-tenancy', function () {
             })
             .end(done);
     });
-    
+
     it('should make services specific to a tenant', done => {
         let req = { headers: {} },
-            res = {};
+            res = { mung: () => null };
         req.headers.host = '127.0.0.1';
         multi_tenancy(req, res, () => {
             req.should.have.property('services');
@@ -94,5 +94,18 @@ describe('Multi-tenancy', function () {
             done();
         });
     });
-    
+
+    it('should remove the tenentId from resources', function (done) {
+        request(server)
+            .get('/api/bear')
+            .expect(200)
+            .expect(res => {
+                res.body.data.length.should.be.above(0);
+                for (let r of res.body.data) {
+                    r.should.not.have.property('tenantId');
+                }
+            })
+            .end(done);
+    });
+
 });
