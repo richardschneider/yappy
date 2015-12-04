@@ -44,50 +44,6 @@ describe ('Redact', () => {
         redacted.should.have.property(redact.metadataName);
     });
 
-    it('should work with the results of a search', () => {
-        let searchResults = {
-            links: { },
-            data: [
-                { name: 'a', '!apikey': 'a'},
-                { name: 'b' },
-                { name: 'c', '!apikey': 'c'}
-            ]
-        };
-        let redacted = redact.document(searchResults, req, res);
-        redacted.data[0]['!apikey'].should.equal(redact.mask);
-        redacted.data[2]['!apikey'].should.equal(redact.mask);
-        redacted.data[0].should.have.property(redact.metadataName);
-        redacted.data[1].should.not.have.property(redact.metadataName);
-        redacted.data[2].should.have.property(redact.metadataName);
-        redacted.should.not.have.property(redact.metadataName);
-    });
-
-    it('should work with array of documents', () => {
-        let plain = {
-            services: [
-                { name: 'a', '!apikey': 'a'},
-                { name: 'b' },
-                { name: 'c', '!apikey': 'c'}
-            ]
-        };
-        let plain_noapikey = {
-            services: [
-                { name: 'a', noapikey: 'a'},
-                { name: 'b' },
-                { name: 'c', noapikey: 'c'}
-            ]
-        };
-        let plain_array = [plain, plain, plain_noapikey];
-        let redacted = redact.document(plain_array, req, res);
-        redacted[0].services[0]['!apikey'].should.equal(redact.mask);
-        redacted[0].services[2]['!apikey'].should.equal(redact.mask);
-        redacted[1].services[0]['!apikey'].should.equal(redact.mask);
-        redacted[1].services[2]['!apikey'].should.equal(redact.mask);
-        redacted[0].should.have.property(redact.metadataName);
-        redacted[1].should.have.property(redact.metadataName);
-        redacted[2].should.not.have.property(redact.metadataName);
-        redacted.should.not.have.property(redact.metadataName);
-    });
 
     it('should not add metadata when no changes are made', () => {
         let plain_noapikey = {
