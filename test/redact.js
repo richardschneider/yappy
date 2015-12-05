@@ -2,7 +2,14 @@
 
 require('should');
 let redact = require('../lib/server/redact'),
-    authorisation = require('../lib/server/authorisation');
+    authorisation = require('../lib/server/authorisation'),
+    request = require("supertest-as-promised"),
+    server = require('../lib/server');
+
+let closetTeddy = {
+    name: [ { tag: 'en', text: 'teddy bear with a secret' }],
+    '!secret': 'hates honey'
+};
 
 describe ('Redact', () => {
 
@@ -15,8 +22,18 @@ describe ('Redact', () => {
         },
         res = {};
 
-    before(() => {
+    let closetResponse;
+    before(done => {
         authorisation(req, res);
+        request(server)
+            .post('/api/bear')
+            .set('prefer', 'return=representation')
+            .send(closetTeddy)
+            .expect(201)
+            .expect(function (res) {
+                closetResponse = res;
+            })
+            .end(done);
     });
 
     it('should not show the plain text API key when viewing the tenant', () => {
@@ -104,5 +121,22 @@ describe ('Redact', () => {
         redacted.should.have.property('~dob', redact.mask);
         redacted.should.have.property('!credit_card', redact.mask);
     });
+
+    it('should hide a secret', done => {
+        closetResponse.body['!secret'].should.equal(redact.mask);
+        done();
+    });
+
+    it('should allow retrieval of a secret', done => {
+        let exposeUrl = closetResponse.body._metadata.redactions['/!secret'];
+        request(server)
+            .get(exposeUrl)
+            .expect(200)
+            .expect(function (res) {
+                res.text.should.equal(closetTeddy['!secret']);
+            })
+            .end(done);
+    });
+
 
 });

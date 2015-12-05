@@ -17,5 +17,9 @@ describe ('Security', () => {
         cipher.should.not.equal(plain);
     });
 
+    it('should not decrypt plain text', () => {
+        let plain = 'some plain text';
+        security.decrypt(plain).should.equal(plain);
+    });
 
 });
