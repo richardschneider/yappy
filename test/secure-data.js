@@ -22,4 +22,12 @@ describe ('Security', () => {
         security.decrypt(plain).should.equal(plain);
     });
 
+    it('should not re-encrypt cipher text', () => {
+        let plain = 'some plain text';
+        let cipher1 = security.encrypt(plain);
+        let cipher2 = security.encrypt(cipher1);
+        cipher1.should.not.equal(plain);
+        cipher2.should.equal(cipher1);
+    });
+
 });
