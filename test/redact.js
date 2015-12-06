@@ -114,7 +114,7 @@ describe ('Redact', () => {
         statusCode.should.equal(422);
     });
 
-    it('should encrypt classified fields on document POST', () => {
+    it('should encrypt classified fields on document POST', done => {
         let plain = {
             services: [
                 { name: 'a', '!apikey': 'a'},
@@ -126,13 +126,17 @@ describe ('Redact', () => {
         req.method = 'POST';
         req.body = plain;
         req.text = null;
-        redact(req, res, next);
-        statusCode.should.equal(200);
-        plain.services[0]['!apikey'].should.not.equal('a');
-        plain.services[2]['!apikey'].should.not.equal('c');
+        redact(req, res, next)
+            .then(() => {
+                statusCode.should.equal(200);
+                plain.services[0]['!apikey'].should.not.equal('a');
+                plain.services[2]['!apikey'].should.not.equal('c');
+                done();
+            })
+            .catch(done);
     });
 
-    it('should encrypt classified fields on document PUT', () => {
+    it('should encrypt classified fields on document PUT', done => {
         let plain = {
             services: [
                 { name: 'a', '!apikey': 'a'},
@@ -144,10 +148,14 @@ describe ('Redact', () => {
         req.method = 'PUT';
         req.body = plain;
         req.text = null;
-        redact(req, res, next);
-        statusCode.should.equal(200);
-        plain.services[0]['!apikey'].should.not.equal('a');
-        plain.services[2]['!apikey'].should.not.equal('c');
+        redact(req, res, next)
+            .then(() => {
+                statusCode.should.equal(200);
+                plain.services[0]['!apikey'].should.not.equal('a');
+                plain.services[2]['!apikey'].should.not.equal('c');
+                done();
+            })
+            .catch(done);
     });
 
     it('should encrypt classified fields on document PATCH', () => {
