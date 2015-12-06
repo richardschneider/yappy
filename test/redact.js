@@ -2,6 +2,7 @@
 
 require('should');
 let redact = require('../lib/server/redact'),
+    mung = require('../lib/server/mung'),
     authorisation = require('../lib/server/authorisation'),
     request = require("supertest-as-promised"),
     server = require('../lib/server');
@@ -13,6 +14,7 @@ let closetTeddy = {
 
 describe ('Redact', () => {
 
+    let statusCode;
     let req = {
             method: 'PUT',
             user: {
@@ -20,7 +22,14 @@ describe ('Redact', () => {
                 permissions: []
             }
         },
-        res = {};
+        res = {
+            status: status => { statusCode = status; },
+            mung: () => res,
+            send: () => res,
+            end: () => res,
+            sendError: (status, msg) => { statusCode = status; }
+        },
+        next = () => null;
 
     let closetResponse;
     before(done => {
@@ -58,11 +67,11 @@ describe ('Redact', () => {
             ]
         };
         let redacted = redact.document(plain, req, res);
-        redacted.should.have.property(redact.metadataName);
+        redacted[redact.metadataName].should.have.property('redactions');
     });
 
 
-    it('should not add metadata when no changes are made', () => {
+    it('should not add metadata.redactions when no changes are made', () => {
         let plain_noapikey = {
             services: [
                 { name: 'a', noapikey: 'a'},
@@ -71,7 +80,24 @@ describe ('Redact', () => {
             ]
         };
         let redacted = redact.document(plain_noapikey, req, res);
-        redacted.should.not.have.property(redact.metadataName);
+        redacted[redact.metadataName].should.not.have.property('redactions');
+    });
+
+    it('should allow update of a non-redacted document', () => {
+        let plain = {
+            services: [
+                { name: 'a', '!apikey': 'a'},
+                { name: 'b' },
+                { name: 'c', '!apikey': 'c'}
+            ]
+        };
+        statusCode = 200;
+        req.method = 'PUT';
+        req.body = plain;
+        req.text = null;
+        mung(req, res, next);
+        redact(req, res, next);
+        statusCode.should.equal(200);
     });
 
     it('should not allow update of redacted document', () => {
@@ -83,10 +109,16 @@ describe ('Redact', () => {
             ]
         };
         let redacted = redact.document(plain, req, res);
-        redact.allowUpdate(redacted, req, res).should.equal(false);
+        statusCode = 200;
+        req.method = 'PUT';
+        req.body = redacted;
+        req.text = null;
+        mung(req, res, next);
+        redact(req, res, next);
+        statusCode.should.equal(422);
     });
 
-    it('should allow patching of redacted document', () => {
+    it('should encrypt classified fields on document POST', () => {
         let plain = {
             services: [
                 { name: 'a', '!apikey': 'a'},
@@ -94,23 +126,53 @@ describe ('Redact', () => {
                 { name: 'c', '!apikey': 'c'}
             ]
         };
-        let redacted = redact.document(plain, req, res);
-        redact.allowUpdate(redacted, { method: 'PATCH' }, res).should.equal(true);
+        statusCode = 200;
+        req.method = 'POST';
+        req.body = plain;
+        req.text = null;
+        mung(req, res, next);
+        redact(req, res, next);
+        statusCode.should.equal(200);
+        plain.services[0]['!apikey'].should.not.equal('a');
+        plain.services[2]['!apikey'].should.not.equal('c');
     });
 
-    it('should allow update of non-redacted document', () => {
-        let plain_noapikey = {
+    it('should encrypt classified fields on document PUT', () => {
+        let plain = {
             services: [
-                { name: 'a', noapikey: 'a'},
+                { name: 'a', '!apikey': 'a'},
                 { name: 'b' },
-                { name: 'c', noapikey: 'c'}
+                { name: 'c', '!apikey': 'c'}
             ]
         };
-        let redacted = redact.document(plain_noapikey, req, res);
-        redact.allowUpdate(redacted, req, res).should.equal(true);
+        statusCode = 200;
+        req.method = 'PUT';
+        req.body = plain;
+        req.text = null;
+        mung(req, res, next);
+        redact(req, res, next);
+        statusCode.should.equal(200);
+        plain.services[0]['!apikey'].should.not.equal('a');
+        plain.services[2]['!apikey'].should.not.equal('c');
     });
 
-    it('should not show sensitive and secret information', () => {
+    it('should encrypt classified fields on document PATCH', () => {
+        let patch = [
+            { op: 'replace', path: '/services/0/!apikey', value: 'xyzzy' },
+            { op: 'replace', path: '/services/0/name', value: '!name' },
+        ];
+        statusCode = 200;
+        req.method = 'PATCH';
+        req.body = patch;
+        req.text = null;
+        mung(req, res, next);
+        redact(req, res, next);
+        statusCode.should.equal(200);
+        patch[0].value.should.not.equal('xyzzy');
+        patch[1].value.should.equal('!name');
+    });
+
+    it('should not show classified information', () => {
         let plain = {
             standard: 'foo',
             '~dob': 'my dob',
@@ -137,6 +199,5 @@ describe ('Redact', () => {
             })
             .end(done);
     });
-
 
 });

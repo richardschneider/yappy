@@ -30,4 +30,29 @@ describe ('Security', () => {
         cipher2.should.equal(cipher1);
     });
 
+    it('should distinguish plain from cipher text', () => {
+        let plain = 'some plain text';
+        security.isPlaintext(plain).should.be.true;
+        security.isCiphertext(plain).should.false;
+
+        let cipher = security.encrypt(plain);
+        security.isPlaintext(cipher).should.be.false;
+        security.isCiphertext(cipher).should.true;
+    });
+
+    it('should encrypt classified fields', () => {
+        let r = {
+            'unclassified': 'unclassified',
+            '*restricted': 'restricted',
+            '~sensitive': 'sensitive',
+            '!secret': 'secret',
+            '^top-secret': 'top-secret'
+        };
+        let cipher = security.encrypt(r);
+        cipher['*restricted'].should.equal('restricted');
+        cipher['~sensitive'].should.not.equal('sensitive');
+        cipher['!secret'].should.not.equal('secret');
+        cipher['^top-secret'].should.not.equal('top-secret');
+    });
+
 });
