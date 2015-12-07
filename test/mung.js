@@ -3,29 +3,31 @@
 require('should');
 let mung = require('../lib/server/mung');
 
-let nyi = new Error('nyi');
-
 describe('mung', function () {
 
     it('should only process a resource', done => {
-        let req = {}, res = {}, next = () => null;
-        let expected = 'not a resource';
-        res.send = actual => {
+        let req = {},
+            res = { headers: {'content-type': 'text/plain; charset="utf-8"'} },
+            next = () => null;
+        let expected = new Buffer('not a resource');
+        res.end = actual => {
             actual.should.equal(expected);
             done();
         };
         mung(req, res, next);
-        res.send(expected);
+        res.end(expected);
     });
 
     it('should send the transformed resource', done => {
-        let req = {}, res = {}, next = () => null;
-        let resource = {
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null;
+        let resource = new Buffer(JSON.stringify({
             _metadata: {
                 self: '/api/x/123',
                 type: 'x'
             }
-        };
+        }));
         let expected = {
             a: 'a',
             _metadata: {
@@ -33,20 +35,22 @@ describe('mung', function () {
                 type: 'x'
             }
         };
-        res.send = actual => {
-            actual.should.eql(expected);
+        res.end = actual => {
+            JSON.parse(actual.toString()).should.eql(expected);
             done();
         };
         mung(req, res, next);
         res.mung((r, req, res) => {
             r.a = 'a';
         });
-        res.send(resource);
+        res.end(resource);
     });
 
     it('should process a list of resources by transforming one resource at a time', done => {
-        let req = {}, res = {}, next = () => null;
-        let resources = {
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null;
+        let resources = new Buffer(JSON.stringify({
             data: [
                 {
                     _metadata: {
@@ -61,7 +65,7 @@ describe('mung', function () {
                     }
                 }
             ]
-        }
+        }));
         let expected = {
             data: [
                 {
@@ -80,20 +84,22 @@ describe('mung', function () {
                 }
             ]
         };
-        res.send = actual => {
-            actual.should.eql(expected);
+        res.end = actual => {
+            JSON.parse(actual.toString()).should.eql(expected);
             done();
         };
         mung(req, res, next);
         res.mung((r, req, res) => {
             r.a = 'a';
         });
-        res.send(resources);
+        res.end(resources);
     });
 
     it('should apply transformations in LIFO order', done => {
-        let req = {}, res = {}, next = () => null;
-        let resources = {
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null;
+        let resources = new Buffer(JSON.stringify({
             data: [
                 {
                     _metadata: {
@@ -108,7 +114,7 @@ describe('mung', function () {
                     }
                 }
             ]
-        };
+        }));
         let expected = {
             data: [
                 {
@@ -127,8 +133,8 @@ describe('mung', function () {
                 }
             ]
         };
-        res.send = actual => {
-            actual.should.eql(expected);
+        res.end = actual => {
+            JSON.parse(actual.toString()).should.eql(expected);
             done();
         };
         mung(req, res, next);
@@ -138,32 +144,34 @@ describe('mung', function () {
         res.mung((r, req, res) => {
             r.a = 'a';
         });
-        res.send(resources);
+        res.end(resources);
     });
 
     it('should send 204 No Content when the resource is removed', done => {
-        let req = {}, res = {}, next = () => null,
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null,
             statusCode = 0;
-        res.status = status => { statusCode = status; };
-        let resource = {
+        res.status = status => { statusCode = status; return res; };
+        let resource = new Buffer(JSON.stringify({
             _metadata: {
                 self: '/api/x/123',
                 type: 'x'
             }
-        };
-        res.send = actual => {
-            done(new Error('should not be called'));
-        };
+        }));
+        res.end = actual => null;
         mung(req, res, next);
         res.mung((r, req, res) => null);
-        res.send(resource);
+        res.end(resource);
         statusCode.should.equal(204);
         done();
     });
 
     it('should send empty data when all resources are removed', done => {
-        let req = {}, res = {}, next = () => null;
-        let resources = {
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null;
+        let resources = new Buffer(JSON.stringify({
             data: [
                 {
                     _metadata: {
@@ -178,35 +186,37 @@ describe('mung', function () {
                     }
                 }
             ]
-        };
+        }));
         let expected = { data: [] };
-        res.send = actual => {
-            actual.should.eql(expected);
+        res.end = actual => {
+            JSON.parse(actual.toString()).should.eql(expected);
             done();
         };
         mung(req, res, next);
         res.mung((r, req, res) => null);
-        res.send(resources);
+        res.end(resources);
     });
 
-    it('should abort when send is called', done => {
-        let req = {}, res = {}, next = () => null;
-        let resource = {
+    it('should abort when end is called', done => {
+        let req = {},
+            res = { headers: {'content-type': 'application/json; charset="utf-8"'} },
+            next = () => null;
+        let resource = new Buffer(JSON.stringify({
             _metadata: {
                 self: '/api/x/123',
                 type: 'x'
             }
-        };
-        let expected = 'some message';
-        res.send = actual => {
+        }));
+        let expected = new Buffer('some message');
+        res.end = actual => {
             actual.should.equal(expected);
             done();
         };
         mung(req, res, next);
         res.mung((r, req, res) => {
-            res.send(expected);
+            res.end(expected);
         });
-        res.send(resource);
+        res.end(resource);
     });
 
 
