@@ -29,6 +29,7 @@
     "content-type": "^1.0.1",
     "express": "^4.13.3",
     "express-authorization": "^1.0.0",
+    "express-mung": "^0.2",
     "express-prefer": "^0.1.1",
     "fast-json-patch": "^0.5.4",
     "gridfs-stream": "^1.1.1",
