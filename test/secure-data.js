@@ -7,8 +7,8 @@ describe ('Security', () => {
 
     it('should decrypt a cipher text', done => {
         let plain = 'some plain text';
-        security.encrypt(plain)
-            .then(security.decrypt)
+        security.encryptAsync(plain)
+            .then(security.decryptAsync)
             .then(plaintext => {
                 plaintext.should.equal(plain);
                 done();
@@ -18,7 +18,7 @@ describe ('Security', () => {
 
     it('should ensure cipher text is not equal to plain text', done => {
         let plain = 'some plain text';
-        security.encrypt(plain)
+        security.encryptAsync(plain)
             .then(ciphertext => {
                 ciphertext.should.not.equal(plain);
                 done();
@@ -28,7 +28,7 @@ describe ('Security', () => {
 
     it('should not decrypt plain text', done => {
         let plain = 'some plain text';
-        security.decrypt(plain)
+        security.decryptAsync(plain)
             .then(plaintext => {
                 plaintext.should.equal(plain);
                 done();
@@ -38,11 +38,11 @@ describe ('Security', () => {
 
     it('should not re-encrypt cipher text', done => {
         let plain = 'some plain text';
-        security.encrypt(plain)
-            .then(security.encrypt)
-            .then(security.encrypt)
-            .then(security.encrypt)
-            .then(security.decrypt)
+        security.encryptAsync(plain)
+            .then(security.encryptAsync)
+            .then(security.encryptAsync)
+            .then(security.encryptAsync)
+            .then(security.decryptAsync)
             .then(plaintext => {
                 plaintext.should.equal(plain);
                 done();
@@ -55,7 +55,7 @@ describe ('Security', () => {
         security.isPlaintext(plain).should.be.true;
         security.isCiphertext(plain).should.false;
 
-        security.encrypt(plain)
+        security.encryptAsync(plain)
             .then (cipher => {
                 security.isPlaintext(cipher).should.be.false;
                 security.isCiphertext(cipher).should.true;
@@ -72,7 +72,7 @@ describe ('Security', () => {
             '!secret': 'secret',
             '^top-secret': 'top-secret'
         };
-        security.encrypt(r)
+        security.encryptAsync(r)
             .then(cipher => {
                 cipher['*restricted'].should.equal('restricted');
                 cipher['~sensitive'].should.not.equal('sensitive');
