@@ -83,4 +83,39 @@ describe ('Security', () => {
             .catch(done);
     });
 
+    describe('Encrypted value', () => {
+        let cipher;
+        before(done => {
+            let plain = 'some plain text';
+            security.encryptAsync(plain)
+                .then(ciphertext => {
+                    cipher = ciphertext;
+                    console.log('encrypted value', cipher)
+                    done();
+                })
+                .catch(done);
+
+        });
+
+        it('should start with the Privacy Message \u009e', () => {
+            cipher.should.startWith('\u009e');
+        });
+
+        it('should then have the key id followed by "."', () => {
+            let parts = cipher.split('.');
+            parts.length.should.be.above(0);
+        });
+
+        it('should then have the algorithm number followed by "."', () => {
+            let parts = cipher.split('.');
+            parts.length.should.be.above(1);
+        });
+
+        it('should end with the base64 encoding of the cipher text', () => {
+            let parts = cipher.split('.');
+            parts.length.should.be.above(2);
+        });
+
+    });
+
 });
