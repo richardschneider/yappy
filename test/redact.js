@@ -2,7 +2,6 @@
 
 require('should');
 let redact = require('../lib/server/redact'),
-    mung = require('../lib/server/mung'),
     authorisation = require('../lib/server/authorisation'),
     request = require("supertest-as-promised"),
     server = require('../lib/server');
@@ -24,7 +23,6 @@ describe ('Redact', () => {
         },
         res = {
             status: status => { statusCode = status; },
-            mung: () => res,
             send: () => res,
             end: () => res,
             sendError: (status, msg) => { statusCode = status; }
@@ -95,7 +93,6 @@ describe ('Redact', () => {
         req.method = 'PUT';
         req.body = plain;
         req.text = null;
-        mung(req, res, next);
         redact(req, res, next);
         statusCode.should.equal(200);
     });
@@ -113,7 +110,6 @@ describe ('Redact', () => {
         req.method = 'PUT';
         req.body = redacted;
         req.text = null;
-        mung(req, res, next);
         redact(req, res, next);
         statusCode.should.equal(422);
     });
@@ -130,7 +126,6 @@ describe ('Redact', () => {
         req.method = 'POST';
         req.body = plain;
         req.text = null;
-        mung(req, res, next);
         redact(req, res, next);
         statusCode.should.equal(200);
         plain.services[0]['!apikey'].should.not.equal('a');
@@ -149,7 +144,6 @@ describe ('Redact', () => {
         req.method = 'PUT';
         req.body = plain;
         req.text = null;
-        mung(req, res, next);
         redact(req, res, next);
         statusCode.should.equal(200);
         plain.services[0]['!apikey'].should.not.equal('a');
@@ -165,7 +159,6 @@ describe ('Redact', () => {
         req.method = 'PATCH';
         req.body = patch;
         req.text = null;
-        mung(req, res, next);
         redact(req, res, next);
         statusCode.should.equal(200);
         patch[0].value.should.not.equal('xyzzy');
