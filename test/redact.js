@@ -127,7 +127,6 @@ describe ('Redact', () => {
         req.body = plain;
         req.text = null;
         redact(req, res, next)
-        redact(req, res, next);
             .then(() => {
                 statusCode.should.equal(200);
                 plain.services[0]['!apikey'].should.not.equal('a');
@@ -150,20 +149,16 @@ describe ('Redact', () => {
         req.body = plain;
         req.text = null;
         redact(req, res, next)
-        redact(req, res, next);
             .then(() => {
                 statusCode.should.equal(200);
                 plain.services[0]['!apikey'].should.not.equal('a');
                 plain.services[2]['!apikey'].should.not.equal('c');
-        statusCode.should.equal(200);
-        plain.services[0]['!apikey'].should.not.equal('a');
-        plain.services[2]['!apikey'].should.not.equal('c');
                 done();
             })
             .catch(done);
     });
 
-    it('should encrypt classified fields on document PATCH', () => {
+    it('should encrypt classified fields on document PATCH', done => {
         let patch = [
             { op: 'replace', path: '/services/0/!apikey', value: 'xyzzy' },
             { op: 'replace', path: '/services/0/name', value: '!name' },
@@ -172,10 +167,14 @@ describe ('Redact', () => {
         req.method = 'PATCH';
         req.body = patch;
         req.text = null;
-        redact(req, res, next);
-        statusCode.should.equal(200);
-        patch[0].value.should.not.equal('xyzzy');
-        patch[1].value.should.equal('!name');
+        redact(req, res, next)
+            .then(() => {
+                statusCode.should.equal(200);
+                patch[0].value.should.not.equal('xyzzy');
+                patch[1].value.should.equal('!name');
+                done();
+            })
+            .catch(done);
     });
 
     it('should not show classified information', () => {
