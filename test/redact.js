@@ -127,6 +127,7 @@ describe ('Redact', () => {
         req.body = plain;
         req.text = null;
         redact(req, res, next)
+        redact(req, res, next);
             .then(() => {
                 statusCode.should.equal(200);
                 plain.services[0]['!apikey'].should.not.equal('a');
@@ -149,10 +150,14 @@ describe ('Redact', () => {
         req.body = plain;
         req.text = null;
         redact(req, res, next)
+        redact(req, res, next);
             .then(() => {
                 statusCode.should.equal(200);
                 plain.services[0]['!apikey'].should.not.equal('a');
                 plain.services[2]['!apikey'].should.not.equal('c');
+        statusCode.should.equal(200);
+        plain.services[0]['!apikey'].should.not.equal('a');
+        plain.services[2]['!apikey'].should.not.equal('c');
                 done();
             })
             .catch(done);
