@@ -83,14 +83,60 @@ describe ('Security', () => {
             .catch(done);
     });
 
+    it('should allow equal searching on sensitive data', done => {
+        let r = {
+            '~1': 'sensitive',
+            '~2': 'sensitive',
+            '~3': 'very sensitive',
+        };
+        security.encryptAsync(r)
+            .then(cipher => {
+                cipher['~1'].should.equal(cipher['~2']);
+                cipher['~1'].should.not.equal(cipher['~3']);
+                done();
+            })
+            .catch(done);
+    });
+
+    it('should not allow equal searching on sensitive data', done => {
+        let r = {
+            '!1': 'secret',
+            '!2': 'secret',
+            '!3': 'very secret',
+        };
+        security.encryptAsync(r)
+            .then(cipher => {
+                cipher['!1'].should.not.equal(cipher['!2']);
+                cipher['!1'].should.not.equal(cipher['!3']);
+                done();
+            })
+            .catch(done);
+    });
+
+    it('should determine the security level from a field name', () => {
+        security.securityLevelOf('foobar').should.equal('unclassified');
+        security.securityLevelOf('*foobar').should.equal('restricted');
+        security.securityLevelOf('~foobar').should.equal('sensitive');
+        security.securityLevelOf('!foobar').should.equal('secret');
+        security.securityLevelOf('^foobar').should.equal('top-secret');
+    });
+
+    it('should determine the security level from a JSON pointer', () => {
+        security.securityLevelOf('/a/foobar').should.equal('unclassified');
+        security.securityLevelOf('/a/*foobar').should.equal('restricted');
+        security.securityLevelOf('/a/~0foobar').should.equal('sensitive');
+        security.securityLevelOf('/a/!foobar').should.equal('secret');
+        security.securityLevelOf('/a/^foobar').should.equal('top-secret');
+    });
+
     describe('Encrypted value', () => {
         let cipher;
         before(done => {
             let plain = 'some plain text';
             security.encryptAsync(plain)
                 .then(ciphertext => {
+                    console.log(ciphertext)
                     cipher = ciphertext;
-                    console.log('encrypted value', cipher)
                     done();
                 })
                 .catch(done);
