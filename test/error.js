@@ -52,7 +52,7 @@ describe('Error', () => {
 
     it('should be translated per Accept-Language', done => {
         err.headers.should.have.property('content-language', 'fr');
-        err.body.message.should.endWith('trouvé');
+        err.body.message.should.endWith('trouvée');
         done();
     });
 
@@ -63,7 +63,7 @@ describe('Error', () => {
             .expect(404)
             .expect(err => {
                 err.headers.should.have.property('content-language', 'fr');
-                err.body.message.should.endWith('trouvé');
+                err.body.message.should.endWith('trouvée');
             })
             .end(done);
     });
@@ -75,7 +75,7 @@ describe('Error', () => {
             .expect(404)
             .expect(err => {
                 err.headers.should.have.property('content-language', 'fr');
-                err.body.message.should.endWith('trouvé');
+                err.body.message.should.endWith('trouvée');
             })
             .end(done);
     });

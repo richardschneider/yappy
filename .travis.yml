@@ -1,19 +1,24 @@
 language: node_js
 env: CI=true
 node_js:
-  - stable
+- stable
 services:
-  - mongodb
+- mongodb
 before_script:
-  - mongod --version
-  - mongo <drop-db
-  - export NODE_ENV=CI
-  - ./bin/upgrade-model
-  - npm install -g gulp
-  - npm install -g sally-js
-  - mkdir logs
+- mongod --version
+- mongo <drop-db
+- export NODE_ENV=CI
+- "./bin/upgrade-model"
+- npm install -g gulp
+- npm install -g sally-js
+- mkdir logs
 script:
-  - gulp
-  - sally verify logs/*.sal
-  - pkg=$(npm pack)
-  - npm install -g --quiet $pkg
+- gulp
+- sally verify logs/*.sal
+- pkg=$(npm pack)
+- npm install -g --quiet $pkg
+before_install:
+- mkdir ~/.stormpath
+- openssl aes-256-cbc -K $encrypted_26b4962af0e7_key -iv $encrypted_26b4962af0e7_iv
+  -in stormpath.properties.enc -out ~/.stormpath/apiKey.properties -d
+- chmod go-rwx ~/.stormpath/apiKey.properties
