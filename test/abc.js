@@ -6,17 +6,6 @@ let request = require("./my-supertest"),
 
 describe('ABC authentication', function () {
 
-    it('should allow anonymous access', function (done) {
-        request(server)
-            .get('/api/whoami')
-            .set('Authorization', 'None x')
-            .expect(200)
-            .expect(res => {
-                res.body.email.should.startWith('anonymous');
-            })
-            .end(done);
-    });
-
     it('should allow Basic auth', function (done) {
         request(server)
             .get('/api/whoami')
