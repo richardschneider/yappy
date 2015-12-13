@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var request = require("supertest-as-promised");
+var request = require("./my-supertest");
 var server = require('../lib/server');
 
 describe ('Yandex translator', () => {

@@ -2,7 +2,7 @@
 
 require('should');
 let authz = require("../lib/server/authorisation"),
-    request = require("supertest-as-promised"),
+    request = require("./my-supertest"),
     server = require('../lib/server');
 
 describe('Authorisation', function () {
@@ -57,19 +57,28 @@ describe('Authorisation', function () {
         authz.resourceAccess(req).should.equal('api:product:delete:123');
     });
 
-    it('should 401 when user is not permitted and is not authenticated', done => {
+    it('should 403 when user is not permitted and is authenticated', done => {
         request(server)
             .get('/api-test/never')
-            .expect(401)
+            .expect(403)
             .expect(res => {
                 res.body.message.should.equal("You need the permission 'never-ever-view-this-info' to perform this activity");
             })
             .end(done);
     });
 
+    it('should 401 when user is not permitted and is not authenticated', done => {
+        request(server)
+            .get('/api-test/never')
+            .set('Authorization', 'None x')
+            .expect(401)
+            .end(done);
+    });
+
     it('should include WWW-Authenticate on 401', done => {
         request(server)
             .get('/api-test/never')
+            .set('Authorization', 'None x')
             .expect(401)
             .expect(res => {
                 res.header.should.have.property('www-authenticate');

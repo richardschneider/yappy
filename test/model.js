@@ -1,12 +1,12 @@
 'use strict';
 
 // import the moongoose helper utilities
-var request = require('supertest');
+var request = require('./my-supertest');
 var should = require('should');
 var server = require('../lib/server');
 
 describe('Data model', function () {
- 
+
     it('should validate the model name', function (done) {
         request(server)
             .get('/api/unknown')
@@ -27,7 +27,7 @@ describe('Data model', function () {
             .end(done);
     });
 
-    
+
     it('should return 422, message and details when entity is invalid', function (done) {
         var bad = {
             name: [
@@ -44,9 +44,9 @@ describe('Data model', function () {
                 res.body.should.have.property('message');
                 res.body.should.have.property('details');
             })
-            .end(done);            
+            .end(done);
     });
-    
+
     it('should not expose the tenant id', function (done) {
         request(server)
             .get('/api/bear')
@@ -56,5 +56,5 @@ describe('Data model', function () {
             })
             .end(done);
     });
-    
+
 });

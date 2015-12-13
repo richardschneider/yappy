@@ -1,7 +1,7 @@
 'use strict';
 
 require('should');
-let request = require("supertest-as-promised"),
+let request = require("./my-supertest"),
     server = require('../lib/server');
 
 describe('?only', function () {

@@ -3,7 +3,7 @@
 require('should');
 let redact = require('../lib/server/redact'),
     authorisation = require('../lib/server/authorisation'),
-    request = require("supertest-as-promised"),
+    request = require("./my-supertest"),
     server = require('../lib/server');
 
 let closetTeddy = {

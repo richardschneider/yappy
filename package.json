@@ -63,6 +63,7 @@
     "gulp-spawn-mocha": "^2.2.1",
     "gulp-util": "^3.0.1",
     "jshint-stylish": "^0.4.0",
+    "methods": "^1.1.1",
     "mocha": "*",
     "should": "^4.0.4",
     "supertest": "^1.1.0",

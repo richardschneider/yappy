@@ -1,6 +1,6 @@
 'use strict';
 
-var request = require("supertest-as-promised");
+var request = require("./my-supertest");
 var server = require('../lib/server');
 
 describe('API server', function () {

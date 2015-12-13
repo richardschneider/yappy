@@ -1,6 +1,6 @@
 'use strict';
 
-var request = require("supertest-as-promised");
+var request = require("./my-supertest");
 var should = require('should');
 var server = require('../lib/server');
 var peers = require('../lib/pubsub');

@@ -1,7 +1,7 @@
 'use strict';
 
 require('should');
-var request = require("supertest-as-promised");
+var request = require("./my-supertest");
 var extend = require('util')._extend;
 var server = require('../lib/server');
 
