@@ -4,9 +4,21 @@ require('should');
 let request = require("./my-supertest"),
     server = require('../lib/server'),
     user_schema = require('../lib/model/resource/user').schema,
-    role_schema = require('../lib/model/resource/role').schema;
+    role_schema = require('../lib/model/resource/role').schema,
+    User = require('../lib/stormpath/user');
 
 describe('Stormpath', () => {
+
+    it('should authenticate acccounts', done => {
+        User.authenticate('storm', '1Password!')
+            .then(() => done())
+    });
+
+    it('should not authenticate bad acccounts', done => {
+        User.authenticate('storm', 'xxxxxxx')
+            .then(() => done(new Error('should not happen')))
+            .catch(() => done());
+    });
 
     it('should list users', done => {
         request(server)
