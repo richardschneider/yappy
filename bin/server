@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /*
- * e-Commerce server
- * https://github.com/richardschneider/ecom
+ * Yet another REST API howling at the moon
+ * https://github.com/richardschneider/yappy
  *
  * Copyright (c) 2015 Richard Schneider
  * Licensed under the MIT license.
@@ -24,6 +24,6 @@ server.listen(port, function () {
     console.log('startup time ', ((now() - start) / 1000).toFixed(3) + 's'); 
 
     var env = config.util.getEnv('NODE_ENV');
-    console.log('e-Commerce server v%s [%s] @ %s:%d/api', version, env, ip, port);
-    sally.log('e-Commerce server started');
+    console.log('yappy server v%s [%s] @ %s:%d/api', version, env, ip, port);
+    sally.log('yappy server started');
 });
