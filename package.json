@@ -19,7 +19,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "JSONPath": "https://github.com/richardschneider/JSONPath/tarball/hasOwnProperty",
+    "jsonpath-plus": "https://github.com/richardschneider/JSONPath/tarball/master",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "cache-control": "^1.0.3",
