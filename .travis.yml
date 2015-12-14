@@ -6,7 +6,6 @@ services:
 - mongodb
 before_script:
 - mongod --version
-- mongo <drop-db
 - export NODE_ENV=CI
 - "./bin/upgrade-model"
 - npm install -g gulp
