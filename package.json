@@ -7,11 +7,11 @@
   },
   "version": "0.0.42",
   "license": "MIT",
-  "homepage": "https://richardschneider.github/ecom",
-  "bugs": "https://github.com/richardschneider/ecom/issues",
+  "homepage": "https://richardschneider.github/yappy",
+  "bugs": "https://github.com/richardschneider/yappy/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/richardschneider/ecom"
+    "url": "git://github.com/richardschneider/yappy"
   },
   "main": "./lib",
   "scripts": {
