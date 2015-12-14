@@ -1,4 +1,3 @@
-# ecom [![Build Status](https://travis-ci.org/richardschneider/ecom.svg)](https://travis-ci.org/richardschneider/ecom)
+# yappy [![Build Status](https://travis-ci.org/richardschneider/ecom.svg)](https://travis-ci.org/richardschneider/ecom)
 
-Sample e-commerce API.  Designing the data model, API and web site.
-
+Yet another REST API server. Yappy is about howling at the moon.

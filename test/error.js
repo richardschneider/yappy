@@ -84,18 +84,18 @@ describe('Error', () => {
 
 describe('500 Server Error', () => {
     before (done => {
-        peers.subscribe('/ecom/error/*');
+        peers.subscribe('/yappy/error/*');
         done();
     });
 
     after (done => {
-        peers.unsubscribe('/ecom/error/*');
+        peers.unsubscribe('/yappy/error/*');
         done();
     });
 
-    it('should be published as /ecom/error/server', done => {
+    it('should be published as /yappy/error/server', done => {
         peers.once('message', function onMessage(topic, msg) {
-            topic.should.equal('/ecom/error/server');
+            topic.should.equal('/yappy/error/server');
             msg.should.have.property('message', 'bad');
             done();
         });

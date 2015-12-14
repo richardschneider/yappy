@@ -32,20 +32,20 @@ var teddy = {
 
 describe ('CRUD', () => {
     before (done => {
-        peers.subscribe('/ecom/api/*');
+        peers.subscribe('/yappy/api/*');
         done();
     });
 
     after (done => {
-        peers.subscribe('/ecom/api/*');
+        peers.subscribe('/yappy/api/*');
         done();
     });
 
-    it('should publish /ecom/api/create on POST', done => {
+    it('should publish /yappy/api/create on POST', done => {
         let topics = [
-            '/ecom/api/create/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/delete/bear'];
+            '/yappy/api/create/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/delete/bear'];
         peers.on('message', function onMessage(topic, id) {
             topic.should.equal(topics.shift());
             if (topics.length == 0) {
@@ -58,12 +58,12 @@ describe ('CRUD', () => {
             .then(url => request(server).delete(url).expect(204));
     });
 
-    it('should publish /ecom/api/change on PUT', done => {
+    it('should publish /yappy/api/change on PUT', done => {
         let topics = [
-            '/ecom/api/create/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/delete/bear'];
+            '/yappy/api/create/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/delete/bear'];
         peers.on('message', function onMessage(topic, id) {
             topic.should.equal(topics.shift());
             if (topics.length == 0) {
@@ -77,15 +77,15 @@ describe ('CRUD', () => {
             .then(url => request(server).delete(url).expect(204));
     });
 
-    it('should publish /ecom/api/change on PATCH', done => {
+    it('should publish /yappy/api/change on PATCH', done => {
         let patch = [
             { op: 'replace', path: '/name/0/text', value: 'yogi (1)' }
         ];
         let topics = [
-            '/ecom/api/create/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/delete/bear'];
+            '/yappy/api/create/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/delete/bear'];
         peers.on('message', function onMessage(topic, id) {
             topic.should.equal(topics.shift());
             if (topics.length == 0) {
@@ -99,11 +99,11 @@ describe ('CRUD', () => {
             .then(url => request(server).delete(url).expect(204));
     });
 
-    it('should publish /ecom/api/change and delete on DELETE', done => {
+    it('should publish /yappy/api/change and delete on DELETE', done => {
         let topics = [
-            '/ecom/api/create/bear',
-            '/ecom/api/change/bear',
-            '/ecom/api/delete/bear'];
+            '/yappy/api/create/bear',
+            '/yappy/api/change/bear',
+            '/yappy/api/delete/bear'];
         peers.on('message', function onMessage(topic, id) {
             topic.should.equal(topics.shift());
             if (topics.length == 0) {

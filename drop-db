@@ -1,5 +1,5 @@
 db.adminCommand('listDatabases')
-use ecom
+use yappy
 db.dropDatabase()
 use test
 db.dropDatabase()

@@ -23,12 +23,12 @@ describe('Service data type', function () {
 
 describe('Service locator', function () {
     before (done => {
-        peers.subscribe('/ecom/error/*');
+        peers.subscribe('/yappy/error/*');
         done();
     });
 
     after (done => {
-        peers.unsubscribe('/ecom/error/*');
+        peers.unsubscribe('/yappy/error/*');
         done();
     });
 
@@ -251,8 +251,8 @@ describe('Service locator', function () {
             .catch(done);
     });
 
-    it('should publish service failure as /ecom/error/service-name', done => {
-        let topics = [ '/ecom/error/nyi' ];
+    it('should publish service failure as /yappy/error/service-name', done => {
+        let topics = [ '/yappy/error/nyi' ];
         peers.on('message', function onMessage(topic, id) {
             topic.should.equal(topics.shift());
             if (topics.length == 0) {

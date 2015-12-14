@@ -1,6 +1,6 @@
 {
-  "name": "ecom",
-  "description": "An e-commerce API.",
+  "name": "yappy",
+  "description": "Yet another REST API server howling at the moon",
   "author": {
     "name": "Richard Schneider",
     "email": "makaretu@gmail.com"
