@@ -6,19 +6,19 @@
         "application/x.mongo-patch+json"
     ],
     "standardDB": {
-        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "url": "mongodb://demo:demo@ds027295.mongolab.com:27295/yappy",
         "options": {
             "native_parser": true
         }
     },
     "mediaDB": {
-        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "url": "mongodb://demo:demo@ds027295.mongolab.com:27295/yappy",
         "options": {
             "native_parser": true
         }
     },
     "sensitiveDB": {
-        "url": "mongodb://demo:demo@ds051838.mongolab.com:51838/ecom",
+        "url": "mongodb://demo:xyzzy@ds027835.mongolab.com:27835/yappy-s",
         "options": {
             "native_parser": true
         }
