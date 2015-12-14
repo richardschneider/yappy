@@ -1,6 +1,6 @@
 {
   "name": "yappy",
-  "description": "Yet another REST API server howling at the moon",
+  "description": "Yet another REST API server howling at the moon with JSON",
   "author": {
     "name": "Richard Schneider",
     "email": "makaretu@gmail.com"
