@@ -18,7 +18,7 @@ describe('Search', function () {
     function createTeddy() {
         return request(server)
             .post('/api/bear')
-            .set('host', 'search-3.ecom.io')
+            .set('host', 'search-3.yappy.io')
             .send(teddy)
             .expect(201)
             .expect(function (res) {
@@ -28,7 +28,7 @@ describe('Search', function () {
     function deleteTeddy(url) {
         return request(server)
             .delete(url)
-            .set('host', 'search-3.ecom.io')
+            .set('host', 'search-3.yappy.io')
             .expect(204);
     }
 
@@ -72,7 +72,7 @@ describe('Search', function () {
     it('should return links and data', done => {
         request(server)
             .get('/api/bear?n=1')
-            .set('host', 'search-3.ecom.io')
+            .set('host', 'search-3.yappy.io')
             .expect(200)
             .expect(res => {
                 res.body.should.have.property('links');
@@ -88,7 +88,7 @@ describe('Search', function () {
         it('should limit the number of results with query param `?n`', done => {
             request(server)
                 .get('/api/bear?n=2')
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .expect(res => {
                     res.body.data.should.have.lengthOf(2);
@@ -99,7 +99,7 @@ describe('Search', function () {
         it('should have a tenant specific upper limit for the number of results', done => {
             request(server)
                 .get('/api/bear')
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .expect(res => {
                     res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources);
@@ -110,7 +110,7 @@ describe('Search', function () {
         it('should enforce the tenant specific upper limit for the number of results', done => {
             request(server)
                 .get('/api/bear?n=' + (tenant.httpResponse.maxResources + 10))
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .expect(res => {
                     res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources);
@@ -121,7 +121,7 @@ describe('Search', function () {
         it('should allow offset into results with query param `?o`', done => {
             request(server)
                 .get('/api/bear?o=0&n=2')
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .then(res => {
                     res.body.data.should.have.lengthOf(2);
@@ -130,7 +130,7 @@ describe('Search', function () {
                 .then(teddies => {
                     request(server)
                         .get('/api/bear?o=1&n=1')
-                        .set('host', 'search-3.ecom.io')
+                        .set('host', 'search-3.yappy.io')
                         .expect(200)
                         .then(res => {
                             res.body.data.should.have.lengthOf(1);
@@ -144,7 +144,7 @@ describe('Search', function () {
         it('should set `first`, `next` and `prev` links', done => {
             request(server)
                 .get('/api/bear?o=0&n=2')
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .then(res => {
                     res.body.data.should.have.lengthOf(2);
@@ -156,7 +156,7 @@ describe('Search', function () {
                 .then(result => {
                     request(server)
                         .get(result.links.next)
-                        .set('host', 'search-3.ecom.io')
+                        .set('host', 'search-3.yappy.io')
                         .expect(200)
                         .then(res => {
                             res.body.data.should.have.lengthOf(2);
@@ -176,14 +176,14 @@ describe('Search', function () {
         it('should order by ascending or descending', done => {
             request(server)
                 .get('/api/bear?n=2&sort=modifiedOn')
-                .set('host', 'search-3.ecom.io')
+                .set('host', 'search-3.yappy.io')
                 .expect(200)
                 .then(res => {
                     res.body.data.should.have.lengthOf(2);
                     let first = res.body.data[0]._metadata.self;
                     request(server)
                         .get('/api/bear?n=2&sort=-modifiedOn')
-                        .set('host', 'search-3.ecom.io')
+                        .set('host', 'search-3.yappy.io')
                         .expect(200)
                         .then(res => {
                             res.body.data.should.have.lengthOf(2);

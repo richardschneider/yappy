@@ -35,7 +35,7 @@ describe('Error', () => {
     after(done => {
         request(server)
             .delete(domainUrl)
-            .set('host', 'fr-only.ecom.io')
+            .set('host', 'fr-only.yappy.io')
             .expect(204)
             .end(done);
     });
@@ -59,7 +59,7 @@ describe('Error', () => {
     it('should only use the language(s) of the tenant', done => {
         request(server)
             .get('/api/bear/unknown')
-            .set('host', 'fr-only.ecom.io')
+            .set('host', 'fr-only.yappy.io')
             .expect(404)
             .expect(err => {
                 err.headers.should.have.property('content-language', 'fr');
