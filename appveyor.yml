@@ -27,6 +27,8 @@ install:
   # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
+  # upgrade the database
+  - node bin\upgrade-model
 
 # Post-install test scripts.
 test_script:
