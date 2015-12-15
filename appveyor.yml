@@ -21,7 +21,7 @@ install:
   - ps: gitversion /output buildserver >gitversion.log
   # stormpath authentication secret
   - nuget install secure-file -ExcludeVersion
-  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret %StormPathSecret% -out %USERPROFILE%/.stormpath/apikey.properties  
+  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret "%StormPathSecret%" -out %USERPROFILE%/.stormpath/apikey.properties  
 
 # Post-install test scripts.
 test_script:
