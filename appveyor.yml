@@ -1,14 +1,26 @@
 # gitversion will change the version number
 version: x-{build}
 
+# Test against this version of Node.js
+environment:
+  nodejs_version: "5.2"
+
 # Install scripts. (runs after repo cloning)
 install:
   - choco install gitversion.portable -pre -y
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+  # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
 
+
 # Post-install test scripts.
 test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
   - npm test
 
 # Don't actually build.
