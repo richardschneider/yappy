@@ -1,6 +1,8 @@
 # gitversion will change the version number
 version: x-{build}
 
+clone_folder: c:\projects\yappy
+
 # Test against this version of Node.js
 environment:
   nodejs_version: "5.2"
