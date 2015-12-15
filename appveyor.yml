@@ -17,7 +17,7 @@ install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   # stormpath authentication secret
-  - mkdir %USERPROFILE%/.stormpath
+  - mkdir %USERPROFILE%\.stormpath
   - nuget install secure-file -ExcludeVersion
   - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret "%StormPathSecret%" -out %USERPROFILE%/.stormpath/apikey.properties  
   # install modules
