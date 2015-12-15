@@ -4,6 +4,8 @@ version: x-{build}
 # Test against this version of Node.js
 environment:
   nodejs_version: "5.2"
+  SallySecret:
+    secure: 8GMDWpnDMeLsTQAwH2rocg==
 
 # Install scripts. (runs after repo cloning)
 install:
