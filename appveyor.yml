@@ -10,7 +10,7 @@ environment:
     secure: 8GMDWpnDMeLsTQAwH2rocg==
   StormPathSecret:
     secure: B/Rx2i5D/VwgGh3A0kyfSNolRcnD+NU3n0SOIBVCbRQ=
-	
+
 # Install scripts. (runs after repo cloning)
 install:
   - choco install gitversion.portable -pre -y
