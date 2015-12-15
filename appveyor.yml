@@ -27,14 +27,14 @@ install:
   # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
-  # upgrade the database
-  - node bin\upgrade-model
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
+  # upgrade the database
+  - node bin\upgrade-model
   # run tests
   - mkdir logs
   - npm test
