@@ -8,7 +8,9 @@ environment:
   nodejs_version: "5.2"
   SallySecret:
     secure: 8GMDWpnDMeLsTQAwH2rocg==
-
+  StormPathSecret:
+    secure: B/Rx2i5D/VwgGh3A0kyfSNolRcnD+NU3n0SOIBVCbRQ=
+	
 # Install scripts. (runs after repo cloning)
 install:
   - choco install gitversion.portable -pre -y
@@ -17,8 +19,9 @@ install:
   # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
-  - mkdir logs
-
+  # stormpath authentication secret
+  - nuget install secure-file -ExcludeVersion
+  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret %StormPathSecret% -out %USERPROFILE%/.stormpath/apikey.properties  
 
 # Post-install test scripts.
 test_script:
@@ -26,6 +29,7 @@ test_script:
   - node --version
   - npm --version
   # run tests
+  - mkdir logs
   - npm test
 
 # Don't actually build.
