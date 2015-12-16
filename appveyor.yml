@@ -3,29 +3,42 @@ version: x-{build}
 
 clone_folder: c:\projects\yappy
 
+services:
+  - mongodb
+
 # Test against this version of Node.js
 environment:
   nodejs_version: "5.2"
+  NODE_ENV: CI
+  CurrencyLayerKey:
+    secure: sv2yXw6Fip8E0hWm9biXFvIWNcTik0erH+WQ60L6zfrdE/MrJm4gikZCpMcaadIY
   SallySecret:
     secure: 8GMDWpnDMeLsTQAwH2rocg==
+  StormPathSecret:
+    secure: B/Rx2i5D/VwgGh3A0kyfSNolRcnD+NU3n0SOIBVCbRQ=
 
 # Install scripts. (runs after repo cloning)
 install:
   - choco install gitversion.portable -pre -y
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
+  # stormpath authentication secret
+  - mkdir %USERPROFILE%\.stormpath
+  - nuget install secure-file -ExcludeVersion
+  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret "%StormPathSecret%" -out %USERPROFILE%/.stormpath/apikey.properties  
   # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
-  - mkdir logs
-
 
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
+  # upgrade the database
+  - node bin\upgrade-model
   # run tests
+  - mkdir logs
   - npm test
 
 # Don't actually build.
