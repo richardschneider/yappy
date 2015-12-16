@@ -108,4 +108,32 @@ describe('Multi-tenancy', function () {
             .end(done);
     });
 
+    it('should allow returning of the created tenant, issue #101', done => {
+        request(server)
+            .post('/api/tenant')
+            .set('prefer', 'return=representation')
+            .send({
+                name: [{tag: 'en', text: 'me'}],
+                domain: 'issue-101',
+                httpResponse: {
+                    validateResponse: true,
+                    validateResource: true,
+                    maxResources: 3,
+                    maxIncludedResourcesPerResource: 3
+                }
+            })
+            .expect(201)
+            .then(res => {
+                res.body.should.have.property('domain', 'issue-101');
+                let url = res.header['location'];
+                request(server)
+                    .delete(url)
+                    .set('host', 'issue-101.yappy.io')
+                    .expect(204)
+                    .end(done);
+            })
+            .catch(done);
+
+    });
+
 });
