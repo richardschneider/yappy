@@ -1,4 +1,4 @@
-# yappy [![Build Status](https://travis-ci.org/richardschneider/yappy.svg)](https://travis-ci.org/richardschneider/yappy)
+# yappy [![Travis build status](https://travis-ci.org/richardschneider/yappy.svg)](https://travis-ci.org/richardschneider/yappy) [![Appveyor build status](https://ci.appveyor.com/api/projects/status/af2mlh70o5bq5g9r?svg=true)](https://ci.appveyor.com/project/richardschneider/ecom)
 
 Yet another REST API server. Yappy is about howling at the moon with JSON.
 
