@@ -25,7 +25,7 @@ install:
   # stormpath authentication secret
   - mkdir %USERPROFILE%\.stormpath
   - nuget install secure-file -ExcludeVersion
-  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret "%StormPathSecret%" -out %USERPROFILE%/.stormpath/apikey.properties  
+  - secure-file\tools\secure-file -decrypt .\config\CI\stormpath.properties.appveyor.enc -secret "%StormPathSecret%" -out %USERPROFILE%/.stormpath/apikey.properties
   # install modules
   - npm install
   - ps: gitversion /output buildserver >gitversion.log
@@ -35,10 +35,12 @@ test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
+  - mkdir logs
+  # give mongodb time to startup
+  - ping 127.0.0.1 -n 5 > nul
   # upgrade the database
   - node bin\upgrade-model
   # run tests
-  - mkdir logs
   - npm test
 
 # Don't actually build.
