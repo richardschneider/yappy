@@ -54,6 +54,19 @@ describe('Service locator', function () {
             return Promise.resolve(options.url);
         }
     };
+    let opts1 = {
+        name: [{tag: 'en', text: 'my translator'}],
+        use: 'translation',
+        enabled: true,
+        home: 'http://wikipedia',
+        options: {
+            url: 'nowhere'
+        },
+        moduleName: "opts1",
+        api: (arg, options) => {
+            return Promise.resolve(options);
+        }
+    };
     let multiArg = {
         name: [{tag: 'en', text: 'my translator'}],
         use: 'translation',
@@ -266,6 +279,18 @@ describe('Service locator', function () {
                 done('should not happen');
             })
             .catch(e => null);
+    });
+
+    it('should add the service name as metadata when an object is returned', done => {
+        locator.allServices = [];
+        locator
+            .run([opts1], 'hello world')
+            .then(result => {
+                result.should.have.property('_metadata');
+                result._metadata.should.have.property('service', 'opts1');
+                done();
+            })
+            .catch(done);
     });
 
 
