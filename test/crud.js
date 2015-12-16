@@ -337,6 +337,23 @@ describe('Resource CRUD', function () {
                 .end(done);
         });
 
+        it('should 422 with bad array index, issue #88', done => {
+            let patch = [
+                { "op": "replace", "path": "/name/0/text", value: "yogi (1)" },
+                { "op": "replace", "path": "/name/20/text", "value": "yogi (1)" }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(422)
+                .expect(res => {
+                    res.body.details.should.have.property('name', 'OPERATION_PATH_UNRESOLVABLE');
+                    res.body.should.not.have.property('_metadata');
+                })
+                .end(done);
+        });
+
         it('should return Last-Modified header', done => {
             let patch = [
                 { op: 'replace', path: '/name/0/text', value: 'yogi (2)' }
