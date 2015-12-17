@@ -1,0 +1,4 @@
+site_name: yappy
+site_author: Richard Schneider <makaretu@gmail.com>
+markdown_extensions:
+  - admonition
