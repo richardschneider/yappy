@@ -17,4 +17,16 @@ describe('ABC authentication', function () {
             .end(done);
     });
 
+    it('should return user details', function (done) {
+        request(server)
+            .get('/api/whoami')
+            .auth('alice', 'xyzzy')
+            .expect(200)
+            .expect(res => {
+                res.body.homepage.should.equal('https://www.youtube.com/watch?v=aEj-mrwwaxo');
+            })
+            .end(done);
+    });
+
+
 });
