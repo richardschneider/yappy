@@ -10,7 +10,7 @@ The supported activities are `create`, `view`, `change`, `delete` and `find`.
 
 ## Classified information
 
-Classified information is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  This information is assigned one the following security levels
+[Classified information](Classified-infomation.md) is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  This information is assigned one the following security levels
 
 - `unclassified` WYSIWYG (what you see is what you get) and is searchable
 - `restricted` redacted but stored as plain text so is searchable
@@ -24,13 +24,14 @@ The supported activity is `view`.
 
 ## Service
 
-A service is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups
+A [service](Services.md) is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups
 - `fxrates` foreign currency exchange rates
+-
 - `translation` translation from one language to another
 - `authentication` authenticate a user
 
 The permission to use a service is composed of the service group and service name; such as `service:fxrates:use:yahooXchange`.
- 
+
 This is only one activity `use`.
 
 ## Misc

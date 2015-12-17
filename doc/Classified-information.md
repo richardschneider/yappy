@@ -9,7 +9,7 @@ Classified information is data that is claimed to be sensitive information that 
 By convention, `classified` (anything above `unclassified`) information has a property name starting with one of the following special symbols
 
 prefix | level
-------- | -----
+------ | -----
 `*` | `restricted`
 `~` | `sensitive`
 `!` | `secret`
@@ -19,7 +19,25 @@ prefix | level
 
 `classified` information is encrypted at the application layer.  This prevents exposing the information in backups or by sysadmins using database inspection tools.  The [AES-256-GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode) algorithm is used; it is an authenticated encryption algorithm designed to provide both data authenticity (integrity) and confidentiality.
 
-Encrypted data contains a *key id* and *algorithm id*, which allows for key rotation/retirement and algorithm upgrades. 
+Encrypted data contains a *key id* and *algorithm id*, which allows for key rotation/retirement and algorithm upgrades. The first character is always `U+009E` Privacy Message, which indicates that the value is encrypted.
+
+````json
+{
+        "_id" : ObjectId("567126004e939f8926fd9d75"),
+        "likes" : [
+                "honey"
+        ],
+        "!secret" : "42.1.bvBOzgHjmrZePEa+.Y9/AE7pxAZfjxluAQ9A4QQ==.+oE/fUnMCw3W44I=",
+        "name" : [
+                {
+                        "tag" : "en",
+                        "text" : "teddy bear with a secret"
+                }
+        ],
+        "modifiedOn" : "2015-12-16T08:51:12.169Z",
+        "tenantId" : "5670b20c05fcc2ca22f4c463"
+}
+````
 
 ## Data in transit
 
@@ -52,7 +70,7 @@ HTTP/1.1 200 OK
     }
   }
 }
-```
+````
 
 In the above example, the `_metada.redactions` contains the URL(s) for any redacted field.  In this case there is only one redacted name, `!secret`.  Note that the `redactions` key is a JSON Pointer to the redacted field.  Following the link returns the plain text of the secret.
 
