@@ -16,7 +16,7 @@
    * `/forex`
    * `/api-test`
 
-When a lower ring needs access to a higher level ring it must call the server via `myself` - [dog food #70](https://github.com/richardschneider/ecom/issues/70) 
+When a lower ring needs access to a higher level ring it must call the server via `myself` - [dog food #70](https://github.com/richardschneider/yapp/issues/70) 
 
 ````
 myself(req)
