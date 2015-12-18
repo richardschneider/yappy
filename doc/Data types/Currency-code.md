@@ -1,0 +1,1 @@
+The three leter [ISO 4217 Currency code](http://www.iso.org/iso/home/standards/currency_codes.htm). Examples are `NZD`, `USD`, `CNY` and `EUR`.
