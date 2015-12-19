@@ -68,9 +68,9 @@ If successful a `user` object is returned.  At a minimal the `user` must include
 }
 ````
 
-### Trusted authentication
+### trusted authentication
 
-Trusted authentication services can also provide the `roles` and/or `permissions` (authorisation information) for the `user`.  To enable trust, set the services `trusted_for_authorization` option to `true`.
+Trusted authentication services can also provide the `roles` and/or `permissions` (authorisation information) for the `user`.  To enable trust, set the service's `trusted_for_authorization` option to `true`.
 
 ````json
 {
