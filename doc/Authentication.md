@@ -2,4 +2,4 @@ Authentication is the basis of trust in `yappy`.  An [authentication service](Se
 
 In `yappy` a user is not specific to a `tenant`, which works well with social logins.  The user's email address is considered universally unique.  The user's [roles](Roles.md) are tenant specific.
 
-The [`/api/whoami](http://test.yappy-richardschneider.c9users.io:8080/api/whoami) endpoint can be used to help resolve authentication and [authorisation](Authorisation.md) issues.  It returns all the information about calling user.
+The [`/api/whoami`](http://test.yappy-richardschneider.c9users.io:8080/api/whoami) endpoint can be used to help resolve authentication and [authorisation](Authorisation.md) issues.  It returns all the information about calling user.
