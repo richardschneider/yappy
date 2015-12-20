@@ -10,7 +10,7 @@ The supported activities are `create`, `view`, `change`, `delete` and `find`.
 
 ## Classified information
 
-[Classified information](/Classified-infomation.md) is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  A security level can be assigned, which determines accessiability and encryption strength.
+[Classified information](Classified-information) is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  A security level can be assigned, which determines accessiability and encryption strength.
 
 
 By default the server never releases classified information in the plain.  The information is always redacted as `███████`.  A special call to the service is made to get the plain text version and of course a permission is required, which contains the security level, resource type, the activity name, resource id and classified information field name, such as `restricted:customer:view:123:dob`.
