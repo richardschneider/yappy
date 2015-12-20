@@ -1,0 +1,1 @@
+Auhtorisation determines the user's [permissions](Permission)(access rights) to a resource.  It relies upon [authentication](Authentication) to determine the user's identify.  From the the identity, the user's effective permission an be determined from the user's roles and specific permissions.
