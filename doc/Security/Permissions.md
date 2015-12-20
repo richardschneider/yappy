@@ -10,7 +10,7 @@ The supported activities are `create`, `view`, `change`, `delete` and `find`.
 
 ## Classified information
 
-[Classified information](Classified-information) is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  A security level can be assigned, which determines accessiability and encryption strength.
+[Classified information](../Classified-information) is data that is claimed to be sensitive information that requires protection of confidentiality or integrity.  A security level can be assigned, which determines accessiability and encryption strength.
 
 
 By default the server never releases classified information in the plain.  The information is always redacted as `███████`.  A special call to the service is made to get the plain text version and of course a permission is required, which contains the security level, resource type, the activity name, resource id and classified information field name, such as `restricted:customer:view:123:dob`.
@@ -19,7 +19,7 @@ The supported activity is `view`.
 
 ## Service
 
-A [service](Services.md) is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups
+A [service](../Services) is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups
 - `fxrates` foreign currency exchange rates
 -
 - `translation` translation from one language to another
