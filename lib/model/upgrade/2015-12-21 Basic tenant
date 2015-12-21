@@ -1,0 +1,21 @@
+'use strict';
+
+let ObjectID = require('mongoskin').ObjectID;
+
+module.exports = (model) => {
+    let id = new ObjectID()
+    let basic = {
+        _id: id,
+        tenantId: id.toHexString(),
+        name: [{ tag: 'en', text: 'basic tenant' }],
+        domain: 'basic',
+        languages: ['en', 'zh', 'fr'],
+        modifiedOn: new Date().toISOString()
+    };
+    basic = model.tenant.upgrade(basic);
+    basic.service['stormpath-basic-auth'].enabled = true;
+    basic.service.abc.enabled = false;
+    console.log('basic', basic);
+    return model.tenant.collection()
+        .insertAsync(basic, {w: 1});
+};

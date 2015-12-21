@@ -1,0 +1,1 @@
+A role is equivalent to a job function or repsonsibility.  It defines the [permissions](Permissions) required to perform the role and the user's that are assigned to the role

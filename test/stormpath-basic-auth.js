@@ -122,4 +122,17 @@ describe('Stormpath Basic authentication', function () {
             .end(done);
     });
 
+    it('should set user roles', function (done) {
+        request(server)
+            .get('/api/whoami')
+            .auth('storm', '1Password!')
+            .expect(200)
+            .expect(res => {
+                res.body.should.have.property('roles')
+                    .and.be.instanceOf(Array);
+            })
+            .end(done);
+    });
+
+
 });
