@@ -8,7 +8,10 @@ let cave = {
     name: [
         { tag: 'en', text: 'valhalla'}
     ],
-    location: 'somewhere in Wellington NZ'
+    location: {
+        type: 'Point',
+        coordinates: [174.7730953, -41.2948713]
+    }
 };
 let teddy = {
     name: [
