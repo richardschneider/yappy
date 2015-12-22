@@ -69,5 +69,5 @@ describe('ABC authentication', function () {
             .end(done);
     });
 
-    
+
 });

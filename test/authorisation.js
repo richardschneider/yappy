@@ -8,36 +8,36 @@ let authz = require("../lib/server/authorisation"),
 describe('Authorisation', function () {
 
     it('should allow read-only users to resources', () => {
-        let user = { permissions: ['api:*:view', 'api:*:find'] };
-        authz.isPermitted(user, 'api:product:view').should.be.true;
-        authz.isPermitted(user, 'api:product:view:123').should.be.true;
-        authz.isPermitted(user, 'api:product:find').should.be.true;
-        authz.isPermitted(user, 'api:product:create').should.be.false;
-        authz.isPermitted(user, 'api:product:change:123').should.be.false;
-        authz.isPermitted(user, 'api:product:delete:123').should.be.false;
+        let req = {user: { permissions: ['api:*:view', 'api:*:find'] }};
+        authz.isPermitted(req, 'api:product:view').should.be.true;
+        authz.isPermitted(req, 'api:product:view:123').should.be.true;
+        authz.isPermitted(req, 'api:product:find').should.be.true;
+        authz.isPermitted(req, 'api:product:create').should.be.false;
+        authz.isPermitted(req, 'api:product:change:123').should.be.false;
+        authz.isPermitted(req, 'api:product:delete:123').should.be.false;
     });
 
     it('should allow a user to manage only one resource type', () => {
-        let user = { permissions: ['api:product:*'] };
-        authz.isPermitted(user, 'api:product:view').should.be.true;
-        authz.isPermitted(user, 'api:product:view:123').should.be.true;
-        authz.isPermitted(user, 'api:product:find').should.be.true;
-        authz.isPermitted(user, 'api:product:create').should.be.true;
-        authz.isPermitted(user, 'api:product:change:123').should.be.true;
-        authz.isPermitted(user, 'api:product:delete:123').should.be.true;
+        let req = {user: { permissions: ['api:product:*'] }};
+        authz.isPermitted(req, 'api:product:view').should.be.true;
+        authz.isPermitted(req, 'api:product:view:123').should.be.true;
+        authz.isPermitted(req, 'api:product:find').should.be.true;
+        authz.isPermitted(req, 'api:product:create').should.be.true;
+        authz.isPermitted(req, 'api:product:change:123').should.be.true;
+        authz.isPermitted(req, 'api:product:delete:123').should.be.true;
 
-        authz.isPermitted(user, 'api:user:view').should.be.false;
-        authz.isPermitted(user, 'api:user:view:123').should.be.false;
-        authz.isPermitted(user, 'api:user:find').should.be.false;
-        authz.isPermitted(user, 'api:user:create').should.be.false;
-        authz.isPermitted(user, 'api:user:change:123').should.be.false;
-        authz.isPermitted(user, 'api:user:delete:123').should.be.false;
+        authz.isPermitted(req, 'api:user:view').should.be.false;
+        authz.isPermitted(req, 'api:user:view:123').should.be.false;
+        authz.isPermitted(req, 'api:user:find').should.be.false;
+        authz.isPermitted(req, 'api:user:create').should.be.false;
+        authz.isPermitted(req, 'api:user:change:123').should.be.false;
+        authz.isPermitted(req, 'api:user:delete:123').should.be.false;
     });
 
     it('should determine if a referenced resource link is viewable', () => {
-        let user = { permissions: ['api:product:*'] };
-        authz.isPermittedToView(user, '/api/product/123').should.be.true;
-        authz.isPermittedToView(user, '/api/customer/123').should.be.false;
+        let req = { user: { permissions: ['api:product:*'] }};
+        authz.isPermittedToView(req, '/api/product/123').should.be.true;
+        authz.isPermittedToView(req, '/api/customer/123').should.be.false;
     });
 
     it('should determine the resource level permission based on the request', () => {
