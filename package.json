@@ -28,7 +28,7 @@
     "config": "^1.16.0",
     "express": "^4.13.3",
     "express-authorization": "^1.0.0",
-    "express-mung": "^0.3.0",
+    "express-mung": "^0.4.1",
     "express-prefer": "^0.1.1",
     "fast-json-patch": "^0.5.4",
     "gridfs-stream": "^1.1.1",
@@ -64,7 +64,7 @@
     "jshint-stylish": "^0.4.0",
     "methods": "^1.1.1",
     "mocha": "*",
-    "should": "^4.0.4",
+    "should": "~8.0.2",
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2",
     "vinyl-source-stream": "^1.1.0"

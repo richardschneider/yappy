@@ -9,35 +9,35 @@ describe('Authorisation', function () {
 
     it('should allow read-only users to resources', () => {
         let req = {user: { permissions: ['api:*:view', 'api:*:find'] }};
-        authz.isPermitted(req, 'api:product:view').should.be.true;
-        authz.isPermitted(req, 'api:product:view:123').should.be.true;
-        authz.isPermitted(req, 'api:product:find').should.be.true;
-        authz.isPermitted(req, 'api:product:create').should.be.false;
-        authz.isPermitted(req, 'api:product:change:123').should.be.false;
-        authz.isPermitted(req, 'api:product:delete:123').should.be.false;
+        authz.isPermittedAsync(req, 'api:product:view').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:view:123').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:find').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:create').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:product:change:123').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:product:delete:123').should.be.fulfilledWith(false);
     });
 
     it('should allow a user to manage only one resource type', () => {
         let req = {user: { permissions: ['api:product:*'] }};
-        authz.isPermitted(req, 'api:product:view').should.be.true;
-        authz.isPermitted(req, 'api:product:view:123').should.be.true;
-        authz.isPermitted(req, 'api:product:find').should.be.true;
-        authz.isPermitted(req, 'api:product:create').should.be.true;
-        authz.isPermitted(req, 'api:product:change:123').should.be.true;
-        authz.isPermitted(req, 'api:product:delete:123').should.be.true;
+        authz.isPermittedAsync(req, 'api:product:view').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:view:123').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:find').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:create').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:change:123').should.be.fulfilledWith(true);
+        authz.isPermittedAsync(req, 'api:product:delete:123').should.be.fulfilledWith(true);
 
-        authz.isPermitted(req, 'api:user:view').should.be.false;
-        authz.isPermitted(req, 'api:user:view:123').should.be.false;
-        authz.isPermitted(req, 'api:user:find').should.be.false;
-        authz.isPermitted(req, 'api:user:create').should.be.false;
-        authz.isPermitted(req, 'api:user:change:123').should.be.false;
-        authz.isPermitted(req, 'api:user:delete:123').should.be.false;
+        authz.isPermittedAsync(req, 'api:user:view').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:user:view:123').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:user:find').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:user:create').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:user:change:123').should.be.fulfilledWith(false);
+        authz.isPermittedAsync(req, 'api:user:delete:123').should.be.fulfilledWith(false);
     });
 
     it('should determine if a referenced resource link is viewable', () => {
         let req = { user: { permissions: ['api:product:*'] }};
-        authz.isPermittedToView(req, '/api/product/123').should.be.true;
-        authz.isPermittedToView(req, '/api/customer/123').should.be.false;
+        authz.isPermittedToViewAsync(req, '/api/product/123').should.be.fulfilledWith(true);
+        authz.isPermittedToViewAsync(req, '/api/customer/123').should.be.fulfilledWith(false);
     });
 
     it('should determine the resource level permission based on the request', () => {

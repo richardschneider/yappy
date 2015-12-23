@@ -42,7 +42,8 @@ describe('Stormpath Basic authentication', function () {
                     .expect(204)
                     .then(() => done())
                     .catch(done);
-            });
+            })
+            .catch(done);
     });
 
     after(done => {

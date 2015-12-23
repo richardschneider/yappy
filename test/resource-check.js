@@ -19,7 +19,7 @@ describe ('Resource check', () => {
         authorisation(req, res);
     });
 
-    it('should not permi restricted resources', () => {
+    it('should not permit viewing of restricted resources', () => {
         let x = [
             { name: 'a', apikey: 'a', _metadata: { type: 'x', self: '/api/x/1' }},
             { name: 'b', _metadata: { type: 'x', self: '/api/x/2' } },
@@ -27,9 +27,9 @@ describe ('Resource check', () => {
         ];
         req.user.permissions.push('api:x:view:1');
         req.user.permissions.push('api:x:view:3');
-        check.isPermitted(x[0], req, res).should.be.true;
-        check.isPermitted(x[1], req, res).should.be.false;
-        check.isPermitted(x[2], req, res).should.be.true;
+        check.isPermittedAsync(x[0], req, res).should.be.fulfilledWith(x[0]);
+        check.isPermittedAsync(x[1], req, res).should.be.fulfilledWith(null);
+        check.isPermittedAsync(x[2], req, res).should.be.fulfilledWith(x[2]);
     });
 
 });
