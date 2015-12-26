@@ -133,7 +133,25 @@ describe('Multi-tenancy', function () {
                     .end(done);
             })
             .catch(done);
-
     });
 
+    it('should deny access to another tenant\'s data', done => {
+        var testUrl;
+        request(server)
+            .get('/api/tenant')
+            .set('host', 'test.yappy.io')
+            .expect(200)
+            .then(res => {
+                res.body.data.should.be.instanceof(Array).and.have.lengthOf(1);
+                res.body.data[0].domain.should.equal('test');
+                testUrl = res.body.data[0]._metadata.self;
+                testUrl.should.not.equal(test1Url)
+            })
+            .then(() => request(server).get(testUrl).set('host', 'test.yappy.io').expect(200))
+            .then(() => request(server).get(test1Url).set('host', 'test-1.yappy.io').expect(200))
+            .then(() => request(server).get(test1Url).set('host', 'test.yappy.io').expect(403))
+            .then(() => request(server).get(testUrl).set('host', 'test-1.yappy.io').expect(403))
+            .then(() => done())
+            .catch(done);
+    });
 });
