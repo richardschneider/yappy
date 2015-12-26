@@ -19,7 +19,6 @@
     "test": "mocha"
   },
   "dependencies": {
-    "jsonpath-plus": "https://github.com/richardschneider/JSONPath/tarball/master",
     "bluebird": "^3.0.5",
     "body-parser": "^1.14.1",
     "cache-control": "^1.0.3",
@@ -34,7 +33,9 @@
     "gridfs-stream": "^1.1.1",
     "js-schema-6901": "^0.3.0",
     "json-pointer-rfc6901": "^1.1.1",
+    "jsonpath-plus": "https://github.com/richardschneider/JSONPath/tarball/master",
     "locale": "https://github.com/jed/locale/tarball/master",
+    "lru-cache": "^4.0.0",
     "mongodb": "~2.0",
     "mongoskin": "^2.0.3",
     "morgan": "~1.0.0",

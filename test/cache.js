@@ -24,8 +24,8 @@ describe('Cache', function () {
             .send(teddy)
             .expect(201)
             .expect(function (res) {
-              teddyUrl = res.header['location'];
-              lastModified = new Date(res.header['last-modified']);
+                teddyUrl = res.header['location'];
+                lastModified = new Date(res.header['last-modified']);
             })
             .end(done);
     });
@@ -35,15 +35,15 @@ describe('Cache', function () {
             .get(teddyUrl)
             .set('if-modified-since', lastModified.toUTCString())
             .expect(304)
-            .end(done);            
+            .end(done);
     });
-   
+
     it('return 304 when cache date is greater than last modified', function (done) {
         request(server)
             .get(teddyUrl)
             .set('if-modified-since', new Date(lastModified.getTime() + oneDay).toUTCString())
             .expect(304)
-            .end(done);            
+            .end(done);
     });
 
     it('return 200 when cache date is less than last modified', function (done) {
@@ -51,7 +51,7 @@ describe('Cache', function () {
             .get(teddyUrl)
             .set('if-modified-since', new Date(lastModified.getTime() - oneDay).toUTCString())
             .expect(200)
-            .end(done);            
+            .end(done);
     });
 
 });
