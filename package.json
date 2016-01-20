@@ -35,6 +35,7 @@
     "json-pointer-rfc6901": "^1.1.1",
     "jsonpath-plus": "https://github.com/richardschneider/JSONPath/tarball/master",
     "locale": "https://github.com/jed/locale/tarball/master",
+    "log4js": "^0.6.29",
     "lru-cache": "^4.0.0",
     "mongodb": "~2.0",
     "mongoskin": "^2.0.3",

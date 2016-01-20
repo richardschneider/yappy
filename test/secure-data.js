@@ -135,7 +135,6 @@ describe ('Security', () => {
             let plain = 'some plain text';
             security.encryptAsync(plain)
                 .then(ciphertext => {
-                    console.log(ciphertext)
                     cipher = ciphertext;
                     done();
                 })

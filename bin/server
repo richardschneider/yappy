@@ -9,7 +9,7 @@
  */
 'use strict';
 
-
+let log = require('log4js').getLogger('server');
 var now = require("performance-now");
 var start = now();
 
@@ -21,9 +21,9 @@ var port = process.env.PORT || 3000;
 var version = require('../package.json').version;
 
 server.listen(port, function () {
-    console.log('startup time ', ((now() - start) / 1000).toFixed(3) + 's'); 
+    log.info('startup time ', ((now() - start) / 1000).toFixed(3) + 's');
 
     var env = config.util.getEnv('NODE_ENV');
-    console.log('yappy server v%s [%s] @ %s:%d/api', version, env, ip, port);
+    log.info('yappy server v%s [%s] @ %s:%d/api', version, env, ip, port);
     sally.log('yappy server started');
 });
