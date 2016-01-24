@@ -9,7 +9,8 @@ addons:
     sources:
       - mongodb-3.0-precise
     packages:
-      - mongodb-org-serverbefore_script:
+      - mongodb-org-server
+before_script:
 - mongod --version
 - export NODE_ENV=CI
 - "./bin/upgrade-model"
