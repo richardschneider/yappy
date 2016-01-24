@@ -4,7 +4,12 @@ node_js:
 - stable
 services:
 - mongodb
-before_script:
+addons:
+  apt:
+    sources:
+      - mongodb-3.0-precise
+    packages:
+      - mongodb-org-serverbefore_script:
 - mongod --version
 - export NODE_ENV=CI
 - "./bin/upgrade-model"
