@@ -37,7 +37,7 @@
     "locale": "https://github.com/jed/locale/tarball/master",
     "log4js": "^0.6.29",
     "lru-cache": "^4.0.0",
-    "mongodb": "~2.0",
+    "mongodb": "~3.0",
     "mongoskin": "^2.0.3",
     "morgan": "~1.0.0",
     "multer": "^1.1.0",
