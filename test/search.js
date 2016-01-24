@@ -197,4 +197,40 @@ describe('Search', function () {
 
     });
 
+    describe('Filtering - MQL', () => {
+
+        it('shoud accept a mongo query document', done => {
+            let queryBeer = { 'likes': {$eq: 'beer'} };
+            let queryHoney = { 'likes': {$eq: 'honey'} };
+            request(server)
+                .post('/api/bear/find')
+                .set('host', 'search-3.yappy.io')
+                .send(queryBeer)
+                .expect(200)
+                .then(res => res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources))
+                .then(() => request(server)
+                    .post('/api/bear/find')
+                    .set('host', 'search-3.yappy.io')
+                    .send(queryHoney)
+                    .expect(200)
+                )
+                .then(res => res.body.data.should.have.lengthOf(0, 'no one likes honey'))
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
+        it('shoud error on invalid operator', done => {
+            let queryBad = { 'likes': {$foo: 'beer'} };
+            request(server)
+                .post('/api/bear/find')
+                .set('host', 'search-3.yappy.io')
+                .send(queryBad)
+                .expect(400)
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
+    });
+
+
 });
