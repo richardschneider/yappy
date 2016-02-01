@@ -2,7 +2,8 @@
 
 require('should');
 let request = require("./my-supertest"),
-    server = require('../lib/server');
+    server = require('../lib/server'),
+    extend = require('util')._extend;
 
 let teddy = {
     name: [
@@ -15,11 +16,14 @@ let teddy = {
 
 describe('Search', function () {
     let urls = [];
-    function createTeddy() {
+    let dob = ['2014-04-01', '2014-04-02', '2014-04-03', '2014-04-04', '2014-04-05'];
+    function createTeddy(dob) {
+        let t = extend({}, teddy);
+        t.dob = dob;
         return request(server)
             .post('/api/bear')
             .set('host', 'search-3.yappy.io')
-            .send(teddy)
+            .send(t)
             .expect(201)
             .expect(function (res) {
                 urls.push(res.header['location']);
@@ -54,7 +58,7 @@ describe('Search', function () {
         .then(() => {
             let setup = [];
             for (let i = 0; i < 5; ++i) {
-                setup.push(createTeddy());
+                setup.push(createTeddy(dob[i]));
             }
             Promise.all(setup)
             .then(() => done())
@@ -199,7 +203,7 @@ describe('Search', function () {
 
     describe('Filtering - MQL', () => {
 
-        it('shoud accept a mongo query document', done => {
+        it('should accept a mongo query document', done => {
             let queryBeer = { 'likes': {$eq: 'beer'} };
             let queryHoney = { 'likes': {$eq: 'honey'} };
             request(server)
@@ -215,6 +219,30 @@ describe('Search', function () {
                     .expect(200)
                 )
                 .then(res => res.body.data.should.have.lengthOf(0, 'no one likes honey'))
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
+        it('should find dates by YYYY-MM', done => {
+            let query = { dob: { $regex: '^2014-04' }};
+            request(server)
+                .post('/api/bear/find')
+                .set('host', 'search-3.yappy.io')
+                .send(query)
+                .expect(200)
+                .then(res => res.body.data.should.have.lengthOf(tenant.httpResponse.maxResources))
+                .then(() => done())
+                .catch(e => done(e));
+        });
+
+        it('should find dates by YYYY-MM-DD', done => {
+            let query = { dob: { $regex: '^2014-04-01' }};
+            request(server)
+                .post('/api/bear/find')
+                .set('host', 'search-3.yappy.io')
+                .send(query)
+                .expect(200)
+                .then(res => res.body.data.should.have.lengthOf(1))
                 .then(() => done())
                 .catch(e => done(e));
         });
