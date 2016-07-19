@@ -54,10 +54,11 @@ describe('ABC authentication', function () {
             .auth('bob', 'xyzzy')
             .send(teddy)
             .expect(201)
-            .then(res => {
+            .expect(res => {
                 let url = res.header['location'];
-                request(server).delete(url).end(done);
+                request(server).delete(url);
             })
+            .end(done);
     });
 
     it('should not allow Carol to create', done => {
