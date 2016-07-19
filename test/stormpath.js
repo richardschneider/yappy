@@ -12,6 +12,7 @@ describe('Stormpath', () => {
     it('should authenticate acccounts', done => {
         User.authenticate('storm', '1Password!')
             .then(() => done())
+            .catch(done);
     });
 
     it('should not authenticate bad acccounts', done => {
