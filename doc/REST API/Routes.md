@@ -15,5 +15,5 @@ POST | [/api/*type*/find](./FindInstances) | Get the instances of resource *type
 
 Verb | Path | Description
 ----- | -----------
-GET | [/api/whoami](./Who Am I) | Get the instance of the `user`
+GET | [/api/whoami](./Who Am I) | Get the instance of the current s`user`
 GET | [forex](./forex) | Get currency exchange information
