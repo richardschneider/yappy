@@ -1,7 +1,7 @@
 ## CRUD routes
 
 Verb | Path | Description
------ | -----------
+---- | ---- | -----------
 GET | [/api/*type*/*id*](./GetInstance) | Get a specific instance of the resource *type*
 GET | [/api/*type*](./GetInstances) | Get the instances of resource *type*
 GET | [/api/*type*/schema](./GetSchema) | Get the schema for a resource *type*
@@ -14,6 +14,6 @@ POST | [/api/*type*/find](./FindInstances) | Get the instances of resource *type
 ## Misc routes
 
 Verb | Path | Description
------ | -----------
+---- | ---- | -----------
 GET | [/api/whoami](./Who Am I) | Get the instance of the current s`user`
 GET | [forex](./forex) | Get currency exchange information
