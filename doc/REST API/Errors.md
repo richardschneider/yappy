@@ -1,6 +1,7 @@
 A response with a 4xx or 5xx [HTTP Status]() indicates an error.  The response payload contains an error object with further information.
 
 The error object contains the following properties:
+
 - `message` - human readable description of the error
 - `details` - further information on the error.  It's an empty string if no further details are available.
 
@@ -22,7 +23,7 @@ content-length: ...
 
 ````HTTP
 GET /api/contact/1 HTTP/1.1
-Accept-Language: fr-fr
+Accept-Language: fr-FR
 ````
 
 ````HTTP
