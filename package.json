@@ -25,6 +25,7 @@
     "cached-promise": "^0.1.1",
     "compression": "^1.6.0",
     "config": "^1.16.0",
+    "deepmerge": "^0.2.10",
     "express": "^4.13.3",
     "express-authorization": "^1.0.0",
     "express-mung": "^0.4.1",
@@ -54,7 +55,6 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "deepmerge": "^0.2.10",
     "gulp": "^3.8.8",
     "gulp-bump": "^0.1.11",
     "gulp-coveralls": "^0.1.4",
