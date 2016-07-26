@@ -15,7 +15,9 @@ HTTP/1.1 200 OK
 Last-Modified: Tue, 26 Jul 2016 02:34:45 GMT
 Content-Type: application/schema+json; charset=utf-8
 Content-Length: 656
+````
 
+````json
 {
   "description": "Not the drinking kind.",
   "type": "object",

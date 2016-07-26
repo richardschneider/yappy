@@ -12,10 +12,13 @@ GET /api/[type]/[id]
 #### Response
 
 ````HTTP
+HTTP/1.1 200 OK
 Last-Modified: Tue, 15 Dec 2015 06:37:33 GMT
 Content-Type: application/json; charset=utf-8
 Content-Length: ...
+````
 
+````json
 {
   "likes": [
     "honey"
