@@ -9,8 +9,38 @@ GET /api/[type]/[id]
 - *type* - The name of a resource type
 - *id* - the unique identifier of a resource
 
-### Response
+#### Response
 
+````HTTP
+Last-Modified: Tue, 15 Dec 2015 06:37:33 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: ...
+
+{
+  "likes": [
+    "honey"
+  ],
+  "modifiedOn": "2015-12-15T06:37:33.792Z",
+  "name": [
+    {
+      "tag": "en",
+      "text": "teddy bear"
+    },
+    {
+      "tag": "zh-TW",
+      "text": "玩具熊"
+    },
+    {
+      "tag": "zh-CH",
+      "text": "玩具熊"
+    }
+  ],
+  "_metadata": {
+    "self": "/api/bear/566fb52d3c5c1d480aef0406",
+    "type": "bear"
+  }
+}
+````
 
 #### Errors
 
