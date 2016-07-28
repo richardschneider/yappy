@@ -11,7 +11,7 @@ DELETE /api/[type]/[id]
 
 #### Remarks
 
-Performs a physical of the resource.
+Performs a physical delete of the resource.
 
 !!! note
     The 204 status code is returned on success, NOT 200.
