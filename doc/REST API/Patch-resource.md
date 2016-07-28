@@ -62,7 +62,8 @@ Content-Length: ...
     "self": "/api/bear/566f89200782f5180a0dcb96",
     "type": "bear"
   }
-}````
+}
+````
 
 #### Errors
 
