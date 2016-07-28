@@ -71,7 +71,7 @@ Status | Description
 ------ | -----------
 400 | The resource type does not exist
 401 | You need to authenticate yourself
-403 | You do not have permission to view the resource
+403 | You do not have permission to patch the resource
 404 | The resource does not exist
 415 | Invalid `Content-Type`
 422 | The JSON patch document or the patched resource is invalid
