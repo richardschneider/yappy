@@ -1,4 +1,4 @@
-P## CRUD routes
+## CRUD routes
 
 Verb | Path | Description
 ---- | ---- | -----------
@@ -15,5 +15,5 @@ POST | [/api/*type*/find](./Find-instances) | Get the instances of resource *typ
 
 Verb | Path | Description
 ---- | ---- | -----------
-GET | [/api/whoami](./Who Am I) | Get the instance of the current s`user`
+GET | [/api/whoami](./Who Am I) | Get the instance of the current `user`
 GET | [forex](./forex) | Get currency exchange information
