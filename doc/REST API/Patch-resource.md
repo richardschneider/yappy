@@ -33,6 +33,7 @@ or with `Prefer: return=representation`
 
 ````HTTP
 HTTP/1.1 200 OK
+Location: /api/bear/566f89200782f5180a0dcb96
 Last-Modified: Thu, 28 Jul 2016 03:36:03 GMT
 Content-Type: application/json; charset=utf-8
 Content-Length: ...

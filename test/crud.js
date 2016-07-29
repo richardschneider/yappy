@@ -376,7 +376,7 @@ describe('Resource CRUD', function () {
                 .set('content-type', 'application/json-patch+json')
                 .send(JSON.stringify(patch))
                 .expect(204)
-                .expect('Location', /api\/bear/)
+                .expect('Location', /^\/api\/bear/)
                 .end(done);
         });
 
