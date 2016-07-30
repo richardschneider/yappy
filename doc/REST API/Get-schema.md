@@ -8,6 +8,10 @@ GET /api/[type]/schema
 
 - *type* - The name of a resource type
 
+#### Remarks
+
+A conditional GET is requested using the `If-Modified-Since` or `If-None-Match` HTTP header.  If the condition is satisfied, then a `304 Not Modified` status is returned.  See [RFC 7232 Conditional Requests](https://tools.ietf.org/html/rfc7232) for more details.
+
 #### Response
 
 ````HTTP
