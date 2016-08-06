@@ -25,9 +25,9 @@ describe ('Redact', () => {
             status: status => { statusCode = status; },
             send: () => res,
             end: () => res,
-            sendError: (status, msg) => { statusCode = status; }
+            sendError: (status) => { statusCode = status; }
         },
-        next = () => null;
+        next = (error) => { if (error) statusCode = error.status || 500; };
 
     let closetResponse;
     before(done => {

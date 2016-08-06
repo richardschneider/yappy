@@ -10,7 +10,9 @@ describe('Data model', function () {
     it('should validate the model name', function (done) {
         request(server)
             .get('/api/unknown')
-            .expect(400, { message: "Resource type 'unknown' is unknown", details: '' }, done);
+            .expect(400)
+            .expect(res => res.body.should.have.property('message', "Resource type 'unknown' is unknown"))
+            .end(done);
     });
 
     it('should have a schema', function (done) {
@@ -19,7 +21,7 @@ describe('Data model', function () {
             .expect(200, done);
     });
 
-    it('should a schema of type application/schema+json', function (done) {
+    it('should have a schema of type application/schema+json', function (done) {
         request(server)
             .get('/api/bear/schema')
             .expect(200)
