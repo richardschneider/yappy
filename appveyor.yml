@@ -35,7 +35,6 @@ test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
-  - mkdir logs
   # give mongodb time to startup
   - ping 127.0.0.1 -n 5 > nul
   # upgrade the database
