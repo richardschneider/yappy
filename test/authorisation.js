@@ -55,6 +55,9 @@ describe('Authorisation', function () {
 
         req = { method: 'DELETE', path: '/product/123' };
         authz.resourceAccess(req).should.equal('api:product:delete:123');
+
+        req = { method: 'POST', path: '/product/find' };
+        authz.resourceAccess(req).should.equal('api:product:find');
     });
 
     it('should 403 when user is not permitted and is authenticated', done => {
