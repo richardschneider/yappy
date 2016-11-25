@@ -87,6 +87,19 @@ describe('Search', function () {
             .end(done);
     });
 
+    it('should explain a query', done => {
+        request(server)
+            .get('/api/bear?explain=true')
+            .set('host', 'search-3.yappy.io')
+            .expect(200)
+            .expect(res => {
+                res.body.should.have.property('allPlans');
+                res.body.should.have.property('query');
+                res.body.should.have.property('options');
+            })
+            .end(done);
+    });
+
     describe('Paging', () => {
 
         it('should limit the number of results with query param `?n`', done => {
