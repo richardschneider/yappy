@@ -90,7 +90,7 @@ describe('Media', function () {
                 .finally(() => {
                     request(server)
                         .delete(url1)
-                        .end(done)
+                        .end(done);
                 });
         });
     });
@@ -124,9 +124,27 @@ describe('Media', function () {
             done();
         });
 
-        it('should allow caching forever because media is idempotent', function(done) {
+        it('should allow caching forever because media is worm', function(done) {
             response.header['cache-control'].should.equal('max-stale=31536000');
             done();
+        });
+
+        describe ('status', () => {
+            it('404 when ID is invalid', done => {
+                request(server)
+                    .get('/api/media/unknown/content')
+                    .expect(404)
+                    .end(done);
+            });
+
+            it('404 when ID is not found', done => {
+                request(server)
+                    .get('/api/media/57abc464169c13071c7d1388/content')
+                    .expect(404)
+                    .end(done);
+            });
+
+
         });
     });
 

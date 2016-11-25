@@ -19,9 +19,9 @@ The supported activity is `view`.
 
 ## Service
 
-A [service](../Services) is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups
+A [service](../Services) is an adapter to another system.  Services are grouped by functionality, so that the system can still be used even if one service provider is failing.  The current service groups are:
+
 - `fxrates` foreign currency exchange rates
--
 - `translation` translation from one language to another
 - `authentication` authenticate a user
 

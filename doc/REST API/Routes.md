@@ -2,18 +2,18 @@
 
 Verb | Path | Description
 ---- | ---- | -----------
-GET | [/api/*type*/*id*](./GetInstance) | Get a specific instance of the resource *type*
-GET | [/api/*type*](./GetInstances) | Get the instances of resource *type*
-GET | [/api/*type*/schema](./GetSchema) | Get the schema for a resource *type*
-DELETE | [/api/*type*/*id*](./DeleteInstance) | Delete a specific instance of the resource *type*
-PATCH | [/api/*type*/*id*](./PatchInstance) | Update a specific instance of the resource *type*
-PUT | [/api/*type*/*id*](./PutInstance) | Update a specific instance of the resource *type*
-POST | [/api/*type*](./PostInstance) | Create a new instance of the resource *type*
-POST | [/api/*type*/find](./FindInstances) | Get the instances of resource *type* that match the query document
+GET | [/api/*type*/*id*](./Get-resource) | Get a specific instance of the resource *type*
+GET | [/api/*type*](./Get-instances) | Get the instances of resource *type*
+GET | [/api/*type*/schema](./Get-schema) | Get the schema for a resource *type*
+DELETE | [/api/*type*/*id*](./Delete-resource) | Delete a specific instance of the resource *type*
+PATCH | [/api/*type*/*id*](./Patch-resource) | Update a specific instance of the resource *type*
+PUT | [/api/*type*/*id*](./Replace-resource) | Replace a specific instance of the resource *type*
+POST | [/api/*type*](./Create-resource) | Create a new instance of the resource *type*
+POST | [/api/*type*/find](./Find-instances) | Get the instances of resource *type* that match the query document
 
 ## Misc routes
 
 Verb | Path | Description
 ---- | ---- | -----------
-GET | [/api/whoami](./Who Am I) | Get the instance of the current s`user`
+GET | [/api/whoami](./Who Am I) | Get the instance of the current `user`
 GET | [forex](./forex) | Get currency exchange information

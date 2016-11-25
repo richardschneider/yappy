@@ -16,7 +16,6 @@ before_script:
 - "./bin/upgrade-model"
 - npm install -g gulp
 - npm install -g sally-js
-- mkdir logs
 script:
 - gulp
 - sally verify logs/*.sal

@@ -31,7 +31,9 @@ describe('Multi-tenancy', function () {
         request(server)
             .get('/api/bear')
             .set('host', 'unknown.yappy.io')
-            .expect(400, { message: 'Check the host name, especially unknown', details: '' }, done);
+            .expect(400)
+            .expect(res => res.body.should.have.property('message', 'Check the host name, especially unknown'))
+            .end(done);
     });
 
     it('should allow access when tenant is known by host name', function (done) {

@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require("./my-supertest");
-var should = require('should');
+require('should');
 var server = require('../lib/server');
 var peers = require('../lib/pubsub');
 
@@ -52,7 +52,7 @@ describe('Error', () => {
 
     it('should be translated per Accept-Language', done => {
         err.headers.should.have.property('content-language', 'fr');
-        err.body.message.should.match(/trouvée?$/);
+        err.body.message.should.match(/trouv/);
         done();
     });
 
@@ -63,7 +63,7 @@ describe('Error', () => {
             .expect(404)
             .expect(err => {
                 err.headers.should.have.property('content-language', 'fr');
-                err.body.message.should.match(/trouvée?$/);
+                err.body.message.should.match(/trouv/);
             })
             .end(done);
     });
@@ -75,7 +75,7 @@ describe('Error', () => {
             .expect(404)
             .expect(err => {
                 err.headers.should.have.property('content-language', 'fr');
-                err.body.message.should.match(/trouvée?$/);
+                err.body.message.should.match(/trouv/);
             })
             .end(done);
     });

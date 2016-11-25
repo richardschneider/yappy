@@ -25,6 +25,7 @@
     "cached-promise": "^0.1.1",
     "compression": "^1.6.0",
     "config": "^1.16.0",
+    "deepmerge": "^0.2.10",
     "express": "^4.13.3",
     "express-authorization": "^1.0.0",
     "express-mung": "^0.4.1",
@@ -42,10 +43,12 @@
     "morgan": "~1.0.0",
     "multer": "^1.1.0",
     "on-finished": "^2.3.0",
+    "node-http-error": "https://github.com/richardschneider/node-http-error/tarball/props",
     "performance-now": "^0.2.0",
     "qs": "^6.0.1",
     "randomstring": "^1.1.3",
     "sally-js": "*",
+    "should": "~8.0.2",
     "stormpath": "^0.15.0",
     "strong-pubsub": "^0.2.0",
     "superagent": "^1.4.0",
@@ -53,7 +56,6 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "deepmerge": "^0.2.10",
     "gulp": "^3.8.8",
     "gulp-bump": "^0.1.11",
     "gulp-coveralls": "^0.1.4",
@@ -66,7 +68,6 @@
     "jshint-stylish": "^0.4.0",
     "methods": "^1.1.1",
     "mocha": "*",
-    "should": "~8.0.2",
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2",
     "vinyl-source-stream": "^1.1.0"

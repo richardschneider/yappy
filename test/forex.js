@@ -1,6 +1,7 @@
 'use strict';
 
-var should = require('should');
+require('should');
+
 var request = require("./my-supertest");
 var server = require('../lib/server');
 var iso = require('../lib/model/iso');

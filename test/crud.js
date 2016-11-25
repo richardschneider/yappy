@@ -367,6 +367,19 @@ describe('Resource CRUD', function () {
                 .end(done);
         });
 
+        it('should return Location header', done => {
+            let patch = [
+                { op: 'replace', path: '/name/0/text', value: 'yogi (3)' }
+            ];
+            request(server)
+                .patch(teddyUrl)
+                .set('content-type', 'application/json-patch+json')
+                .send(JSON.stringify(patch))
+                .expect(204)
+                .expect('Location', /^\/api\/bear/)
+                .end(done);
+        });
+
         it('should return the resource when requested', done => {
             let patch = [
                 { op: 'replace', path: '/name/0/text', value: 'yogi (3)' }

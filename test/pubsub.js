@@ -37,7 +37,7 @@ describe ('CRUD', () => {
     });
 
     after (done => {
-        peers.subscribe('/yappy/api/*');
+        peers.unsubscribe('/yappy/api/*');
         done();
     });
 
@@ -46,9 +46,10 @@ describe ('CRUD', () => {
             '/yappy/api/create/bear',
             '/yappy/api/change/bear',
             '/yappy/api/delete/bear'];
-        peers.on('message', function onMessage(topic, id) {
+        peers.on('message', function onMessage(topic) {
+            if (!topic.startsWith('/yappy/api/')) return;
             topic.should.equal(topics.shift());
-            if (topics.length == 0) {
+            if (topics.length === 0) {
                 peers.removeListener('message', onMessage);
                 return done();
             }
@@ -64,9 +65,10 @@ describe ('CRUD', () => {
             '/yappy/api/change/bear',
             '/yappy/api/change/bear',
             '/yappy/api/delete/bear'];
-        peers.on('message', function onMessage(topic, id) {
+        peers.on('message', function onMessage(topic) {
+            if (!topic.startsWith('/yappy/api/')) return;
             topic.should.equal(topics.shift());
-            if (topics.length == 0) {
+            if (topics.length === 0) {
                 peers.removeListener('message', onMessage);
                 return done();
             }
@@ -86,9 +88,10 @@ describe ('CRUD', () => {
             '/yappy/api/change/bear',
             '/yappy/api/change/bear',
             '/yappy/api/delete/bear'];
-        peers.on('message', function onMessage(topic, id) {
+        peers.on('message', function onMessage(topic) {
+            if (!topic.startsWith('/yappy/api/')) return;
             topic.should.equal(topics.shift());
-            if (topics.length == 0) {
+            if (topics.length === 0) {
                 peers.removeListener('message', onMessage);
                 return done();
             }
@@ -104,9 +107,10 @@ describe ('CRUD', () => {
             '/yappy/api/create/bear',
             '/yappy/api/change/bear',
             '/yappy/api/delete/bear'];
-        peers.on('message', function onMessage(topic, id) {
+        peers.on('message', function onMessage(topic) {
+            if (!topic.startsWith('/yappy/api/')) return;
             topic.should.equal(topics.shift());
-            if (topics.length == 0) {
+            if (topics.length === 0) {
                 peers.removeListener('message', onMessage);
                 return done();
             }
