@@ -93,7 +93,6 @@ describe('Search', function () {
             .set('host', 'search-3.yappy.io')
             .expect(200)
             .expect(res => {
-                res.body.should.have.property('allPlans');
                 res.body.should.have.property('query');
                 res.body.should.have.property('options');
             })
