@@ -157,6 +157,7 @@ describe('mung', function () {
             }
         };
         res.json = actual => null;
+        res.end = () => res;
         mung.resources((r, req, res) => null)(req, res);
         res.json(resource);
         statusCode.should.equal(204);
