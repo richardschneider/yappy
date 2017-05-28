@@ -52,7 +52,9 @@
     "stormpath": "^0.15.0",
     "strong-pubsub": "^0.2.0",
     "superagent": "^1.4.0",
+    "superagent-bluebird-promise": "^4.2.0",
     "superagent-promise": "^1.0.3",
+
     "underscore": "^1.8.3"
   },
   "devDependencies": {
