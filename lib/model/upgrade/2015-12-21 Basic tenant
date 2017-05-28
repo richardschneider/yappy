@@ -13,7 +13,6 @@ module.exports = (model) => {
         modifiedOn: new Date().toISOString()
     };
     basic = model.tenant.upgrade(basic);
-    basic.service['stormpath-basic-auth'].enabled = true;
     basic.service.abc.enabled = false;
     return model.tenant.collection()
         .insertAsync(basic, {w: 1});
